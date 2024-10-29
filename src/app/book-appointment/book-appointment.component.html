@@ -1,0 +1,105 @@
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="well-block">
+                    <div class="well-title">
+                        <h2>Questions? Book an Appointment</h2>
+                    </div>
+                    <form  class="needs-validation"[formGroup]="bookappoinment">
+                        <!-- Form start -->
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Appointment For*</label>
+                                <select id="appointmentfor" Name="appointmentFor" class="form-control">
+                                    <option value="Service#1">Choose</option>
+                                    <option value="Service#2">Orthodontists</option>
+                                    <option value="Service#3">Prosthodontists</option>
+                                    <option value="Service#4">Pedodontists or Pediatric Dentists</option>
+                                </select>
+                            </div>
+                            <div class="text-danger" *ngIf="bookappoinment.controls['appointmentFor'].invalid && (bookappoinment.controls['appointmentFor'].touched||bookappoinment.controls['appointmentFor'].dirty||isFormSubmitted)">
+                                <span *ngIf="bookappoinment.controls['appointmentFor'].errors?.['required']">Appointment for is Required</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="name">Name*</label>
+                                    <input id="name" formControlName="name" type="text" placeholder="Name" class="form-control input-md">
+                                   <div Class="text-danger" *ngIf="bookappoinment.controls['name'].invalid && (bookappoinment.controls['name'].touched||bookappoinment.controls['name'].dirty||isFormSubmitted)">
+                                    <span *ngIf="bookappoinment.controls['name'].errors?.['required']">Name is Required</span>
+                                   </div>
+                                </div>
+                            </div>
+                            <!-- Text input-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="email">Email*</label>
+                                    <input id="email" formControlName="email" type="text" placeholder="E-Mail" class="form-control input-md">
+                                    <div Class="text-danger" *ngIf="bookappoinment.controls['email'].invalid && (bookappoinment.controls['email'].touched||bookappoinment.controls['email'].dirty||isFormSubmitted)">
+                                        <span *ngIf="bookappoinment.controls['email'].errors?.['required']">Email is Required</span>
+                                        <span *ngIf="bookappoinment.controls['email'].errors?.['email']">This is not proper email</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="date">Date Of birth</label>
+                                    <input id="date" formControlName="dateOfBirth" type="date" placeholder="Date of birth" class="form-control input-md">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="appointmentfor">Gender</label>
+                                    <select id="appointmentfor" Name="gender" class="form-control">
+                                        <option value="Service#1">Male</option>
+                                        <option value="Service#2">Female</option>
+                                        <option value="Service#3">Other</option>  
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Phone Number*</label>
+                                    <input id="email" formControlName="phoneNumber" type="text" placeholder="Phone Number" class="form-control input-md">
+                                <div class="text-danger" *ngIf="bookappoinment.controls['phoneNumber'].invalid && (bookappoinment.controls['phoneNumber'].touched||bookappoinment.controls['phoneNumber'].dirty||isFormSubmitted)">
+                                    <span *ngIf="bookappoinment.controls['phoneNumber'].errors?.['required']">Phone Number is Required</span></div>
+                                </div>
+                            </div>
+                            <!-- Text input-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="date">Preferred Date*</label>
+                                    <input id="date" formControlName="preferedDate" type="date" placeholder="Preferred Date" class="form-control input-md">
+                                <div class="text-danger" *ngIf="bookappoinment.controls['preferedDate'].invalid && (bookappoinment.controls['preferedDate'].touched||bookappoinment.controls['preferedDate'].dirty||isFormSubmitted)"> 
+                                    <span *ngIf="bookappoinment.controls['preferedDate'].errors?.['required']">Preferred is Required</span>
+                                </div>
+                                </div>
+                            </div>
+                            <!-- Select Basic -->
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="time">Preferred Time</label>
+                                    <select id="time" Name="preferedTime" class="form-control">
+                                        <option value="8:00 to 9:00">8:00 to 9:00</option>
+                                        <option value="9:00 to 10:00">9:00 to 10:00</option>
+                                        <option value="10:00 to 1:00">10:00 to 1:00</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Select Basic -->
+                           
+                            <!-- Button -->
+                            <div class="col-md-12 mt-2">
+                                <div class="form-group">
+                                    <button type="button" (click)="onSubmit()">Make An Appointment</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- form end -->
+  </div>
+  </div>
+  </div>
+  </div>

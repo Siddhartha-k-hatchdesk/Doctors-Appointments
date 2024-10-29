@@ -1,0 +1,89 @@
+
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="assets/Bootstrap_logo.svg.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+        Appointment
+      </a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/">Home</a>
+        </li>
+        </ul>
+    </div>
+  </nav>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="row w-100 justify-content-center">
+        <div class="col-md-10">
+            <div class="well-block">
+                <div class="well-title">
+                    <h2>Register</h2>
+                </div>
+                <form  class="needs-validation"[formGroup]="register" (ngSubmit)="onSubmit()">
+                    <!-- Form start -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="name">Name*</label>
+                                <input id="name" formControlName="name" type="text" placeholder="Name" class="form-control input-md">
+                               <div Class="text-danger" *ngIf="register.controls['name'].invalid && (register.controls['name'].touched||register.controls['name'].dirty||isFormSubmitted)">
+                                <span *ngIf="register.controls['name'].errors?.['required']">Name is Required</span>
+                               </div>
+                            </div>
+                        </div>
+                        <!-- Text input-->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="email">Email*</label>
+                                <input id="email" formControlName="email" type="text" placeholder="E-Mail" class="form-control input-md">
+                                <div Class="text-danger" *ngIf="register.controls['email'].invalid && (register.controls['email'].touched||register.controls['email'].dirty||isFormSubmitted)">
+                                    <span *ngIf="register.controls['email'].errors?.['required']">Email is Required</span>
+                                    <span *ngIf="register.controls['email'].errors?.['email']">This is not proper email</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="password">Password*</label>
+                                <input id="email" formControlName="password" type="password" placeholder="Password" class="form-control input-md">
+                                <div Class="text-danger" *ngIf="register.controls['password'].invalid && (register.controls['password'].touched||register.controls['password'].dirty||isFormSubmitted)">
+                                    <span *ngIf="register.controls['password'].errors?.['required']">Password is required</span>
+                                    <span *ngIf="register.controls['password'].errors?.['password']">This is not proper email</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="gender">Gender</label>
+                                <select id="gender" formControlName="gender" class="form-control">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>  
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Phone Number</label>
+                                <input id="email" formControlName="phoneNumber" type="text" placeholder="Phone Number" class="form-control input-md">
+                            <div class="text-danger" *ngIf="register.controls['phoneNumber'].invalid && (register.controls['phoneNumber'].touched||register.controls['phoneNumber'].dirty||isFormSubmitted)">
+                                <span *ngIf="register.controls['phoneNumber'].errors?.['required']">Phone Number is Required</span></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Button -->
+                        <div class="col-md-12 mt-2">
+                            <div class="form-group">
+                                <button type="submit">Register</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+               <p> If you have already account?<a routerLink='/login'>Login</a></p>
+             
+                <!-- form end -->
+</div>
+</div>
+</div>
+</div>
+
