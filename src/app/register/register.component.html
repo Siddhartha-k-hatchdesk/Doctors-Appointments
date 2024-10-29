@@ -45,10 +45,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label" for="password">Password*</label>
-                                <input id="email" formControlName="password" type="password" placeholder="Password" class="form-control input-md">
+                                <input id="password" formControlName="password" type="password" placeholder="Password" class="form-control input-md">
                                 <div Class="text-danger" *ngIf="register.controls['password'].invalid && (register.controls['password'].touched||register.controls['password'].dirty||isFormSubmitted)">
                                     <span *ngIf="register.controls['password'].errors?.['required']">Password is required</span>
-                                    <span *ngIf="register.controls['password'].errors?.['password']">This is not proper email</span>
+                                    <span *ngIf="register.controls['password'].errors?.['pattern']">
+                                        Password must be at least 8 characters long, contain one uppercase letter, 
+                                        one lowercase letter,one number, and one special character
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -64,10 +67,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Phone Number</label>
-                                <input id="email" formControlName="phoneNumber" type="text" placeholder="Phone Number" class="form-control input-md">
+                                <label class="control-label" for="phoneNumber">Phone Number</label>
+                                <input id="phoneNumber" formControlName="phoneNumber" type="text" placeholder="Phone Number" class="form-control input-md">
                             <div class="text-danger" *ngIf="register.controls['phoneNumber'].invalid && (register.controls['phoneNumber'].touched||register.controls['phoneNumber'].dirty||isFormSubmitted)">
-                                <span *ngIf="register.controls['phoneNumber'].errors?.['required']">Phone Number is Required</span></div>
+                                <span *ngIf="register.controls['phoneNumber'].errors?.['required']">Phone Number is Required</span>
+                                <span *ngIf="register.controls['phoneNumber'].errors?.['pattern']">Phone number must be exactly 10 digits</span>
+                            </div>
                             </div>
                         </div>
                         

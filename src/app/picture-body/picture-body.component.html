@@ -1,4 +1,4 @@
-<div class="container position-relative">
+<!-- <div class="container position-relative">
     <div id="dentistCarousel" class="carousel slide mt-2" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active position-relative">
@@ -43,3 +43,103 @@
             role="button" style="font-size: 12px; padding: 5px 10px; z-index: 10;">Get Appointment</a>
     </div>
 </div>
+ -->
+ 
+ <section class="banner-section" >
+    <div class="container-fluid">
+      <div class="row col-lg-12 col-md-12 col-sm-12 ">
+
+        <div class="text-block py-2 ps-5 ">
+          <!-- <span class="para_head py-2 mt-2  letter-specing text-uppercase"><p>Total Health care solution</p></span> -->
+          <h1 class="banner_heading ms-2 mt-5 ps-5 ">Your most trusted health partner</h1>
+          <!-- <p class="banner_paragraph py-2 pt-2">A repudiandae ipsam labore ipsa voluptatum quidem quae laudantium quisquam aperiam maiores sunt fugit, deserunt rem suscipit placeat.</p> -->
+
+          <!-- <div class="Appointment_link"><a href="#">Make Appoitment</a></div> -->
+        </div>
+
+
+
+
+      </div>
+      <div class="Appointment">
+        <div class="container">
+          <div class="row  ms-auto Appointment_big_box">
+            <div class=" pb-3 appoinntment_head">
+              <h4>Book An Appointment</h4>
+            </div>
+
+            <!-- Loading Spinner -->
+          <div *ngIf="loading" class="loading-spinner">
+            <i class="bi bi-arrow-clockwise spin"></i> Loading...
+          </div>
+
+
+          <div class="row justify-content-left ms-auto Apointment-box ps-5 ms-3">
+            <!-- Location Box -->
+            <div class="col-md-4 col-sm-6 location-box" >
+              <!-- <div class="location-icon"><i class="bi bi-geo-alt"></i></div> -->
+              <ng-select 
+                [items]="location" 
+                bindLabel="locationName"  
+                bindValue="id"            
+                [(ngModel)]="selectedLocation" 
+                [searchable]="true" 
+                placeholder="Search a Location"
+                (search)="loadLocation($event)"
+                (change)="onLocationChange($event)">
+              </ng-select>
+            </div>
+            
+            <!-- Search Box for Doctor & Speciality -->
+            <div class="col-md-4 col-sm-6 search-box">
+              <!-- <div class="Search-icon"><i class="bi bi-search"></i></div> -->
+              <ng-select
+                [items]="combinedList" 
+                bindLabel="name" 
+                bindValue="value" 
+                placeholder="Search doctor & Speciality" 
+                [searchable]="true"
+                [multiple]="true"
+                [groupBy]="'groupName'"
+                (change)="onSpecializationDoctorChange($event)"
+                (search)="onSearch($event)">
+                
+                <ng-template ng-optgroup-tmp let-item="item">
+                  <span>{{item.groupName}}</span>
+                </ng-template>
+          
+                <ng-template ng-option-tmp let-item="item">
+                  <span>{{item.name}}</span>
+                </ng-template>
+              </ng-select>
+              <div *ngIf="!isSelectionValid" class="text-danger">
+                Please select at least one doctor or specialist.
+              </div>
+            </div>
+        
+          
+          
+          
+              <!-- <div class="col-md-1 partition_icon">|</div> -->
+
+
+              <div class="col-md-4 col-sm-0 button-box">
+                <div class="btn-submit-box">
+                  <button type="submit" [disabled]="loading" (click)="onSearchClick()">Search </button></div>
+              </div>
+
+            </div>
+
+            <div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+

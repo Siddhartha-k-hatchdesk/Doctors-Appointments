@@ -2,12 +2,15 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3>Book Appoinment</h3>
+            <h3>Doctor Portal</h3>
         </div>
 
         <ul class="list-unstyled components">
-            <li>
-                <a routerLink="/appointments">Appointments</a>
+          <li routerLinkActive="active">
+            <a routerLink="/doctor-portal/doctor-dashboard">Dashboard</a>
+        </li>  
+          <li routerLinkActive="active">
+                <a routerLink="/doctor-portal/appointments">Appointments</a>
             </li>
         </ul>
     </nav>
@@ -25,7 +28,8 @@
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-align-justify"></i>
                 </button>
-                <p>Welcome to Doctor Portal</p>
+                <p>Welcome to Doctor-Portal</p>
+                <a routerLink="/login" (click)="logout()">Logout</a>
                 <div class="dropdown">
             <a
               data-mdb-dropdown-init
@@ -35,6 +39,7 @@
               role="button"
               aria-expanded="false"
             >
+            <span>{{username}}</span>
               <img
                 src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
                 class="rounded-circle"
@@ -43,6 +48,7 @@
                 loading="lazy"
               />
             </a>
+           
             <ul class="dropdown-menu dropdown-menu-end"
               aria-labelledby="navbarDropdownMenuAvatar" >
               <li>
@@ -58,13 +64,7 @@
           </div>
         </div>
         </nav>
+<router-outlet></router-outlet>
     </div>
     
 </div>
-<script>
-    $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-            });
-        });
-</script>

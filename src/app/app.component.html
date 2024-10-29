@@ -1,5 +1,11 @@
-<div *ngIf="showHeaderFooter()"><header></header>
-</div>
-    <router-outlet></router-outlet>
+
 <div *ngIf="showHeaderFooter()">
-<div class="app-footer"></div></div>
+    <header></header></div>
+<router-outlet></router-outlet>
+<div *ngIf="showHeaderFooter()">
+    <app-footer></app-footer>
+</div>
+
+
+ <!-- if u have use as a class then use this
+   <div class="app-footer"></div> -->

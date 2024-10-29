@@ -2,12 +2,15 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3>Book Appoinment</h3>
+            <h3>User Portal</h3>
         </div>
 
         <ul class="list-unstyled components">
-            <li>
-                <a routerLink="/appointments">Appointments</a>
+          <li routerLinkActive="active">
+            <a routerLink="/user-portal/user-dashboard">Dashboard</a>
+        </li>  
+          <li routerLinkActive="active">
+                <a routerLink="/user-portal/user-appointment">Appointments</a>
             </li>
         </ul>
     </nav>
@@ -25,8 +28,12 @@
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-align-justify"></i>
                 </button>
-                <p>Welcome to User Portal</p>
-                <div class="dropdown">
+                <p>Welcome to User-Portal</p>
+                
+                <!-- <span>{{username}}</span> -->
+                <a routerLink="/login" (click)="logout()">Logout</a>
+                <!-- <div class="dropdown">
+                 
             <a
               data-mdb-dropdown-init
               class="dropdown-toggle d-flex align-items-center hidden-arrow"
@@ -35,6 +42,7 @@
               role="button"
               aria-expanded="false"
             >
+            
               <img
                 src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
                 class="rounded-circle"
@@ -43,6 +51,7 @@
                 loading="lazy"
               />
             </a>
+           
             <ul class="dropdown-menu dropdown-menu-end"
               aria-labelledby="navbarDropdownMenuAvatar" >
               <li>
@@ -55,17 +64,10 @@
                 <a class="dropdown-item" href="#">Logout</a>
               </li>
             </ul>
-          </div>
+          </div> -->
         </div>
         </nav>
-        <app-appointments></app-appointments>
+        <router-outlet></router-outlet>
     </div>
     
 </div>
-<script>
-    $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-            });
-        });
-</script>

@@ -1,0 +1,31 @@
+
+<!-- <a class="btn btn-primary btn-sm" routerLink="/book-appointment"
+            role="button">Book Appointment</a> -->
+
+            <a class="btn btn-primary btn-sm" (click)="openAppointmentDialog()" role="button">Book Appointment</a>
+
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">S.No</th>
+                  <th scope="col">Dr. Name</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of users; let i = index">
+                  <th scope="row">{{ i + 1 }}</th> <!-- Serial Number -->
+                  <td>{{item.doctorName || 'N/A'}}</td>
+                  <td>{{item.preferreddate}}</td>
+                  <td>{{item.preferredtime}}</td>
+                  <td>{{item.statusName}}</td>
+                  <td>
+                    <button type="button" class="btn btn-primary">Edit</button>
+                    <button type="button" class="btn btn-danger">Remove</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>

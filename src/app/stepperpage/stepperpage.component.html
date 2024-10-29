@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-md-10 mx-auto mat-stepper">
+       <mat-horizontal-stepper [linear]="false" #stepper>
+          <mat-step>
+             <app-appointmentinteraction></app-appointmentinteraction>
+             <!-- <div>
+                <button mat-button matStepperNext>Next</button>
+             </div> -->
+          </mat-step>
+          <mat-step>
+             <app-timeanddate></app-timeanddate>
+             <!-- <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+             </div> -->
+          </mat-step>
+          <mat-step>
+             <!-- Add your third component or content here -->
+              <app-userdetailform></app-userdetailform>
+             <!-- <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+             </div> -->
+          </mat-step>
+          <mat-step>
+            <!-- Add your third component or content here -->
+             <app-user-review-form></app-user-review-form>
+            <div>
+               <button mat-button matStepperPrevious>Back</button>
+               <button mat-button matStepperNext>Next</button>
+            </div>
+         </mat-step>
+          <!-- Continue adding steps here -->
+       </mat-horizontal-stepper>
+    </div>
+ </div>
+ 

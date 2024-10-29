@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ isEditMode ? 'Edit Doctor' : 'Add Doctor' }}</title>
+
+</head>
+<body>
+  <h1>{{ isEditMode ? 'Edit Doctor' : 'Add Doctor' }}</h1>
+<form [formGroup]="addDoctorForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="Name" class="form-control" id="name" formControlName="name" placeholder="Enter name">
+      </div>
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input type="email" class="form-control" id="email1" formControlName="email" placeholder="Enter email">
+    </div>
+    <div class="form-group">
+      <label for="specialization">Specialization</label>
+      <select class="form-control" id="specialization" formControlName="specialization">
+        <option *ngFor="let specialization of specializations" [value]="specialization.id">
+          {{ specialization.specializationName }}
+        </option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">{{isEditMode?'Submit':'Submit'}}</button>
+  </form>
+  </body>
+  </html>
+  

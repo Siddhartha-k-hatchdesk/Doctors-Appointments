@@ -1,0 +1,862 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+*,
+*:after,
+*:before {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* ///////// */
+
+:root {
+  --primary-color: #a82c48;
+  --secondry-color: #43121d;
+  --third-color: #f98167;
+  --white-color: #fff;
+  --text-color: #999;
+  --black-color: #000;
+  --primary-font: "Roboto", "sans-sarif";
+  --bs-body-color: #212529;
+  --secondry-font: "Quicksand", "sans-sarif";
+  --blue-color: 3966a7ed;
+}
+/* html {
+  scroll-behavior: smooth;
+} */
+body {
+  font-family: var(--primary-font);
+  /* font-size: 100%; */
+  font-weight: 400;
+}
+/* //////////////////// */
+/* Start ///////////////////////////////////////////////////////////////////// */
+/* //////////////////////////// */
+.banner-section {
+  position: relative;
+  background-image: url("/assets/BackgrundImages/Dr-page-background.png");
+  width: 100%;
+  height: 250px;
+  background-size: cover;
+}
+.para_head {
+  letter-spacing: 2px;
+}
+/* .banner_heading{
+  position: relative;
+  top: 10%;
+ 
+    font-size: 45px;
+    font-weight: 500;
+    color: #223a66;
+    text-transform: capitalize;
+
+} */
+/* .banner_paragraph{
+    word-spacing: 2px;
+} */
+.Appointment_link {
+  width: 40%;
+  height: 40px;
+  text-align: center;
+  font-size: 18px;
+  padding-top: 10px;
+  border-radius: 30px;
+  background-color: rgb(172, 13, 13);
+  /* color: red; */
+  text-decoration: none;
+  cursor: pointer;
+}
+.Appointment_link:hover {
+  background-color: #223a66;
+}
+.Appointment_link a {
+  text-decoration: none;
+  color: white;
+}
+
+.Appointment_big_box {
+  position: relative;
+  top: 40%;
+  transform: translateY(30%);
+}
+.dr-input-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.Appointment {
+  position: relative;
+  /* top: 50px; */
+  /* width:90%; */
+  height: 30vh;
+}
+
+.appoinntment_head {
+  width: 100%;
+  height: 50px;
+  font-size: 25px;
+  font-weight: 300;
+
+  padding-left: 25px;
+  text-align: center;
+  /* border:1px solid #3966a7ed;; */
+  border-radius: 5px;
+  /* text-align: center; */
+  /* padding-left: 15px; */
+}
+.appoinntment_head h4 {
+  font-size: 35px;
+  color: #fff;
+}
+
+.Apointment-box {
+  /* border: 1px solid black; */
+  width: 100%;
+  height: 120px;
+
+  /* position: relative; */
+  /* left: 30%; */
+  /* background-image:url("/IMAGES/BackGround_images/image.jpg"); */
+  /* align-items: center; */
+}
+
+.search-box input {
+  position: relative;
+  left: 15px;
+  border: 1px solid black;
+  /* right: 15px; */
+  /* top: 1px; */
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "Roboto", "sans-sarif";
+  /* border-top-right-radius: 30px; */
+  /* border-bottom-right-radius: 30px; */
+  padding-left: 50px;
+  margin-top: 3px;
+  border: 1px solid #3966a7ed;
+  /* border-left: none; */
+  /* border-top-left-radius: 0;
+    border-bottom-left-radius: 0; */
+  box-shadow: none;
+  border-radius: 5px;
+}
+
+.search-box input:focus {
+  outline: 0;
+  box-shadow: none;
+  border-color: #000000;
+}
+.Search-icon {
+  position: relative;
+  top: 42px;
+  left: 25px;
+  font-size: 20px;
+  z-index: 1;
+  color: #3966a7ed;
+}
+
+.location-box input {
+  position: relative;
+
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "Roboto", "sans-sarif";
+  padding-left: 50px;
+  border: 1px solid #3966a7ed;
+  border-radius: 5px;
+  /* border-top-left-radius: 30px; */
+  /* border-bottom-left-radius: 30px; */
+  /* border-left:none; */
+  /* border-top-right-radius:0; */
+  /* border-bottom-right-radius:0; */
+  outline: none;
+  box-shadow: none;
+  /* color: royalblue !important; */
+}
+
+.location-box input:focus {
+  outline: 0;
+  box-shadow: none;
+  border-color: #111212;
+}
+/* .partition_icon{
+    position: absolute;
+    top: 30px;
+    left: 32%;
+    z-index: 1;
+    font-size: 30px;
+    
+}   */
+.location-icon {
+  position: relative;
+  top: 40px;
+  left: 15px;
+  font-size: 22px;
+  z-index: 1;
+  color: #3966a7ed;
+}
+
+.btn-submit-box button {
+  position: relative;
+  margin-top: 34px;
+  left: 30px;
+  /* top: 50%; */
+  border-radius: 5px;
+  /* right:170px; */
+  width: 50%;
+  height: 50px;
+  font-weight: 400;
+  font-size: 18px;
+  font-family: "Roboto", "sans-sarif";
+  border: none;
+  outline: none;
+  color: white;
+  background-color: #3966a7ed;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+.btn-submit-box button:hover {
+  background-color: rgb(172, 13, 13);
+  transform: scale(1.08);
+  font-size: 19px;
+}
+.media-search-icon {
+  display: none;
+}
+
+/*////////////////////////// media for banner page //////////////////////////////////*/
+@media (max-width: 991px) {
+  .search-box input {
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 400;
+  }
+  .Search-icon {
+    position: relative;
+    top: 37px;
+    left: 30px;
+  }
+  .location-box input {
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 400;
+  }
+  .location-icon {
+    position: relative;
+    top: 35px;
+  }
+  .btn-submit-box button {
+    position: relative;
+    margin-top: 34px;
+    left: 30px;
+    border-radius: 5px;
+    width: 80%;
+    font-size: 18px;
+    font-weight: 400;
+    height: 40px;
+  }
+}
+@media (max-width: 768px) {
+  .dr-input-box {
+    display: flex;
+    flex-wrap: nowrap !important;
+    justify-content: center;
+  }
+
+  .search-box input {
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 400;
+  }
+  .Search-icon {
+    position: relative;
+    top: 37px;
+    left: 30px;
+  }
+  .location-box input {
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 400;
+  }
+  .location-icon {
+    position: relative;
+    top: 35px;
+  }
+  .Apointment-box {
+    padding: 0px !important;
+  }
+  .btn-submit-box button {
+    position: relative;
+    margin-top: 34px;
+    left: 30px;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    height: 40px;
+  }
+  .btn-submit-box {
+    display: none;
+  }
+  .media-search-icon {
+    display: block;
+    position: relative;
+    top: 33px;
+    left: 30px;
+    border-radius: 5px;
+    font-size: 20px;
+    padding-left: 15px;
+    padding-top: 3px;
+    width: 50px;
+    height: 40px;
+    color: rgb(255, 255, 255);
+    background-color: #3966a7ed;
+  }
+}
+
+@media (max-width: 668px) {
+  .search-box {
+    position: relative;
+    width: 50%;
+    right: 15px;
+  }
+  .search-box input {
+    width: 90%;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 400;
+  }
+  .Search-icon {
+    position: relative;
+    top: 37px;
+    left: 30px;
+    width: 80%;
+  }
+  .location-box {
+    width: 50%;
+  }
+  .location-box input {
+    width: 90%;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 400;
+  }
+  .location-icon {
+    position: relative;
+    top: 35px;
+    width: 80%;
+  }
+  .Apointment-box {
+    padding: 0px !important;
+  }
+
+  .btn-submit-box {
+    display: none;
+  }
+  .media-search-icon {
+    display: block;
+    position: relative;
+    top: 33px;
+    height: 40px;
+    left: -10px;
+  }
+}
+@media (max-width: 540px) {
+  .dr-input-box {
+    display: flex;
+    flex-wrap: wrap !important;
+    justify-content: center;
+  }
+
+  .search-box {
+    width: 100%;
+    position: relative;
+    top: -20px !important;
+  }
+  .search-box input {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 300;
+  }
+  .Search-icon {
+    position: relative;
+    top: 37px;
+    left: 30px;
+    width: 80%;
+  }
+  .location-box {
+    width: 100%;
+    position: relative;
+    top: -20px !important;
+  }
+  .location-box input {
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 300;
+  }
+  .location-icon {
+    position: relative;
+    top: 35px;
+    width: 80%;
+  }
+  .Apointment-box {
+    padding: 0px !important;
+  }
+  .btn-submit-box button {
+    position: relative;
+    margin-top: 34px;
+    left: 30px;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    height: 40px;
+  }
+
+  .media-search-icon {
+    display: none;
+    position: relative;
+    top: 33px;
+    height: 40px;
+    /* right:30px; */
+  }
+  .btn-submit-box {
+    display: block;
+  }
+  .btn-submit-box button {
+    position: relative !important;
+    top: 10% !important;
+    padding-left: 0px !important;
+    left: 0px !important;
+
+    margin-top: 0px !important;
+    border-radius: 5px;
+    /* right:170px; */
+    width: 100% !important;
+    height: 40px;
+    font-weight: 400;
+    font-size: 18px;
+    font-family: "Roboto", "sans-sarif";
+    /* border:1px solid black; */
+    outline: none;
+    color: white;
+    background-color: #3966a7ed;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+  }
+  .Appointment_big_box {
+    position: relative;
+    top: -50px;
+  }
+  .banner-section {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+  }
+
+  .button-box {
+    width: 100%;
+  }
+}
+
+@media (max-width: 413px) {
+  .dr-input-box {
+    display: flex;
+    flex-wrap: wrap !important;
+    justify-content: center;
+  }
+
+  .search-box {
+    width: 100%;
+    position: relative;
+    top: -20px !important;
+  }
+  .search-box input {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 300;
+  }
+  .Search-icon {
+    position: relative;
+    top: 37px;
+    left: 30px;
+    width: 80%;
+  }
+  .location-box {
+    width: 100%;
+    position: relative;
+    top: -10px !important;
+  }
+  .location-box input {
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 300;
+  }
+  .Appointment_big_box {
+    position: relative;
+    top: -20px;
+  }
+  .appoinntment_head h4 {
+    font-size: 25px;
+    color: #fff;
+  }
+}
+/* //////////////////////dr-card-box */
+
+.dr-card-main {
+  width: 80%;
+  height: auto;
+}
+.dr-appoint-card-box {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #00000026;
+  /* margin-top: 15px;
+  padding-top: 15px; */
+}
+.dr-card-box {
+  display: flex;
+  width: 60%;
+  height: auto;
+  border: 1px solid #00000026;
+}
+
+
+.dr-image img {
+  /* border: 1px solid black; */
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #223a66 !important;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+.dr-profile {
+  position: relative;
+  left: 30px;
+}
+p {
+  margin-top: 0;
+  margin-bottom: 0.5rem !important;
+}
+.dr-heading {
+  font-size: 18px;
+  font-family: var(--primary-font);
+}
+
+.dr-location {
+  display: flex;
+}
+.dr-location-icon {
+  font-size: 20px;
+  color: rgb(138, 133, 133);
+}
+.dr-location-para {
+  padding-left: 10px;
+  padding-top: 3px;
+  font-size: 14px;
+  font-family: var(--primary-font);
+  color: rgb(138, 133, 133);
+}
+.dr-para {
+  font-size: 16px;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+hr:not([size]) {
+  height: 1px;
+  width: 100%;
+  margin: 5px !important;
+}
+
+.dr-language {
+  display: flex;
+}
+.dr-language-icon {
+  font-size: 20px;
+  color: rgb(138, 133, 133);
+}
+.dr-language-para {
+  padding-left: 15px;
+  padding-top: 3px;
+  color: rgb(138, 133, 133);
+}
+.dr-language-para-p {
+  font-size: 14px;
+  color: rgb(138, 133, 133);
+  font-family: var(--primary-font);
+}
+.dr-aducation-icon {
+  font-size: 20px;
+  color: rgb(138, 133, 133);
+}
+.dr-aducation-para {
+  padding-left: 15px;
+  padding-top: 3px;
+  color: rgb(138, 133, 133);
+}
+.dr-aducation-para-p {
+  font-size: 14px;
+  color: rgb(138, 133, 133);
+  font-family: var(--primary-font);
+}
+.dr-education {
+  display: flex;
+}
+.dr-profile {
+  display: flex;
+  justify-content: space-between;
+}
+.appoint-time {
+  position: relative;
+  top: 20%;
+  right: 20%;
+}
+.Appointment-btn button {
+  width: 100%;
+  height: 40px;
+  margin-top: 15px;
+  background-color: #223a66;
+  color: white;
+  outline: none;
+}
+
+.Appointment-btn button:hover {
+  color: #fff;
+}
+.appoint-time h6 {
+  color: rgb(122, 122, 27);
+  padding-right: 15px;
+}
+.appoint-time p {
+  color: rgb(25, 99, 55);
+  padding-right: 15px;
+}
+/* dr-card-media -query */
+@media (min-width: 991px) {
+  .dr-card-main {
+    width: 80%;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .dr-card-main {
+    width: 100%;
+  }
+}
+
+@media (min-width: 568px) and (max-width: 768px) {
+  .dr-appoint-card-box {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .dr-card-box {
+    width: 100%;
+    border-right: none;
+  }
+  .dr-card-main {
+    width: 100%;
+  }
+  .appoint-time {
+    position: relative;
+    height: 200px;
+    left: 85%;
+  }
+}
+@media (min-width: 400px) and (max-width: 568px) {
+  .dr-appoint-card-box {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .dr-card-box {
+    width: 100%;
+    border-right: none;
+  }
+  .dr-card-main {
+    width: 100%;
+  }
+  .appoint-time {
+    position: relative;
+    height: 150px;
+    left: 85%;
+  }
+}
+@media (min-width: 300px) and (max-width: 400px) {
+  .dr-appoint-card-box {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .dr-card-box {
+    width: 100%;
+    border-right: none;
+  }
+  .dr-card-main {
+    width: 100%;
+  }
+  .appoint-time {
+    position: relative;
+    height: 200px;
+    left: 40%;
+  }
+  .dr-image img {
+    /* border: 1px solid black; */
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #7c8fb1 !important;
+  }
+  hr:not([size]) {
+    height: 2px;
+    width: 100%;
+    margin: 5px !important;
+  }
+  .dr-para {
+    font-size: 12px;
+    width: 100%;
+    /* border: 1px solid black; */
+  }
+  .dr-location-icon {
+    font-size: 16px;
+    color: rgb(138, 133, 133);
+  }
+  .dr-location-para {
+    font-size: 12px;
+  }
+  .dr-aducation-icon {
+    font-size: 16px;
+    color: rgb(138, 133, 133);
+  }
+  .dr-aducation-para-p {
+    font-size: 12px;
+  }
+  .dr-language-icon {
+    font-size: 16px;
+    color: rgb(138, 133, 133);
+  }
+
+  .dr-language-para-p {
+    font-size: 12px;
+  }
+  .Appointment-btn button {
+    width: 80%;
+    height: 30px;
+    margin-top: 10px;
+    padding-top: 0px !important;
+  }
+  .appoint-time {
+    position: relative;
+    height: 150px;
+    left: 50%;
+  }
+}
+@media (min-width: 0px) and (max-width: 300px) {
+  .dr-appoint-card-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .dr-card-box {
+    width: 100%;
+    border-right: none;
+  }
+  .dr-card-main {
+    width: 100%;
+  }
+  .appoint-time {
+    position: relative;
+    height: 200px;
+    left: 40%;
+  }
+  .dr-image img {
+    /* border: 1px solid black; */
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #7c8fb1 !important;
+  }
+  hr:not([size]) {
+    height: 2px;
+    width: 100%;
+    margin: 5px !important;
+  }
+  .dr-para {
+    font-size: 12px;
+    width: 100%;
+    /* border: 1px solid black; */
+  }
+  .dr-location-icon {
+    font-size: 16px;
+    color: rgb(138, 133, 133);
+  }
+  .dr-location-para {
+    font-size: 12px;
+  }
+  .dr-aducation-icon {
+    font-size: 16px;
+    color: rgb(138, 133, 133);
+  }
+  .dr-aducation-para-p {
+    font-size: 12px;
+  }
+  .dr-language-icon {
+    font-size: 16px;
+    color: rgb(138, 133, 133);
+  }
+
+  .dr-language-para-p {
+    font-size: 12px;
+  }
+  .dr-card-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .dr-profile {
+    display: flex;
+    justify-content: center;
+  }
+  .dr-profile {
+    position: relative;
+    left: 0px;
+  }
+  .appoint-time {
+    position: relative;
+    height: 150px;
+    left: 20%;
+  }
+  .appoint-time h6 {
+    color: rgb(122, 122, 27);
+    font-size: 12px;
+    position: relative;
+    right: 10%;
+  }
+  .appoint-time p {
+    color: rgb(122, 122, 27);
+    font-size: 12px;
+    position: relative;
+    right: 10%;
+  }
+  .Appointment-btn button {
+    width: 80%;
+    height: 30px;
+    margin-top: 10px;
+    padding-top: 0px !important;
+    position: relative;
+    right: 8%;
+  }
+}

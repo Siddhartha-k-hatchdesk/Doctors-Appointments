@@ -1,0 +1,134 @@
+
+  <header></header>
+  <!-- ///////////////////////// DR-Search-Box ////////////////////////////////////// -->
+
+
+  <section class="banner-section">
+    <div class="container-fluid">
+      <div class="row col-lg-12 col-md-12 col-sm-12 ">
+        <div class="text-block py-2 ps-5 ">
+          <!-- <span class="para_head py-2 mt-2  letter-specing text-uppercase"><p>Total Health care solution</p></span> -->
+          <!-- <h1 class="banner_heading ms-2 mt-2 ps-5 ">Your most trusted health partner</h1> -->
+          <!-- <p class="banner_paragraph py-2 pt-2">A repudiandae ipsam labore ipsa voluptatum quidem quae laudantium quisquam aperiam maiores sunt fugit, deserunt rem suscipit placeat.</p> -->
+          <!-- <div class="Appointment_link"><a href="#">Make Appoitment</a></div> -->
+        </div>
+      </div>
+      <div class="Appointment">
+        <div class="container">
+          <div class="row  ms-auto Appointment_big_box">
+            <div class=" pb-3 appoinntment_head">
+              <h4>Book An Appointment</h4>
+            </div>
+            <div class="row justify-content-center mx-auto  Apointment-box ps-5 ">
+              <div class="d-felx dr-input-box">
+                <div class="col-md-4 col-sm-6 location-box">
+                  <div class="location-icon"><i class="bi bi-geo-alt"></i></div>
+                  <!-- <div class="partition_icon">|</div> -->
+                  <input type="text" class="form-control" id="text" placeholder="Select loaction">
+                </div>
+                <div class="col-md-4 col-sm-6  search-box ">
+                  <div class="Search-icon"><i class="bi bi-search"></i></div>
+                  <input type="text" class="form-control" id="text" placeholder="Search doctor & Speiality">
+                </div>
+                <!-- <div class="col-md-1 partition_icon">|</div> -->
+
+
+                <div class="col-md-4 col-sm-0 button-box ">
+                  <div class="media-search-icon"><i class="bi bi-search"></i></div>
+                  <div class="btn-submit-box"><button type="submit">Search </button></div>
+                </div>
+
+              </div>
+
+              <div>
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+  </div>
+
+  </section>
+
+  <!--  -->
+
+  <!-- /////////////////DR-card-section//////////////////// -->
+  <section class="card-Section">
+    <div class="dr-card pt-5">
+      <div class="container">
+        <div class="row">
+          <div class="card-box">
+
+
+
+
+            <div *ngIf="filteredDoctors.length > 0">
+              <div class="col-md-8 mt-4 dr-card-main" *ngFor="let doctor of filteredDoctors">
+                <div class="dr-appoint-card-box">
+                  <div class="dr-card-box">
+                    <div class="dr-image pt-3">
+                      <img src="assets\Card_Images\download-dr-1-removebg-preview.png" class="image-fluid" alt="">
+                    </div>
+            
+                    <div class="dr-profile pt-3">
+                      <div class="dr-profile-section">
+                        <h4 class="dr-heading">{{ doctor.name }}</h4>
+                        <p class="dr-para">{{ doctor.specializationName }} | 8 year of exp</p>
+                        <div class="dr-hr">
+                          <hr>
+                        </div>
+            
+                        <div class="dr-location">
+                          <div class="dr-location-icon"><i class="bi bi-geo-alt"></i></div>
+                          <div class="dr-location-para">
+                            <p class="dr-location-para-p">{{ doctor.locationName }}</p>
+                          </div>
+                        </div>
+                        <div class="dr-language">
+                          <div class="dr-language-icon"><i class="bi bi-translate"></i></div>
+                          <div class="dr-language-para">
+                            <p class="dr-language-para-p">Hindi/English</p>
+                          </div>
+                        </div>
+                        <div class="dr-education">
+                          <div class="dr-aducation-icon"><i class="bi bi-mortarboard-fill"></i></div>
+                          <div class="dr-aducation-para">
+                            <p class="dr-aducation-para-p">MBBS,MS,DNB</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            
+                  <div class="appointment-day">
+                    <div class="appoint-time">
+                      <h6>(MON,TUE,WED,THU,FRI)</h6>
+                      <p>(11:00 AM - 05:00 PM)</p>
+            
+                      <div class="Appointment-btn">
+                        <button class="btn" (click)="onAppointmentClick(doctor.id, doctor.specialistId)" routerLink="/stepperpage">Appointment</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div *ngIf="filteredDoctors.length === 0" class="no-doctors-found">
+              <p>No doctors found based on your search criteria.</p>
+            </div>
+         
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+
+<app-footer></app-footer>

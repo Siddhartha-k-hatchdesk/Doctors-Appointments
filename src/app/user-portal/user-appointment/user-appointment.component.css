@@ -1,0 +1,7 @@
+.modal {
+    display: none;
+    overflow: hidden;
+  }
+  .modal.show {
+    display: block;
+  }

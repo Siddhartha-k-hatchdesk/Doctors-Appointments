@@ -1,11 +1,250 @@
-.container{
-    width: 100%;
+
+
+.banner-section{
     position: relative;
-    /* border: 1px solid rgb(219, 210, 210); */
-    padding:10px;
+    background-image: url("/assets/BackgrundImages/slider-bg-2.jpg");
+    width:100%;
+    height: 550px;
+    background-size:cover;
+    
 }
-.container a{
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
+
+.para_head{
+    letter-spacing: 2px;
 }
+.banner_heading{
+  position: relative;
+  top: 10%;
+   
+    font-size: 45px;
+    font-weight: 500;
+    color: #223a66;
+    text-transform: capitalize;
+    /* /* text-align: center */ 
+}
+.banner_paragraph{
+    word-spacing: 2px;
+}
+.Appointment_link{
+    width: 40%;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    padding-top: 10px;
+    border-radius: 30px;
+    background-color: rgb(172, 13, 13);
+    /* color: red; */
+    text-decoration: none;
+    cursor: pointer;
+}
+.Appointment_link:hover{
+    background-color:#223a66 ;
+}
+.Appointment_link a{
+    text-decoration: none;
+    color:white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.Appointment_big_box{
+    position: relative;
+    top: 40%;
+    transform: translateY(30%);
+}
+
+
+
+
+
+
+
+
+
+ 
+.Appointment{
+    position: relative;
+    top: 50px;
+    width:90%;
+    height: 30vh;
+    /* background-image: url("../IMAGES/BackGround_images/slider-bg-1.jpg"); */
+    /* background-size:cover */
+} 
+/* .Appointment_big_box{
+    position: relative;
+    top: 60%; 
+    Appointment
+}   */
+.appoinntment_head{
+    width: 35%;
+    height: 50px;
+    font-size: 25px;
+    font-weight: 300;
+    position: relative  ;
+    left: 20%;
+    padding-left: 25px;
+    /* border:1px solid #3966a7ed;; */
+    border-radius: 5px;
+   /* text-align: center; */
+   /* padding-left: 15px; */
+  
+   
+}
+.appoinntment_head h4{
+font-size: 35px;
+color:#223a66 ;
+
+}
+
+
+
+/* .Apointment-box{
+    border: 1px solid black;
+    width: 100%;
+    height: 120px;
+    position: relative;
+    background-image:url("/IMAGES/BackGround_images/image.jpg");
+
+    
+}   */
+
+
+
+ 
+
+
+
+
+/* Styling for Search Box */
+/* Styling for Search Box and Location Box to make them the same size */
+.ng-select {
+    width: 100%; /* Make the ng-select element fill the full width */
+    height: 41px;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: 'Roboto', 'sans-serif';
+    border-radius: 5px;
+    box-shadow: none;
+    margin-top: 35px;
+}
+
+.ng-select.ng-select-single .ng-select-container {
+    height: 50px;
+    border: 1px solid #3966a7ed;
+    border-radius: 5px;
+}
+
+.ng-select.ng-select-single .ng-select-container:focus {
+    border-color: #111212;
+}
+
+.ng-select.ng-select-multiple .ng-select-container {
+    height: 50px;
+    border: 1px solid #3966a7ed;
+    border-radius: 5px;
+}
+
+.ng-select.ng-select-multiple .ng-select-container:focus {
+    border-color: #111212;
+}
+
+/* Consistent icon styling */
+.location-icon, .Search-icon {
+    position: relative;
+    top: 35px;
+    left: 14px;
+    font-size: 22px;
+    z-index: 1;
+    color: #3966a7ed;
+}
+
+/* Ensure both boxes have the same layout and width */
+.col-md-4.col-sm-6 {
+    max-width: 100%; /* Ensure both boxes fill available space */
+    margin-bottom: 15px; /* Add margin between elements */
+}
+
+/* Consistent placeholder padding */
+.ng-select .ng-placeholder {
+    padding-right: 100px;
+}
+
+
+
+
+
+.text-danger {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+
+
+
+.btn-submit-box button{
+    position: relative;
+    margin-top: 34px;
+    /* top: 50%; */
+    border-radius: 5px;
+    /* right:170px; */
+    width: 40%;
+    height: 41px;
+    font-weight: 400;
+    font-size: 18px;
+    font-family: 'Roboto', 'sans-sarif';
+    border:none;
+    outline: none;
+    color: white;
+    background-color: #3966a7ed;   
+    transition: background-color 0.3s ease, transform 0.1s ease; 
+}
+.btn-submit-box button:hover{
+    background-color: rgb(172, 13, 13);
+    transform: scale(1.08);
+    font-size: 19px;
+}
+
+.loading-spinner {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .spin {
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .custom-dialog .mat-dialog-container {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: none;
+    max-width: 200px;
+    text-align: center;
+    border-radius: 8px;
+  }
+  
+  .custom-dialog mat-spinner {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .custom-dialog p {
+    margin-top: 16px;
+    font-size: 16px;
+    color: #555;
+  }
+
+  
+  

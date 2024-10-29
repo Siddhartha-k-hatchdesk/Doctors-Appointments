@@ -1,27 +1,52 @@
 
-    <div class="container mt-3">
+<div class="container-alert"><div *ngIf="message" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Sucesss!</strong> Booking Successfully
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  </div>
+<div class="container mt-3">
+    
         <div class="row">
             <div class="col-md-10">
                 <div class="well-block">
                     <div class="well-title">
+                        
                         <h2>Questions? Book an Appointment</h2>
                     </div>
-                    <form  class="needs-validation"[formGroup]="bookappoinment">
+                    <form  class="needs-validation"[formGroup]="bookappoinment" (ngSubmit)="onSubmit()">
                         <!-- Form start -->
+                        
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Appointment For*</label>
-                                <select id="appointmentfor" Name="appointmentFor" class="form-control">
-                                    <option value="Service#1">Choose</option>
-                                    <option value="Service#2">Orthodontists</option>
-                                    <option value="Service#3">Prosthodontists</option>
-                                    <option value="Service#4">Pedodontists or Pediatric Dentists</option>
-                                </select>
-                            </div>
-                            <div class="text-danger" *ngIf="bookappoinment.controls['appointmentFor'].invalid && (bookappoinment.controls['appointmentFor'].touched||bookappoinment.controls['appointmentFor'].dirty||isFormSubmitted)">
+                                <label class="control-label" for="appointmentFor">Appointment For*</label>
+                                <ng-select 
+                                [items]="combinedList" 
+                                bindLabel="name" 
+                                bindValue="value" 
+                                placeholder="Select Specialist or Doctor" 
+                                [searchable]="true"
+                                [typeahead]="searchInput"  
+                                [multiple]="true"
+                                [groupBy]="'groupName'"
+                                (change)="onSpecializationDoctorChange($event)"
+                                (search)="onSearch($event)">  <!-- Added search event to listen for typing -->
+
+                                <ng-template ng-optgroup-tmp let-item="item">
+                                    <span>{{item.groupName}}</span>
+                                </ng-template>
+                                
+                                <ng-template ng-option-tmp let-item="item">
+                                    <span>{{item.name}}</span>
+                                </ng-template>
+                            </ng-select>
+                         </div>
+                         </div>
+                            <!-- <div class="text-danger" *ngIf="bookappoinment.controls['appointmentFor'].invalid && (bookappoinment.controls['appointmentFor'].dirty||isFormSubmitted)">
                                 <span *ngIf="bookappoinment.controls['appointmentFor'].errors?.['required']">Appointment for is Required</span>
-                            </div>
-                        </div>
+                            </div> -->
+                            
+                        
+            
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -45,55 +70,65 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label" for="date">Date Of birth</label>
-                                    <input id="date" formControlName="dateOfBirth" type="date" placeholder="Date of birth" class="form-control input-md">
+                                    <label class="control-label" for="dateOfBirth">date Of birth</label>
+                                    <input id="dateOfBirth" formControlName="dateOfBirth" type="date" placeholder="Date of birth" class="form-control input-md">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label" for="appointmentfor">Gender</label>
-                                    <select id="appointmentfor" Name="gender" class="form-control">
-                                        <option value="Service#1">Male</option>
-                                        <option value="Service#2">Female</option>
-                                        <option value="Service#3">Other</option>  
+                                    <label class="control-label" for="gender">Gender</label>
+                                    <select id="gender" formControlName="gender" class="form-control">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>  
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label">Phone Number*</label>
-                                    <input id="email" formControlName="phoneNumber" type="text" placeholder="Phone Number" class="form-control input-md">
+                                    <label class="control-label" for="phoneNumber">Phone Number*</label>
+                                    <input id="phoneNumber" formControlName="phoneNumber" type="text" placeholder="Phone Number" class="form-control input-md">
                                 <div class="text-danger" *ngIf="bookappoinment.controls['phoneNumber'].invalid && (bookappoinment.controls['phoneNumber'].touched||bookappoinment.controls['phoneNumber'].dirty||isFormSubmitted)">
                                     <span *ngIf="bookappoinment.controls['phoneNumber'].errors?.['required']">Phone Number is Required</span></div>
+                                    <span *ngIf="bookappoinment.controls['phoneNumber'].errors?.['pattern']">Phone number must be exactly 10 digits</span>
                                 </div>
                             </div>
                             <!-- Text input-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label" for="date">Preferred Date*</label>
-                                    <input id="date" formControlName="preferedDate" type="date" placeholder="Preferred Date" class="form-control input-md">
+                                    <label class="control-label" for="preferedDate">Preferred Date*</label>
+                                    <input id="preferedDate" formControlName="preferedDate" type="date" placeholder="Preferred Date" class="form-control input-md">
                                 <div class="text-danger" *ngIf="bookappoinment.controls['preferedDate'].invalid && (bookappoinment.controls['preferedDate'].touched||bookappoinment.controls['preferedDate'].dirty||isFormSubmitted)"> 
                                     <span *ngIf="bookappoinment.controls['preferedDate'].errors?.['required']">Preferred is Required</span>
                                 </div>
                                 </div>
                             </div>
                             <!-- Select Basic -->
-                            <div class="col-md-6 mt-2">
+                            <!-- <div class="col-md-6 mt-2">
                                 <div class="form-group">
-                                    <label class="control-label" for="time">Preferred Time</label>
-                                    <select id="time" Name="preferedTime" class="form-control">
+                                    <label class="control-label" for="preferedTime">Preferred Time</label>
+                                    <input id="preferedTime" formControlName="preferedTime" class="form-control" type="time">
+                                    <select id="preferedTime" formControlName="preferedTime"  class="form-control">
                                         <option value="8:00 to 9:00">8:00 to 9:00</option>
                                         <option value="9:00 to 10:00">9:00 to 10:00</option>
                                         <option value="10:00 to 1:00">10:00 to 1:00</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                  <label class="control-label" for="preferedTime">Preferred Time</label>
+                                  <select id="preferedTime" formControlName="preferedTime" class="form-control">
+                                    <option *ngFor="let time of timeSlots" [value]="time">{{ time }}</option>
+                                  </select>
+                                </div>
+                              </div>
                             <!-- Select Basic -->
                            
                             <!-- Button -->
                             <div class="col-md-12 mt-2">
                                 <div class="form-group">
-                                    <button type="button" (click)="onSubmit()">Make An Appointment</button>
+                                    <button type="submit">Make An Appointment</button>
                                 </div>
                             </div>
                         </div>

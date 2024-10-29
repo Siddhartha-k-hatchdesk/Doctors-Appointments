@@ -1,0 +1,25 @@
+<button class="btn btn-secondary" routerLink="/admin-portal/add-doctor"> Add Doctor</button>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">S.No</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Specilization</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let Doctor of doctors;let i=index">
+        <th scope="row">{{i+1}}</th>
+        <td>{{Doctor.name}}</td>
+        <td>{{Doctor.email}}</td>
+        <td>{{Doctor.specialization}}</td>
+        <td>
+            <button (click)="editDoctor(Doctor.id)"> Edit</button>
+            <button (click)="deleteDoctor(Doctor.id)">Delete</button>
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>

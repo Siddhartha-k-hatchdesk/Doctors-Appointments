@@ -1,4 +1,5 @@
 
+
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -12,20 +13,21 @@
         </ul>
     </div>
   </nav>
-<div class="container d-flex justify-content-center align-items-center vh-100">
+  
+<div class="container d-flex justify-content-center align-items-center">
     <div class="row w-100 justify-content-center">
         <div class="col-md-8">
             <div class="well-block">
                 <div class="well-title">
                     <h2>Login</h2>
                 </div>
-                <form  class="needs-validation"[formGroup]="login">
+                <form  class="needs-validation"[formGroup]="login" (ngSubmit)="onSubmit()">
                     <!-- Form start -->
                         <!-- Text input-->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label" for="email">Username*</label>
-                                <input id="email" formControlName="email" type="text" placeholder="E-Mail" class="form-control input-md">
+                                <input id="email" formControlName="email" type="email" placeholder="E-Mail" class="form-control input-md">
                                 <div Class="text-danger" *ngIf="login.controls['email'].invalid && (login.controls['email'].touched||login.controls['email'].dirty||isFormSubmitted)">
                                     <span *ngIf="login.controls['email'].errors?.['required']">Username is Required</span>
                                     <span *ngIf="login.controls['email'].errors?.['email']">This is not proper email</span>
@@ -35,17 +37,29 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label" for="password">Password*</label>
-                                <input id="email" formControlName="password" type="password" placeholder="Password" class="form-control input-md">
+                                <input id="password"formControlName="password" type="password" placeholder="Password" class="form-control input-md">
                                 <div Class="text-danger" *ngIf="login.controls['password'].invalid && (login.controls['password'].touched||login.controls['password'].dirty||isFormSubmitted)">
                                     <span *ngIf="login.controls['password'].errors?.['required']">Password is required</span>
-                                    <span *ngIf="login.controls['password'].errors?.['password']">This is not proper email</span>
+                                    <!-- <span *ngIf="login.controls['password'].errors?.['pattern']">
+                                        Password must be at least 8 characters long, contain one uppercase letter, 
+                                        one lowercase letter,one number, and one special character
+                                    </span> -->
                                 </div>
                             </div>
                         </div>
+                        <!-- <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="role">Option</label>
+                                <select id="role" Name="role" class="form-control">
+                                    <option value="patient">Patient</option>
+                                    <option value="Dcotor">Doctor</option>
+                                </select>
+                            </div>
+                        </div> -->
                         <!-- Button -->
                         <div class="col-md-12 mt-2">
                             <div class="form-group">
-                                <button type="button" (click)="onSubmit()">Login</button>
+                                <button type="submit">Login</button>
                             </div>
                         </div>
                      </form>

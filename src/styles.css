@@ -9,12 +9,46 @@ a{
     padding: 0 10px;
     color: black;
 }
-body{
-    font-family: "Montserrat", sans-serif;
-}
 .app-footer{
     position:fixed;
     bottom: 0;
     width: 100%;
     text-align: center;
 }
+
+
+body{
+    font-family: var(--primary-font);
+    /* font-size: 100%; */
+    font-weight:400;
+}
+:root{
+    --primary-color:#A82C48;
+    --secondry-color:#43121d;
+    --third-color:#f98167;
+    --white-color:#fff;
+    --text-color:#999;
+    --black-color:#000;
+    --primary-font:'Roboto','sans-sarif';
+    --bs-body-color: #212529;
+    --secondry-font:'Quicksand','sans-sarif';
+    --blue-color:3966a7ed; 
+}
+:after,
+*:before{
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+        margin: 0px;
+        padding: 0px;
+}
+
+html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--primary-font);
+    /* font-size: 100%; */
+    font-weight: 400;
+  }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

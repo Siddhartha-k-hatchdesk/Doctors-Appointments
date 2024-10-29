@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+*,
+*:after,
+*:before{
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+        margin: 0px;
+        padding: 0px;
+}
+
+/* ///////// */
+
+:root{
+    --primary-color:#A82C48;
+    --secondry-color:#43121d;
+    --third-color:#f98167;
+    --white-color:#fff;
+    --text-color:#999;
+    --black-color:#000;
+    --primary-font:'Roboto','sans-sarif';
+    --bs-body-color: #212529;
+    --secondry-font:'Quicksand','sans-sarif';
+    --blue-color:3966a7ed; 
+}
+html{
+    scroll-behavior: smooth;
+}
+body{
+    font-family: var(--primary-font);
+    /* font-size: 100%; */
+    font-weight:400;
+}
+
+/*  */
+.bread-form-step{
+    width: 100%;
+    height: 40px;
+    border: 1px solid black;
+    display: flex;
+}
+
+.bread-form-step-line{
+    width: 15%;
+    height: 2px;
+    border-bottom:1px solid orangered ;
+    margin-top: 20px;
+    margin-left: 15px;
+display: none;
+    
+}
+.bread-form-step-circle{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    position: relative;
+    top: -10px;
+    z-index: 1;
+    margin: auto;
+    background-color: orangered;
+    text-align: center;
+    color: white;
+    
+}
+.active-on{
+    display: block;
+}
+.btn-success{
+    width: 120px !important;
+}
+
+/*  */
+/* Appoinntment-step-card */
+
+.app-card-box{
+    width: 100%;
+    height: 270px;
+        border: 1px solid rgb(231, 229, 229);
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+
+    transition: all 0.3s;
+}
+.app-card-box.selected {
+    border-color: green;
+  }
+  
+  .btn[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+.app-card-box:hover {
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+  transform: scale(1.05);
+}
+.app-icon-circle{
+    width: 120px;
+    height: 120px;
+    /* border: 1px solid black; */
+    border-radius: 50%;
+    margin: auto;
+    margin-top: 30px;
+    
+  /* background-color: #f0bfb4; */
+  /* border: 1px solid black; */
+
+}
+.app-card-box:hover .app-icon-circle{
+    background-color: #f0bfb4;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+    transform: scale(1.01);
+}
+
+.app-box-para{
+    position: relative;
+   top: 15px;
+   left:5px;
+   text-align: center;
+}
+.app-icon-circle i{
+    font-size: 60px;
+    margin-left: 30px;
+    margin-top: 15px;
+    font-weight: 100;
+    color: rgba(207, 27, 14, 0.548);
+}
+.app-icon-circle p{
+    line-height: 0px;
+    text-align: center;
+    font-size: 15px;
+    color: rgba(207, 27, 14, 0.548);
+
+ 
+}
+.appointment-price-1{
+    margin: auto;
+    text-align: center;
+    align-items: center;
+    margin-top: 30px;
+    border-top:2px solid rgb(126, 125, 125) ;
+    width: 90%;
+    padding-top: 10px;
+}
+.appointment-price-2{
+    margin: auto;
+    text-align: center;
+    align-items: center;
+    margin-top: 30px;
+    border-top:2px solid rgb(126, 125, 125) ;
+    width: 90%;
+    padding-top: 10px;
+}
+.appointment-price-3{
+    margin: auto;
+    text-align: center;
+    align-items: center;
+    margin-top: 30px;
+    border-top:2px solid rgb(126, 125, 125) ;
+    width: 90%;
+    padding-top: 10px;
+}
+.appointment-price-4{
+    margin: auto;
+    text-align: center;
+    align-items: center;
+    margin-top: 30px;
+    border-top:2px solid rgb(126, 125, 125) ;
+    width: 90%;
+    padding-top: 10px;
+}
+.doctor-fee{
+    padding-top: 15px;
+}
+/* */
