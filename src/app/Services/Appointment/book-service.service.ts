@@ -130,4 +130,7 @@ export class BookServiceService {
     return this.filteredDoctors;
   }
    
+  getNotifications(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.url}/notifications/${userId}`);
+}
  }

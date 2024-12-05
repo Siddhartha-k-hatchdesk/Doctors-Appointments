@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { RegisterServiceService } from '../Services/Register/register-service.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedDataServiceService } from '../Services/sevices/shared-data-service.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 
 @Component({
@@ -14,14 +16,14 @@ export class UserdetailformComponent {
   isFormSubmitted:boolean=false;
 errorMessage: string='';//varible to store error message
 
-  constructor(private sharedservice:SharedDataServiceService,private registerService:RegisterServiceService){
+  constructor(private sharedservice:SharedDataServiceService,private registerService:RegisterServiceService,private toastr:ToastrService){
 
     this.register = new FormGroup({
       name : new FormControl("",[Validators.required]),
       email : new FormControl("",[Validators.required,Validators.email]),
       gender:new FormControl("Male"),
       dateOfBirth: new FormControl(""),
-      phoneNumber: new FormControl("",[
+      phoneNumber: new FormControl("",[ 
         Validators.required,
         Validators.pattern("^[0-9]{10}$")
       ]),
@@ -47,6 +49,8 @@ errorMessage: string='';//varible to store error message
         dateofbirth:formValue.dateOfBirth,
         preferreddate: this.sharedservice.getSelectedDate(),
         preferredtime: this.sharedservice.getSelectedTime(),
+        Doctor: [this.sharedservice.getDoctorId()],  // Include the doctor ID(s)
+        Specialization: [this.sharedservice.getSpecialistId()] // Include the specialization ID(s)
         // Include any other fields that are part of BookingDTO
       };
       
@@ -54,7 +58,7 @@ errorMessage: string='';//varible to store error message
 
       this.sharedservice.userbooking(finalDetails).subscribe({
         next: (response) => {
-          alert('Registration successful');
+          this.toastr.success('Registration successful');
           this.register.reset();
           this.isFormSubmitted = false;
           this.register.patchValue({ gender: 'Male' });
@@ -63,9 +67,9 @@ errorMessage: string='';//varible to store error message
         error: (error) => {
           this.isFormSubmitted = false; // Reset submit state on error
           if (error.status === 409) {
-            alert('A user with this email already exists.');
+            this.toastr.info('A user with this email already exists.');
           } else {
-            alert('Registration failed. Please try again.');
+            this.toastr.error('Registration failed. Please try again.');
           }
         }
       });

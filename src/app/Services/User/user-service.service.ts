@@ -1,11 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { delay, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserServiceService {
+  getLocations() {
+    throw new Error('Method not implemented.');
+  }
   private url="https://localhost:7009/users";
   private username:string | null=null;
 
@@ -28,6 +31,12 @@ export class UserServiceService {
   getDoctors():Observable<any[]>{
     return this.http.get<any[]>(`${this.url}/doctors`);
   }
+  getDoctorsByLocation(locationId?: number): Observable<any> {
+    return this.http.get<any[]>(`${this.url}/doctorsByLocation?locationId=${locationId}`).pipe(
+      tap((response: any) => console.log("Filtered doctors response:", response))
+    );
+  }
+  
   getDoctorName(): string {
     const doctorName=localStorage.getItem('doctorName') || '';
     console.log('Retrieved doctorName:', doctorName); // Add log to check the value
@@ -36,6 +45,28 @@ export class UserServiceService {
   getSpecializations(): Observable<any> {
     return this.http.get<any>(`${this.url}/specializations`);
   }
+  getDoctorsBySpecialization(specializationId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.url}/getDoctorsBySpecialization?specializationId=${specializationId}`)
+    .pipe(
+      delay(2000),
+    );
+  }
+  getDoctorsByLocationAndSpecialization(locationId?: number, specializationId?: number): Observable<any[]> {
+    let queryParams = '';
+
+    if (locationId !== undefined) {
+        queryParams += `locationId=${locationId}`;
+    }
+    
+    if (specializationId !== undefined) {
+        // Add '&' if there is already a query parameter
+        queryParams += (queryParams ? '&' : '') + `specializationId=${specializationId}`;
+    }
+
+    return this.http.get<any[]>(`${this.url}/doctorsbySpecalizationAndLocation?${queryParams}`);
+}
+
+  
    
   getAppointments(doctorId?: number, specialistId?: number): Observable<any[]> {
     let params = new HttpParams();
@@ -66,5 +97,7 @@ getLocation(searchTerm: string): Observable<any> {
 // getDoctorsBySearch(searchTerm: string): Observable<any[]> {
 //   return this.http.get<any[]>(`${this.url}/doctors/search`, { params: { searchTerm } });
 // }
-
+getuserdetailsbyId(id:number){
+  return this.http.get<any>(`${this.url}/userdeatils/${id}`);
+}
 }

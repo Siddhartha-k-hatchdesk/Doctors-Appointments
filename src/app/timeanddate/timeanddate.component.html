@@ -1,144 +1,77 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-<!-- bootstrap icon -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-   <!--  -->
-<!-- fontawsome cdn -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-<!-- owl carosal -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
-<!-- /////// -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
- <!--  -->
-<title>Time and date</title>
-  </head>
-  <body>
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <!-- fontawsome  link -->
-    <!--  -->
-  <!-- slick slider -->
-
-  <section class="time-date-section">
-    <div class="container-fluid timeline-container mt-3">
-      <div class="row">
-        <div class="col-12 col-sm-10 offset-sm-1">
+<section class="time-date-section">
+  <div class="container-fluid timeline-container mt-3">
+    <div class="row">
+      <div class="col-sm-1 d-none d-sm-block">
+        <div class="row">
+          <div class="col-12 prev-btn">
+            <span class="fa fa-angle-left"></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-10">
+        <div>
           <div class="row timeline-list">
-            <div *ngFor="let date of availableDates" class="col-3 col-sm-2 col-lg-1 timeline-item">
-              <a href="#" class="timeline-date"
-                 (click)="selectDate($event, date)"
-                 [class.selected]="date.fullDate === selectedDate">
-                <span class="d-block"><strong>{{ date.day }}</strong></span>
-                <span class="d-block">{{ date.date }}</span>
+            <div *ngFor="let item of dates" class="col-3 col-sm-2 col-lg-1 timeline-item"
+            [class.active]="item.isSelected"
+            [class.blurred]="item.day ==='Sun'"
+            (click)="item.day !=='Sun' && selectDate(item)">
+              <a class="timeline-date">
+                <span class="d-block"><strong>{{ item.day }}</strong></span>
+                <span class="d-block">{{ item.date }}</span>
               </a>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-  
-  
-  <section class="timing-slot">
-    <div class="container">
-      <div *ngIf="timeSlots.length === 0" class="row mt-5">
-        <div class="col-12">
-          <p>Today is off</p>
-        </div>
-      </div>
-      <div *ngIf="timeSlots.length > 0" class="row mt-5">
-        <div *ngFor="let slot of timeSlots" class="col-lg-1 col-sm-3 col-md-4 SLOTES">
-          <button [disabled]="isSlotBooked(slot)" class="btn btn-primary"
-                  [class.booked]="isSlotBooked(slot)" (click)="selectTime(slot)"
-                  [class.selected]="selectedTime === slot">{{ slot }}
-          </button>
+      <div class="col-sm-1 d-none d-sm-block">
+        <div class="row">
+          <div class="col-12 next-btn">
+            <span class="fa fa-angle-right"></span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="mt-5">
-      <button type="button" class="btn btn-primary" matStepperPrevious>Prev</button>
-      <button class="btn btn-success" [disabled]="!canProceed()" matStepperNext>Next</button>
-    </div>
+  </div>
 </section>
 
+<section class="timing-slot">
+  <div class="container">
+    <!-- Morning Slots -->
+    <div class="row mt-5">
+      <div class="morning-section">
+        <p>MORNING SLOTS</p>
+      </div>
+      <div
+        *ngFor="let slot of morningSlots"
+        class="col-lg-1 col-sm-3 col-md-4 SLOTES"
+        [class.selected]="slot === selectedSlot"
+        (click)="selectSlot(slot)"
+      >
+        <span>{{ slot }}</span>
+      </div>
+    </div>
 
+    <br />
 
+    <!-- Afternoon Slots -->
+    <div class="row" *ngIf="!isSaturday">
+      <div class="noon-section">
+        <p>AFTERNOON SLOTS</p>
+      </div>
+      <div
+        *ngFor="let slot of afternoonSlots"
+        class="col-lg-1 col-sm-3 col-md-4 SLOTES"
+        [class.selected]="slot === selectedSlot"
+        (click)="selectSlot(slot)"
+      >
+        <span>{{ slot }}</span>
+      </div>
+    </div>
 
-
-
-
-
-
-
-
-
-
-
-<!--  -->
-    <!-- owl carosal -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
-<!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
- <!--  -->
-<!-- javascript -->
-<script>
-//   $('.owl-carousel').owlCarousel({
-//     loop:true,
-//     margin:10,
-//     nav:true,
-//     responsive:{
-//         0:{
-//             items:1
-//         },
-//         600:{
-//             items:8
-//         },
-//         1000:{
-//             items:12
-//         }
-//     }
-// })
-
-
-// BBC/Sport/football/Scores&Fixtures
-$(document).ready(function() {
-  // Timeline date picker slider scroller
-  var move = "255px";
-  var activeLeftPosition =
-    $("div.active").val() !== undefined
-      ? (activeLeftPosition = $("div.active").position().left)
-      : (activeLeftPosition = 0);
-  var activeWidth = $("div.active").width();
-  var listWidth = $(".timeline-list").width();
-  var center = activeLeftPosition + activeWidth / 2 - listWidth / 2;
-
-  // on page load, center active div
-  $(".timeline-list").animate({ scrollLeft: "+=" + center }, "slow");
-
-  $("div.active")
-    .next("div.timeline-item")
-    .css("border-left-width", "0");
-
-  $(".prev-btn").click(function() {
-    $(".timeline-list").animate({ scrollLeft: "-=" + move });
-  });
-
-  $(".next-btn").click(function() {
-    $(".timeline-list").animate({ scrollLeft: "+=" + move });
-  });
-});
-
- </script>
- <!--  -->
-  </body>
-</html>
-  
+    <!-- Buttons -->
+    <div class="mt-5">
+      <button type="button" class="btn btn-primary" matStepperPrevious>Prev</button>
+      <button type="button" class="btn btn-success ms-3" matStepperNext [disabled]="!isNextEnabled()">Next</button>
+    </div>
+  </div>
+</section>

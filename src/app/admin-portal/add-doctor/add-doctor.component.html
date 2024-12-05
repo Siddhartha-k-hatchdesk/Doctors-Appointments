@@ -1,32 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Sahil Kumar">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>{{ isEditMode ? 'Edit Doctor' : 'Add Doctor' }}</title>
-
-</head>
-<body>
-  <h1>{{ isEditMode ? 'Edit Doctor' : 'Add Doctor' }}</h1>
-<form [formGroup]="addDoctorForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="Name" class="form-control" id="name" formControlName="name" placeholder="Enter name">
-      </div>
-    <div class="form-group">
-      <label for="email">Email address</label>
-      <input type="email" class="form-control" id="email1" formControlName="email" placeholder="Enter email">
-    </div>
-    <div class="form-group">
-      <label for="specialization">Specialization</label>
-      <select class="form-control" id="specialization" formControlName="specialization">
-        <option *ngFor="let specialization of specializations" [value]="specialization.id">
-          {{ specialization.specializationName }}
-        </option>
-      </select>
-    </div>
-    <button type="submit" class="btn btn-primary">{{isEditMode?'Submit':'Submit'}}</button>
-  </form>
-  </body>
-  </html>
   
+  
+</head>
+
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-4 mt-5 bg-light rounded">
+        <h1 class="text-center font-weight-bold text-primary">{{ isEditMode ? 'Edit Doctor' : 'Add Doctor' }}</h1>
+        <hr class="bg-light">
+        <form [formGroup]="addDoctorForm" (ngSubmit)="onSubmit()" id="form-box" class="p-2">
+          <div class="form-group">
+            <label for="name" class="font-weight-bold">Name</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+              </div>
+              <input type="text" id="name" class="form-control" formControlName="name" placeholder="Enter your name" required>
+            </div>
+            <div *ngIf="addDoctorForm.get('name')?.touched && addDoctorForm.get('name')?.invalid" class="text-danger">
+              Name is required.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="font-weight-bold">Email</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+              </div>
+              <input type="email" id="email" class="form-control" formControlName="email" placeholder="Enter your email" required>
+            </div>
+            <div *ngIf="addDoctorForm.get('email')?.touched && addDoctorForm.get('email')?.invalid" class="text-danger">
+              <div *ngIf="addDoctorForm.get('email')?.errors?.['required']">Email is required.</div>
+              <div *ngIf="addDoctorForm.get('email')?.errors?.['email']">Invalid email address.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="specialization" class="font-weight-bold">Specialization</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+              </div>
+              <select 
+                id="specialization" 
+                class="form-control" 
+                formControlName="specialization" 
+                [ngClass]="{ 'text-muted': addDoctorForm.get('specialization')?.value === '' }">
+                <option value="" disabled selected>Choose Specialization</option>
+                <option *ngFor="let specialization of specializations" [value]="specialization.id">
+                  {{ specialization.specializationName }}
+                </option>
+              </select>
+            </div>
+            <div *ngIf="addDoctorForm.get('specialization')?.touched && addDoctorForm.get('specialization')?.invalid" class="text-danger">
+              Specialization is required.
+            </div>
+          </div>
+          
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">
+              {{ isEditMode ? 'Submit' : 'Submit' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 <button class="btn btn-secondary" routerLink="/admin-portal/add-doctor"> Add Doctor</button>
-<table class="table">
+<table class="table table-striped mt-2">
     <thead>
       <tr>
         <th scope="col">S.No</th>
@@ -16,9 +16,33 @@
         <td>{{Doctor.email}}</td>
         <td>{{Doctor.specialization}}</td>
         <td>
-            <button (click)="editDoctor(Doctor.id)"> Edit</button>
-            <button (click)="deleteDoctor(Doctor.id)">Delete</button>
+          <div style="display: flex; gap: 10px;">
+            <!-- Edit Button with Tooltip -->
+            <button
+              class="btn btn-success btn-sm rounded-0"
+              type="button"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Edit"
+              (click)="editDoctor(Doctor.id)"
+            >Edit
+              <i class="fa fa-edit"></i>
+            </button>
+        
+            <!-- Delete Button with Tooltip -->
+            <button
+              class="btn btn-danger btn-sm rounded-0"
+              type="button"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Delete"
+              (click)="deleteDoctor(Doctor.id)"
+            >Delete
+              <i class="fa fa-trash"></i>
+            </button>
+          </div>
         </td>
+        
       </tr>
       
     </tbody>

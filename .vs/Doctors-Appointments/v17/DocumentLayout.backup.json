@@ -52,7 +52,7 @@
               "RelativeDocumentMoniker": "src\\app\\header\\header.component.html",
               "ToolTip": "F:\\ANGULAR Workspace\\Doctors-Appointments\\src\\app\\header\\header.component.html",
               "RelativeToolTip": "src\\app\\header\\header.component.html",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
               "WhenOpened": "2024-08-28T06:13:03.129Z",
               "EditorCaption": ""
@@ -67,8 +67,7 @@
               "RelativeToolTip": "src\\app\\header\\header.component.css",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-08-28T06:13:01.702Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-28T06:13:01.702Z"
             },
             {
               "$type": "Document",
@@ -80,8 +79,7 @@
               "RelativeToolTip": "src\\app\\footer\\footer.component.css",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-08-28T06:12:51.051Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-28T06:12:51.051Z"
             },
             {
               "$type": "Document",
@@ -93,8 +91,7 @@
               "RelativeToolTip": "src\\app\\footer\\footer.component.html",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-08-28T06:12:46.411Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-28T06:12:46.411Z"
             },
             {
               "$type": "Document",
@@ -106,8 +103,7 @@
               "RelativeToolTip": "src\\index.html",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-08-28T06:12:21.231Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-28T06:12:21.231Z"
             }
           ]
         }

@@ -1,101 +1,96 @@
-
-<!-- <nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img src="assets/Bootstrap_logo.svg.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
-        Appointment
-      </a>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="/">Home</a>
-        </li>
-        </ul>
-    </div>
-  </nav> -->
-<div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="row w-100 justify-content-center">
-        <div class="col-md-10">
-            <div class="well-block">
-                <div class="well-title">
-                    <h2>Register</h2>
-                </div>
-                <form  class="needs-validation"[formGroup]="register" (ngSubmit)="onSubmit()">
-                    <!-- Form start -->
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label" for="name">Name*</label>
-                                <input id="name" formControlName="name" type="text" placeholder="Name" class="form-control input-md">
-                               <div Class="text-danger" *ngIf="register.controls['name'].invalid && (register.controls['name'].touched||register.controls['name'].dirty||isFormSubmitted)">
-                                <span *ngIf="register.controls['name'].errors?.['required']">Name is Required</span>
-                               </div>
-                            </div>
-                        </div>
-                        <!-- Text input-->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label" for="email">Email*</label>
-                                <input id="email" formControlName="email" type="text" placeholder="E-Mail" class="form-control input-md">
-                                <div Class="text-danger" *ngIf="register.controls['email'].invalid && (register.controls['email'].touched||register.controls['email'].dirty||isFormSubmitted)">
-                                    <span *ngIf="register.controls['email'].errors?.['required']">Email is Required</span>
-                                    <span *ngIf="register.controls['email'].errors?.['email']">This is not proper email</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label" for="password">Password*</label>
-                                <input id="password" formControlName="password" type="password" placeholder="Password" class="form-control input-md">
-                                <div Class="text-danger" *ngIf="register.controls['password'].invalid && (register.controls['password'].touched||register.controls['password'].dirty||isFormSubmitted)">
-                                    <span *ngIf="register.controls['password'].errors?.['required']">Password is required</span>
-                                    <span *ngIf="register.controls['password'].errors?.['pattern']">
-                                        Password must be at least 8 characters long, contain one uppercase letter, 
-                                        one lowercase letter,one number, and one special character
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label" for="gender">Gender</label>
-                                <select id="gender" formControlName="gender" class="form-control">
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Other">Other</option>  
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label" for="phoneNumber">Phone Number</label>
-                                <input id="phoneNumber" formControlName="phoneNumber" type="text" placeholder="Phone Number" class="form-control input-md">
-                            <div class="text-danger" *ngIf="register.controls['phoneNumber'].invalid && (register.controls['phoneNumber'].touched||register.controls['phoneNumber'].dirty||isFormSubmitted)">
-                                <span *ngIf="register.controls['phoneNumber'].errors?.['required']">Phone Number is Required</span>
-                                <span *ngIf="register.controls['phoneNumber'].errors?.['pattern']">Phone number must be exactly 10 digits</span>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label" for="dateOfBirth">date Of birth</label>
-                                <input id="dateOfBirth" formControlName="dateOfBirth" type="date" placeholder="Date of birth" class="form-control input-md">
-                            </div>
-                        </div>
-                        
-                        <!-- Button -->
-                        <div class="mt-5">
-                            <button type="button" class="btn btn-primary" matStepperPrevious>Prev</button>
-                            <!-- <button class="btn btn-success" (click)="onSubmit()" matStepperNext>Next</button> -->
-                            <button  class="btn btn-success" type="submit" [disabled]="register.invalid || isFormSubmitted" matStepperNext>Submit</button>
-
-                          </div>
+<!-- New Form -->
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row justify-content-center align-items-center h-100">
+        <div class="col-12 col-lg-9 col-xl-7">
+          <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+            <div class="card-body p-4 p-md-5">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
+              <form [formGroup]="register" (ngSubmit)="onSubmit()" class="needs-validation">
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                        <!-- <label class="form-label" for="name" >Name*</label> -->
+                      <input id="name" formControlName="name" type="text" class="form-control form-control-lg" placeholder="Name"/>
+                      
+                      <div class="text-danger" *ngIf="register.controls['name'].invalid && (register.controls['name'].touched || register.controls['name'].dirty || isFormSubmitted)">
+                        <span *ngIf="register.controls['name'].errors?.['required']">Name is Required</span>
+                      </div>
                     </div>
-                </form>
-              
-             
-                <!-- form end -->
-</div>
-</div>
-</div>
-</div>
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                        <!-- <label class="form-label" for="email">Email*</label> -->
+                      <input id="email" formControlName="email" type="text" class="form-control form-control-lg" placeholder="Email" />
+                     
+                      <div class="text-danger" *ngIf="register.controls['email'].invalid && (register.controls['email'].touched || register.controls['email'].dirty || isFormSubmitted)">
+                        <span *ngIf="register.controls['email'].errors?.['required']">Email is Required</span>
+                        <span *ngIf="register.controls['email'].errors?.['email']">This is not a proper email</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                        <!-- <label class="form-label" for="password">Password*</label> -->
+                      <input id="password" formControlName="password" type="password" class="form-control form-control-lg" placeholder="Password" />
+                      
+                      <div class="text-danger" *ngIf="register.controls['password'].invalid && (register.controls['password'].touched || register.controls['password'].dirty || isFormSubmitted)">
+                        <span *ngIf="register.controls['password'].errors?.['required']">Password is required</span>
+                        <span *ngIf="register.controls['password'].errors?.['pattern']">
+                          Password must be at least 8 characters long, contain one uppercase letter, one lowercase letter, one number, and one special character.
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                        <!-- <label class="form-label" for="gender">Gender</label> -->
+                      <select id="gender" formControlName="gender" class="form-control form-control-lg" >
+                        <option value="" disabled selected>Choose Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                      </select>
+                     
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                        <!-- <label class="form-label" for="phoneNumber">Phone Number</label> -->
+                      <input id="phoneNumber" formControlName="phoneNumber" type="text" class="form-control form-control-lg" placeholder="Phone Number"/>
+                      
+                      <div class="text-danger" *ngIf="register.controls['phoneNumber'].invalid && (register.controls['phoneNumber'].touched || register.controls['phoneNumber'].dirty || isFormSubmitted)">
+                        <span *ngIf="register.controls['phoneNumber'].errors?.['required']">Phone Number is Required</span>
+                        <span *ngIf="register.controls['phoneNumber'].errors?.['pattern']">Phone number must be exactly 10 digits</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                        <!-- <label class="form-label" for="dateOfBirth">Date of Birth</label> -->
+                      <input id="dateOfBirth" formControlName="dateOfBirth" type="date" class="form-control form-control-lg" placeholder="dateOfBirth"/>
+                      
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="mt-4 pt-2">
+                    <button type="button" class="btn btn-primary" matStepperPrevious>Prev</button>
+                  <button type="submit" class="btn btn-success ms-3" [disabled]="register.invalid || isFormSubmitted">Submit</button>
+                  <button type="button" class="btn btn-primary ms-3" matStepperNext>Next</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
 

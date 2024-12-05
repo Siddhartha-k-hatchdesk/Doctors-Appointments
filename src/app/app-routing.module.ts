@@ -21,17 +21,21 @@ import { AllappointmentsComponent } from './admin-portal/allappointments/allappo
 import { SearchdoctorlistComponent } from './searchdoctorlist/searchdoctorlist.component';
 import { StepperComponent } from './stepper/stepper.component';
 import { StepperpageComponent } from './stepperpage/stepperpage.component';
+import { AppointmentinteractionComponent } from './appointmentinteraction/appointmentinteraction.component';
+import { AddSpecializationComponent } from './add-specialization/add-specialization.component';
 
 
 const routes: Routes = [
   {path:'',component:HomeComponent},//Default route
-  { path: 'book-appointment', component: BookAppointmentComponent },
+  {path: 'book-appointment', component: BookAppointmentComponent },
   {path:'about-us', component:AboutUsComponent},
   {path:'contact-us', component:ContactUsComponent},
   {path:'register', component:RegisterComponent},
   {path:'login',component:LoginComponent},
+  {path:'admin-login',component:LoginComponent},
   {path:'stepper',component:StepperComponent},
   {path:'stepperpage',component:StepperpageComponent},
+  {path:'appointmentinteracation', component:AppointmentinteractionComponent},
   
   {path:'doctor-portal',
    canActivate:[authGuard],
@@ -67,6 +71,7 @@ const routes: Routes = [
     {path:'add-doctor',component:AddDoctorComponent},
     {path:'add-doctor/:id',component:AddDoctorComponent},
     {path:'doctor-list',component:DoctorListComponent},
+    {path:'add-specialization',component:AddSpecializationComponent}
    
   ]},
   {path:'searchdoctor',component:SearchdoctorlistComponent},

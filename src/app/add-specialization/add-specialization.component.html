@@ -1,0 +1,78 @@
+<button class="btn btn-secondary" (click)="openModal()">Add Specialization</button>
+<!-- Modal -->
+<div *ngIf="isModalOpen" class="modal">
+  <div class="modal-content">
+    <h3>{{ editingId ? 'Edit Specialization' : 'Add Specialization' }}</h3>
+    <label for="specializationName">Specialization Name:</label>
+    <input
+      type="text"
+      id="specializationName"
+      [(ngModel)]="newSpecialization.specializationName"
+      placeholder="Enter specialization"
+    />
+    <div class="modal-actions">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        (click)="addSpecialization()"
+      >
+        {{ editingId ? 'Update' : 'Add' }}
+      </button>
+      <button class="btn btn-secondary" (click)="closeModal()" style="margin-left: 10px;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<table class="table table-striped mt-2">
+  <thead>
+    <tr>
+      <th scope="col">S.No</th>
+      <th scope="col">Name</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let specialization of specializations; let i = index">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ specialization.specializationName }}</td>
+      <!-- <td>
+        <div style="display: flex;gap:10px">
+        <button class="btn btn-primary me-2" (click)="openModal(specialization)">
+          Edit
+        </button>
+        <button class="btn btn-danger" (click)="deletespecialization(specialization.id)">
+          Delete
+        </button>
+        </div>
+      </td> -->
+      <td>
+        <div style="display: flex; gap: 10px;">
+          <!-- Edit Button with Tooltip -->
+          <button
+            class="btn btn-success btn-sm rounded-0"
+            type="button"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Edit"
+            (click)="openModal(specialization)"
+          >Edit
+            <i class="fa fa-edit"></i>
+          </button>
+      
+          <!-- Delete Button with Tooltip -->
+          <button
+            class="btn btn-danger btn-sm rounded-0"
+            type="button"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="Delete"
+            (click)="deletespecialization(specialization.id)"
+          >Delete
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+      </td>
+      
+    </tr>
+  </tbody>
+</table>

@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { MenuLinkComponent } from './header/menu-link/menu-link.component';
 import { FooterComponent } from './footer/footer.component';
-import { PreFooterComponent } from './pre-footer/pre-footer.component';
+
 import { PictureBodyComponent } from './picture-body/picture-body.component';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
 import { OtherComponent } from './other/other.component';
@@ -37,7 +37,6 @@ import { DoctorListComponent } from './admin-portal/Doctor-List/doctor-list/doct
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AllappointmentsComponent } from './admin-portal/allappointments/allappointments.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { UserBookingformComponent } from './user-portal/user-bookingform/user-bookingform.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SearchdoctorlistComponent } from './searchdoctorlist/searchdoctorlist.component';
 import { StepperComponent } from './stepper/stepper.component';
@@ -46,6 +45,10 @@ import { AppointmentinteractionComponent } from './appointmentinteraction/appoin
 import { StepperpageComponent } from './stepperpage/stepperpage.component';
 import { UserdetailformComponent } from './userdetailform/userdetailform.component';
 import { UserReviewFormComponent } from './user-review-form/user-review-form.component';
+import { PreFooterComponent } from './pre-footer/pre-footer.component';
+import { AddSpecializationComponent } from './add-specialization/add-specialization.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -55,7 +58,6 @@ import { UserReviewFormComponent } from './user-review-form/user-review-form.com
     HeaderComponent,
     MenuLinkComponent,
     FooterComponent,
-    PreFooterComponent,
     PictureBodyComponent,
     OtherComponent,
     HomeComponent,
@@ -76,7 +78,6 @@ import { UserReviewFormComponent } from './user-review-form/user-review-form.com
     AddDoctorComponent,
     DoctorListComponent,
     AllappointmentsComponent,
-    UserBookingformComponent,
     SearchdoctorlistComponent,
     StepperComponent,
     TimeanddateComponent,
@@ -84,6 +85,9 @@ import { UserReviewFormComponent } from './user-review-form/user-review-form.com
     StepperpageComponent,
     UserdetailformComponent,
     UserReviewFormComponent,
+    PreFooterComponent,
+    AddSpecializationComponent,
+    
     ],
 
   imports: [
@@ -96,7 +100,13 @@ import { UserReviewFormComponent } from './user-review-form/user-review-form.com
     NgSelectModule,
     MatDialogModule,
     CdkStepperModule,
-    MatStepperModule
+    MatStepperModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({   // Global toastr settings
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
     ],
     exports:[CdkStepperModule,
       MatStepperModule

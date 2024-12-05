@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { retry } from 'rxjs';
 import { UserServiceService } from '../../Services/User/user-service.service';
 import { DoctorServiceService } from '../../Services/Doctor/doctor-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -16,7 +16,7 @@ addDoctorForm: FormGroup;
 isEditMode: boolean = false; 
 doctorId: number | null = null;
 specializations: any[] = [];
-  constructor(private doctorservice:DoctorServiceService,private userService:UserServiceService, private fb: FormBuilder,private route:ActivatedRoute,private router:Router) {
+  constructor(private doctorservice:DoctorServiceService,private userService:UserServiceService, private fb: FormBuilder,private route:ActivatedRoute,private router:Router,private toastr:ToastrService) {
     this.addDoctorForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -36,28 +36,45 @@ specializations: any[] = [];
     });
   }
   loadSpecializations(): void {
-    this.userService.getSpecializations().subscribe((data)=> {
+    this.userService.getSpecializations().subscribe(data => {
       this.specializations = data;
-    },
-    (error)=>{
-      console.error("error loading specialization",error);
-    }
-  );
-  }
-  loadDoctorData(id:number):void{
-    this.doctorservice.getDoctorById(id).subscribe(doctor=>{
-    
-      this.addDoctorForm.patchValue({
-        name:doctor.name,
-        email:doctor.email,
-        specialization: doctor.specializationId
-      });
+      console.log('Specializations loaded:', this.specializations);
+  
+      if (this.isEditMode && this.doctorId !== null) {
+        this.loadDoctorData(this.doctorId);
+      }
     });
+  }
+  
+  loadDoctorData(id: number): void {
+    this.doctorservice.getDoctorById(id).subscribe(
+      doctor => {
+        console.log('Doctor fetched:', doctor);
+        if (doctor) {
+          const matchedSpecialization = this.specializations.find(
+            spec => spec.specializationName === doctor.specialization
+          );
+          console.log('Matched Specialization:', matchedSpecialization);
+          // Patch the form with doctor data
+          this.addDoctorForm.patchValue({
+            name: doctor.name,
+            email: doctor.email,
+            specialization: matchedSpecialization ? matchedSpecialization.id : '' // Use ID if found
+          });
+        } else {
+          console.error('Doctor not found!');
+        }
+      },
+      error => {
+        console.error('Error loading doctor data', error);
+      }
+    );
   }
 
   onSubmit() {
     if (this.addDoctorForm.invalid) {
-      alert('form is invalid');
+      // alert('Please fill all required fields correctly.');
+      this.addDoctorForm.markAllAsTouched(); // Highlights all invalid fields
       return;
     }
     const doctor = {
@@ -67,22 +84,22 @@ specializations: any[] = [];
     };
       if(this.isEditMode && this.doctorId !==null){
         this.doctorservice.updateDoctor(this.doctorId,doctor).subscribe(response=>{
-          alert('Doctor update successfully');
+          this.toastr.success('Doctor update successfully');
           this.router.navigate(['/admin-portal/doctor-list']);
         
         },error=>{
-          alert('error updating doctor');
+          this.toastr.warning('error updating doctor');
         });
       }else{
 
       this.doctorservice.addDoctor(doctor).subscribe({next:(response) => {
-        alert('Doctor added successfully');
+        this.toastr.success('Doctor added successfully');
         this.router.navigate(['/admin-portal/doctor-list']);
         // Handle success
         this.addDoctorForm.reset();
       },
       error:(error) => {
-        alert('Error adding doctor');
+        this.toastr.warning('Error adding doctor');
       }
         // Handle error
       });

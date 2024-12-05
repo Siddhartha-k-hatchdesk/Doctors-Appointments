@@ -58,6 +58,10 @@ export class AuthService {
       this.location.replaceState('/login');
     })
   }
+  isAdmin(): boolean {
+    const roleId = localStorage.getItem('roleId'); // Assuming roleId is stored after login
+    return roleId === '1';
+  }
   getRole(): string | null {
     return localStorage.getItem('role');
   }

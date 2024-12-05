@@ -15,6 +15,9 @@
           <li routerLinkActive="active">
                 <a routerLink="/admin-portal/allappointments">Appointments</a>
             </li>
+            <li routerLinkActive="active">
+                <a routerLink="/admin-portal/add-specialization">Specialization</a>
+            </li>
         </ul>
     </nav>
 
@@ -32,13 +35,32 @@
                     <i class="fas fa-align-justify"></i>
                 </button>
                 <p>Welcome to Admin-Portal</p>
-                <a routerLink="/login" (click)="logout()">Logout</a>
-                <div class="dropdown">
-           
-          </div>
-        </div> 
+                <div class="profile" (click)="toggleMenu()">
+                    <div class="user">
+                        <h3>{{username}}</h3>
+                    </div>
+                    <div class="img-box">
+                        <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" alt="User Image">
+                    </div>
+                </div>
+                <div class="menu" [class.active]="isMenuActive">
+                    <ul>
+                        <li><i class="fa fa-user"></i>&nbsp;Profile</li>
+                        <li><i class="fa fa-envelope"></i>&nbsp;Inbox</li>
+                        <li><i class="fa fa-cog"></i>&nbsp;Settings</li>
+                        <li (click)="logout()"><i class="fa fa-sign-out-alt"></i>&nbsp;Sign Out</li>
+                    </ul>
+                </div>
+            </div>
         </nav>
 <router-outlet></router-outlet>
     </div>
     
 </div>
+
+<!-- <button 
+type="button" 
+class="btn btn-default btn-sm" 
+(click)="logout()">
+<i class="fa fa-sign-out-alt"></i> Logout
+</button> -->

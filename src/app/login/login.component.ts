@@ -13,11 +13,11 @@ export class LoginComponent {
   login : FormGroup;
   isFormSubmitted:boolean=false;
   message: boolean=false;
-
+  isAdminLogin:boolean=false;
  
 
   constructor(private loginService:LoginServiceService,private router:Router,private userService:UserServiceService,private route:ActivatedRoute){
-       
+      this.isAdminLogin=this.route.snapshot.routeConfig?.path==='admin-login'; 
 
     this.login = new FormGroup({
       email : new FormControl("",[Validators.required,Validators.email]),
@@ -40,25 +40,30 @@ export class LoginComponent {
         next:(response)=>{
          
           this.loginService.handleLoginResponse(response);
-
+          localStorage.setItem('roleId', response.roleId.toString()); // Save roleId
           const roleId =response.roleId;
           let returnUrl='';
           
           //determine returnurl based on roleid
-          if(roleId===1){
-            returnUrl='/admin-portal';
+          if (this.isAdminLogin) {
+            // Only admin should be able to login on `/admin-login`
+            if (roleId === 1) {
+              returnUrl = '/admin-portal';
+            } else {
+              alert('Unauthorized access. Only admins can log in here.');
+              return;
+            }
+          } else {
+            // Default login page for users/doctors
+            if (roleId === 2) {
+              returnUrl = '/doctor-portal';
+            } else if (roleId === 3) {
+              returnUrl = '/user-portal';
+            } else {
+              alert('Unauthorized access. Admins cannot log in here.');
+              return;
+            }
           }
-          else if(roleId===2){
-            returnUrl='/doctor-portal';
-          }
-          else if(roleId===3){
-            returnUrl ='/user-portal';
-          }
-          else{
-            console.log('Unknown role');
-          }
-          console.log('returnUrl',returnUrl);
-          console.log('roleId',roleId);
 
           if(returnUrl){
           this.router.navigateByUrl(returnUrl);

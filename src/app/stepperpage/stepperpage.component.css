@@ -36,18 +36,27 @@ display: none;
 .btn-success{
     width: 120px !important;
 }
-.mat-horizontal-stepper-header {
+/* ::ng-deep .mat-horizontal-stepper-header-container {
+    border: 1px solid;
+    margin: 20px;
     justify-content: space-between;
- }
+  } */
+/* .mat-horizontal-stepper-header {
+    justify-content: space-between;
+   
+ } */
  
  .mat-step-label {
     display: flex;
     justify-content: center;
     align-items: center;
  }
+.mat-step-icon-selected {
+    background-color: #f24a08;
+ }
  
  .mat-step-number {
-    background-color: #007bff;
+    background-color: #ff4800;
     color: white;
     border-radius: 50%;
     width: 30px;

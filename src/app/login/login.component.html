@@ -19,7 +19,13 @@
         <div class="col-md-8">
             <div class="well-block">
                 <div class="well-title">
-                    <h2>Login</h2>
+                    <!-- Dynamic Heading -->
+                    <h2 *ngIf="isAdminLogin; else userDoctorLogin">
+                         Welcome To Admin Login
+                    </h2>
+                    <ng-template #userDoctorLogin>
+                       <h2 > Login</h2>
+                    </ng-template>
                 </div>
                 <form  class="needs-validation"[formGroup]="login" (ngSubmit)="onSubmit()">
                     <!-- Form start -->
@@ -47,23 +53,13 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label" for="role">Option</label>
-                                <select id="role" Name="role" class="form-control">
-                                    <option value="patient">Patient</option>
-                                    <option value="Dcotor">Doctor</option>
-                                </select>
-                            </div>
-                        </div> -->
-                        <!-- Button -->
                         <div class="col-md-12 mt-2">
                             <div class="form-group">
-                                <button type="submit">Login</button>
+                                <button class="btn btn-primary" type="submit">Login</button>
                             </div>
                         </div>
                      </form>
-                    <p>If you havn't account?<a routerLink="/register">Register</a></p>
+                    <p *ngIf="!isAdminLogin">If you havn't account?<a routerLink="/register">Register</a></p>
                      
                 <!-- form end -->
 </div>

@@ -1,4 +1,22 @@
-
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it appears on top of other content */
+  }
+  
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: #007bff; /* Customize spinner color */
+  }
+  
 
 .banner-section{
     position: relative;
@@ -127,78 +145,150 @@ color:#223a66 ;
 
 /* Styling for Search Box */
 /* Styling for Search Box and Location Box to make them the same size */
-.ng-select {
-    width: 100%; /* Make the ng-select element fill the full width */
-    height: 41px;
+/* ::ng-deep .ng-select.ng-select-single  .ng-select-container {
+    height: 48px;
+    padding-left: 0px;
+    position: relative;
+    border: none;
+  } */
+  ::ng-deep .ng-select .ng-select-container {
+    color: #333;
+    background-color: #fff;
+    border-radius: 0;
+    min-height: 48px;
+    align-items: center;
+    border: none;
+  
+  }
+  ::ng-deep .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
+    top:9px
+  }
+ 
+.search-box ng-select{
+    position: relative;
+    left: 0px;
+    border: 1px solid black;
+    /* right: 15px; */
+    /* top: 1px; */
+    width: 100%;
+    height: 50px;
     font-size: 20px;
     font-weight: 400;
-    font-family: 'Roboto', 'sans-serif';
-    border-radius: 5px;
+    font-family: 'Roboto', 'sans-sarif';
+    /* border-top-right-radius: 30px; */
+    /* border-bottom-right-radius: 30px; */
+    padding-left: 50px;
+    margin-top: 3px;
+    border: 1px solid #3966a7ed;;
+    /* border-left: none; */
+    /* border-top-left-radius: 0;
+    border-bottom-left-radius: 0; */
     box-shadow: none;
-    margin-top: 35px;
+    border-radius: 3px;
+    background-color: #fff;
 }
 
-.ng-select.ng-select-single .ng-select-container {
-    height: 50px;
-    border: 1px solid #3966a7ed;
-    border-radius: 5px;
-}
 
-.ng-select.ng-select-single .ng-select-container:focus {
-    border-color: #111212;
-}
 
-.ng-select.ng-select-multiple .ng-select-container {
-    height: 50px;
-    border: 1px solid #3966a7ed;
-    border-radius: 5px;
-}
 
-.ng-select.ng-select-multiple .ng-select-container:focus {
-    border-color: #111212;
+.search-box .ng-select:focus{
+    outline: 0;
+    box-shadow: none;
+    border-color:black;
 }
-
-/* Consistent icon styling */
-.location-icon, .Search-icon {
+.Search-icon{
     position: relative;
-    top: 35px;
-    left: 14px;
+    width: 40px;
+    padding-left: 10px;
+    padding-top: 8px; 
+     left: 0px;
+    top: 50px; 
+    /* border: 1px solid #3966a7ed;; */
+    /* width: 30px; */
+    height:46px;
+    font-size: 20px;
+    z-index: 1;
+    color: #3966a7ed;
+    margin-left: 3px;
+    border-right: none;
+    background-color: #fff;
+
+}
+
+
+::ng-deep .ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+    border-color: transparent !important; /* Remove border color */
+    box-shadow: none !important;          /* Remove box shadow */
+}
+
+
+
+.location-box ng-select{
+    position: relative;
+    
+    width: 100%;
+    height: 50px;
+    top: 15px;
+    font-size: 20px;
+    font-weight: 400;
+    font-family:'Roboto','sans-sarif';
+    padding-left: 50px;
+    border: 1px solid #3966a7ed;;
+    /* border-radius: 5px; */
+    /* border-top-left-radius: 30px; */
+    /* border-bottom-left-radius: 30px; */
+    /* border-left:none; */
+    /* border-top-right-radius:0; */
+     /* border-bottom-right-radius:0; */
+     outline: none;
+     box-shadow: none;
+     border-radius: 3px;
+     background-color: #fff;
+     /* color: royalblue !important; */
+ 
+    
+}
+
+.location-box ng-select:focus{
+outline: 0;
+box-shadow: none;   
+border-color: #111212 !important; 
+}
+/* .partition_icon{
+    position: absolute;
+    top: 30px;
+    left: 32%;
+    z-index: 1;
+    font-size: 30px;
+    
+}   */
+.location-icon{
+    position: relative;
+    width: 50px;
+    height: auto;
+    top: 55px;
+    left: 15px;
     font-size: 22px;
     z-index: 1;
     color: #3966a7ed;
+    
 }
-
-/* Ensure both boxes have the same layout and width */
-.col-md-4.col-sm-6 {
-    max-width: 100%; /* Ensure both boxes fill available space */
-    margin-bottom: 15px; /* Add margin between elements */
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 80%;
 }
-
-/* Consistent placeholder padding */
-.ng-select .ng-placeholder {
-    padding-right: 100px;
-}
-
-
-
-
-
-.text-danger {
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-
-
-
+/*  */
 .btn-submit-box button{
     position: relative;
     margin-top: 34px;
-    /* top: 50%; */
+     top: 15px; 
     border-radius: 5px;
     /* right:170px; */
     width: 40%;
-    height: 41px;
+    height: 50px;
     font-weight: 400;
     font-size: 18px;
     font-family: 'Roboto', 'sans-sarif';
@@ -214,37 +304,6 @@ color:#223a66 ;
     font-size: 19px;
 }
 
-.loading-spinner {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .spin {
-    animation: spin 2s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  .custom-dialog .mat-dialog-container {
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: none;
-    max-width: 200px;
-    text-align: center;
-    border-radius: 8px;
-  }
-  
-  .custom-dialog mat-spinner {
-    width: 50px;
-    height: 50px;
-  }
-  
-  .custom-dialog p {
-    margin-top: 16px;
-    font-size: 16px;
-    color: #555;
-  }
-
+ 
   
   
