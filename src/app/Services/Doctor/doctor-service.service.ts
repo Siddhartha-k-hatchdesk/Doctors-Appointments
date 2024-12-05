@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class DoctorServiceService {
 
   private apiUrl="https://localhost:7009/admin";
+  private url="https://localhost:7009/doctor";
 
   constructor(private http:HttpClient) { }
   addDoctor(doctorDTO:any)
@@ -35,5 +36,14 @@ getDSpecializationById(id:number){
 }
 updateSpecialization(id:number,spec:any):Observable<any>{
   return this.http.put<any>(`${this.apiUrl}/Edit-specialization/${id}`,spec);
+}
+getDoctorsById(id:number){
+  return this.http.get<any>(`${this.url}/doctors/${id}`);
+}
+getLocations(): Observable<any> {
+  return this.http.get<any>(`${this.url}/location`);
+}
+updatedoctorprofile(id:number,doctorDTO:any):Observable<any>{
+  return this.http.put<any>(`${this.url}/Edit-doctor/${id}`,doctorDTO)
 }
 }

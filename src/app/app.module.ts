@@ -49,6 +49,7 @@ import { PreFooterComponent } from './pre-footer/pre-footer.component';
 import { AddSpecializationComponent } from './add-specialization/add-specialization.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DoctorprofileComponent } from './doctor-portal/doctorprofile/doctorprofile.component';
 
 
 
@@ -87,6 +88,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     UserReviewFormComponent,
     PreFooterComponent,
     AddSpecializationComponent,
+    DoctorprofileComponent,
     
     ],
 

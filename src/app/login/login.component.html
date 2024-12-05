@@ -14,55 +14,51 @@
     </div>
   </nav>
   
-<div class="container d-flex justify-content-center align-items-center">
-    <div class="row w-100 justify-content-center">
-        <div class="col-md-8">
-            <div class="well-block">
-                <div class="well-title">
-                    <!-- Dynamic Heading -->
-                    <h2 *ngIf="isAdminLogin; else userDoctorLogin">
-                         Welcome To Admin Login
-                    </h2>
-                    <ng-template #userDoctorLogin>
-                       <h2 > Login</h2>
+  <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <div class="text-center login-title mt-5">
+                <!-- Dynamic Heading -->
+                <h2 *ngIf="isAdminLogin; else otherLogins">Admin Login</h2>
+                <ng-template #otherLogins>
+                    <h2 *ngIf="isDoctorLogin; else userLogin">Doctor Login</h2>
+                    <ng-template #userLogin>
+                    <h2>Login</h2>
                     </ng-template>
+                </ng-template>
                 </div>
-                <form  class="needs-validation"[formGroup]="login" (ngSubmit)="onSubmit()">
-                    <!-- Form start -->
-                        <!-- Text input-->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label" for="email">Username*</label>
-                                <input id="email" formControlName="email" type="email" placeholder="E-Mail" class="form-control input-md">
-                                <div Class="text-danger" *ngIf="login.controls['email'].invalid && (login.controls['email'].touched||login.controls['email'].dirty||isFormSubmitted)">
-                                    <span *ngIf="login.controls['email'].errors?.['required']">Username is Required</span>
-                                    <span *ngIf="login.controls['email'].errors?.['email']">This is not proper email</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label" for="password">Password*</label>
-                                <input id="password"formControlName="password" type="password" placeholder="Password" class="form-control input-md">
-                                <div Class="text-danger" *ngIf="login.controls['password'].invalid && (login.controls['password'].touched||login.controls['password'].dirty||isFormSubmitted)">
-                                    <span *ngIf="login.controls['password'].errors?.['required']">Password is required</span>
-                                    <!-- <span *ngIf="login.controls['password'].errors?.['pattern']">
-                                        Password must be at least 8 characters long, contain one uppercase letter, 
-                                        one lowercase letter,one number, and one special character
-                                    </span> -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mt-2">
-                            <div class="form-group">
-                                <button class="btn btn-primary" type="submit">Login</button>
-                            </div>
-                        </div>
-                     </form>
-                    <p *ngIf="!isAdminLogin">If you havn't account?<a routerLink="/register">Register</a></p>
-                     
-                <!-- form end -->
-</div>
-</div>
-</div>
+            <div class="account-wall">
+                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                    alt="">
+                <form class="form-signin needs-validation" [formGroup]="login" (ngSubmit)="onSubmit()">
+                <div>
+                    <input id="email" formControlName="email" type="email" placeholder="Email" class="form-control" required autofocus>
+                    <div Class="text-danger" *ngIf="login.controls['email'].invalid && (login.controls['email'].touched||login.controls['email'].dirty||isFormSubmitted)">
+                        <span *ngIf="login.controls['email'].errors?.['required']">Email is Required</span>
+                        <span *ngIf="login.controls['email'].errors?.['email']">This is not proper email</span>
+                    </div>
+                </div>
+                <div>
+                <div style="position: relative;">
+                    <input id="password" formControlName="password" [type]="show_button ? 'text' : 'password'" placeholder="Password"  class="form-control" required/>
+                    <button type="button"  class="show-password-button"  (click)="showPassword()" 
+                    style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); border: none; background: none;">
+                    <i class="fa" [ngClass]="show_eye ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </button>
+                </div>       
+                    <div Class="text-danger" *ngIf="login.controls['password'].invalid && (login.controls['password'].touched||login.controls['password'].dirty||isFormSubmitted)">
+                        <span *ngIf="login.controls['password'].errors?.['required']">Password is required</span>
+                        <!-- <span *ngIf="login.controls['password'].errors?.['pattern']">
+                            Password must be at least 8 characters long, contain one uppercase letter, 
+                            one lowercase letter,one number, and one special character
+                        </span> -->
+                    </div>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">
+                    Sign in</button>
+                </form>
+            </div>
+            <p class="text-center new-account" *ngIf="!isAdminLogin && !isDoctorLogin">If you havn't account?<a routerLink="/register">Register</a></p>
+        </div>
+    </div>
 </div>

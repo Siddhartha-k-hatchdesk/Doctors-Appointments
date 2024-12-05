@@ -107,7 +107,7 @@
                     <div class="dr-profile pt-3">
                       <div class="dr-profile-section">
                         <h4 class="dr-heading">{{ doctor.name }}</h4>
-                        <p class="dr-para">{{ doctor.specializationName  }}{{doctor.specialization}} | 8 year of exp</p>
+                        <p class="dr-para">{{ doctor.specializationName  }}{{doctor.specialization}} | {{doctor.experience}}</p>
                         <div class="dr-hr">
                           <hr>
                         </div>
@@ -127,7 +127,7 @@
                         <div class="dr-education">
                           <div class="dr-aducation-icon"><i class="bi bi-mortarboard-fill"></i></div>
                           <div class="dr-aducation-para">
-                            <p class="dr-aducation-para-p">MBBS,MS,DNB</p>
+                            <p class="dr-aducation-para-p">{{doctor.education}}</p>
                           </div>
                         </div>
                       </div>

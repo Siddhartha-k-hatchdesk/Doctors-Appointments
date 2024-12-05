@@ -48,7 +48,7 @@ export class SearchdoctorlistComponent implements OnInit{
     });
   
     // Now load locations
-    this.loadLocation({term: 'Noida', items: []});
+    // this.loadLocation({term: 'Noida', items: []});
   }
 
   // getSelectedItemsDisplay(): string {

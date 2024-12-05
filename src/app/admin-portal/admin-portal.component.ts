@@ -35,14 +35,18 @@ export class AdminPortalComponent implements OnInit {
   }
   
 
-  logout(){
+  logout() {
     this.authService.logout();
-    const isAdmin = this.authService.isAdmin(); // Assuming your AuthService has a method to check if the user is admin
+    const isAdmin = this.authService.isAdmin(); 
     if (isAdmin) {
-      this.router.navigateByUrl('/admin-login');
+      this.router.navigateByUrl('/admin/login').then(() => {
+        window.history.replaceState({}, '', '/admin/login'); // Forcing URL update
+      });
     } else {
-      this.router.navigateByUrl('/login');
+      this.router.navigateByUrl('/login').then(() => {
+        window.history.replaceState({}, '', '/login'); // Forcing URL update
+      });
     }
+  }
   
-   }
 }

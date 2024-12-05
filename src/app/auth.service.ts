@@ -62,6 +62,10 @@ export class AuthService {
     const roleId = localStorage.getItem('roleId'); // Assuming roleId is stored after login
     return roleId === '1';
   }
+  isDoctor(): boolean {
+    const roleId = localStorage.getItem('roleId'); // Assuming roleId is stored after login
+    return roleId === '2';
+  }
   getRole(): string | null {
     return localStorage.getItem('role');
   }

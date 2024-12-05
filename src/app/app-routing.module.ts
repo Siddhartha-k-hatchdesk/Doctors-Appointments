@@ -23,6 +23,7 @@ import { StepperComponent } from './stepper/stepper.component';
 import { StepperpageComponent } from './stepperpage/stepperpage.component';
 import { AppointmentinteractionComponent } from './appointmentinteraction/appointmentinteraction.component';
 import { AddSpecializationComponent } from './add-specialization/add-specialization.component';
+import { DoctorprofileComponent } from './doctor-portal/doctorprofile/doctorprofile.component';
 
 
 const routes: Routes = [
@@ -32,7 +33,8 @@ const routes: Routes = [
   {path:'contact-us', component:ContactUsComponent},
   {path:'register', component:RegisterComponent},
   {path:'login',component:LoginComponent},
-  {path:'admin-login',component:LoginComponent},
+  {path:'admin/login',component:LoginComponent},
+  {path:'doctor/login',component:LoginComponent},
   {path:'stepper',component:StepperComponent},
   {path:'stepperpage',component:StepperpageComponent},
   {path:'appointmentinteracation', component:AppointmentinteractionComponent},
@@ -44,7 +46,8 @@ const routes: Routes = [
   children:[
     {path:'',redirectTo:'doctor-dashboard',pathMatch:'full'},
     {path:'doctor-dashboard',component:DoctorDashboardComponent},
-    {path:'appointments',component:AppointmentsComponent}
+    {path:'appointments',component:AppointmentsComponent},
+    {path:'doctor-profile/:id',component:DoctorprofileComponent}
   ]
   },
 

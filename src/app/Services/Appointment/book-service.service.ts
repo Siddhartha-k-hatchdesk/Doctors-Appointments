@@ -10,6 +10,7 @@ import { BookingStatus } from '../../Enums/booking-status.enum';
 export class BookServiceService {
   private filteredDoctors: any[] = [];
   url="https://localhost:7009/users";
+  Apiurl="https://localhost:7009/doctor";
   constructor(private http:HttpClient,private httpclient:HttpClient) { }
 
   bookappointment(booking: any): Observable<any> {
@@ -111,7 +112,7 @@ export class BookServiceService {
       params = params.set('doctorIds', doctorIds.join(',')); // Convert array to comma-separated string
     }
   
-    return this.http.get(`${this.url}/GetDoctorsByLocation`, { params })
+    return this.http.get(`${this.Apiurl}/GetDoctorsByLocation`, { params })
       .pipe(
         delay(2000),
         retry(2),

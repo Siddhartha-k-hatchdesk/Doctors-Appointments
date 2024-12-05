@@ -14,11 +14,16 @@ export class LoginComponent {
   isFormSubmitted:boolean=false;
   message: boolean=false;
   isAdminLogin:boolean=false;
+  isDoctorLogin:boolean=false;
+  show_button: Boolean = false;
+  show_eye: Boolean = false;
  
 
   constructor(private loginService:LoginServiceService,private router:Router,private userService:UserServiceService,private route:ActivatedRoute){
-      this.isAdminLogin=this.route.snapshot.routeConfig?.path==='admin-login'; 
-
+    const currentPath = this.route.snapshot.routeConfig?.path;
+    this.isAdminLogin = currentPath === 'admin/login';
+    this.isDoctorLogin = currentPath === 'doctor/login';
+      
     this.login = new FormGroup({
       email : new FormControl("",[Validators.required,Validators.email]),
       password:new FormControl("",[Validators.required ])
@@ -53,16 +58,18 @@ export class LoginComponent {
               alert('Unauthorized access. Only admins can log in here.');
               return;
             }
-          } else {
+          } else if(this.isDoctorLogin){
             // Default login page for users/doctors
             if (roleId === 2) {
               returnUrl = '/doctor-portal';
-            } else if (roleId === 3) {
-              returnUrl = '/user-portal';
-            } else {
-              alert('Unauthorized access. Admins cannot log in here.');
+            }else{
+              alert('Unauthorized access. Only doctors can log in here.');
               return;
             }
+            } else {
+              if (roleId === 3) {
+              returnUrl = '/user-portal';
+            } 
           }
 
           if(returnUrl){
@@ -73,7 +80,7 @@ export class LoginComponent {
           }
         },
         error:(error)=>{
-          alert('login faild');
+          alert('Email and/or password are incorrect.');
         }
       });
     }
@@ -81,6 +88,11 @@ export class LoginComponent {
     {
       console.log('form is not valid');
     }
+  }
+
+  showPassword() {
+    this.show_button = !this.show_button;
+    this.show_eye = !this.show_eye;
   }
 
 }

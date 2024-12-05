@@ -3,6 +3,7 @@ import { UserServiceService } from '../Services/User/user-service.service';
 import { AuthService } from '../auth.service';
 import { NotificationServiceService } from '../Services/Notification/notification-service.service';
 import { BookServiceService } from '../Services/Appointment/book-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-doctor-portal',
@@ -16,7 +17,7 @@ export class DoctorPortalComponent implements  OnInit,OnDestroy {
   isMenuActive = false;
   constructor(private notificationService:NotificationServiceService, 
     private bookappointments:BookServiceService, private userService: UserServiceService,
-    private authService:AuthService,private elementRef:ElementRef){}
+    private authService:AuthService,private elementRef:ElementRef,private router:Router){}
  
   ngOnInit(): void {
     this.username = this.userService.getUserName();
@@ -62,10 +63,29 @@ export class DoctorPortalComponent implements  OnInit,OnDestroy {
       this.isMenuActive = false;
     }
   }
-  logout(){
+  logout() {
     this.authService.logout();
-   }
+    const isAdmin = this.authService.isDoctor(); 
+    if (isAdmin) {
+      this.router.navigateByUrl('/doctor/login').then(() => {
+        window.history.replaceState({}, '', '/doctor/login'); // Forcing URL update
+      });
+    } else {
+      this.router.navigateByUrl('/login').then(() => {
+        window.history.replaceState({}, '', '/login'); // Forcing URL update
+      });
+    }
+  }
+  
    ngOnDestroy(): void {
     this.notificationService.stopConnection();
 }
+
+navigateToEditProfile() {
+  this.router.navigate(['/doctor-portal/doctor-profile', this.userId]);
+}
+// navigateToEditProfile(id: number): void {
+//   this.router.navigate(['/admin-portal/add-doctor', id]);
+// }
+
 }
