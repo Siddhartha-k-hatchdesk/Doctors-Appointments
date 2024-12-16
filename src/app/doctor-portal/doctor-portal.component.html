@@ -7,10 +7,12 @@
 
         <ul class="list-unstyled components">
           <li routerLinkActive="active">
-            <a routerLink="/doctor-portal/doctor-dashboard">Dashboard</a>
+            <a routerLink="/doctor-portal/doctor-dashboard">
+                <i class="fas fa-tachometer-alt" style="margin-right: 10px;"></i>Dashboard</a>
         </li>  
           <li routerLinkActive="active">
-                <a routerLink="/doctor-portal/appointments">Appointments</a>
+                <a routerLink="/doctor-portal/appointments">
+                    <i class="fas fa-calendar-check" style="margin-right: 11px;"></i>Appointments</a>
             </li>
         </ul>
     </nav>
@@ -39,11 +41,11 @@
               </div>
               <div class="menu" [class.active]="isMenuActive">
                   <ul>
-                    <li (click)="navigateToEditProfile()">
+                    <li (click)="navigateToEditProfile();closeMenu()">
                         <i class="fa fa-user"></i>&nbsp;Edit Profile
                       </li>                      
-                      <li><i class="fa fa-envelope"></i>&nbsp;Inbox</li>
-                      <li><i class="fa fa-cog"></i>&nbsp;Settings</li>
+                      <li (click)="closeMenu()"><i class="fa fa-envelope"></i>&nbsp;Inbox</li>
+                      <li (click)="closeMenu()"><i class="fa fa-cog"></i>&nbsp;Settings</li>
                       <li (click)="logout()"><i class="fa fa-sign-out-alt"></i>&nbsp;Sign Out</li>
                   </ul>
               </div>

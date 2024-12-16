@@ -14,7 +14,7 @@ export class DoctorPortalComponent implements  OnInit,OnDestroy {
   username: string | null=null;
   notifications: string[] = [];
   userId: any; 
-  isMenuActive = false;
+  isMenuActive:boolean = false;
   constructor(private notificationService:NotificationServiceService, 
     private bookappointments:BookServiceService, private userService: UserServiceService,
     private authService:AuthService,private elementRef:ElementRef,private router:Router){}
@@ -84,6 +84,10 @@ export class DoctorPortalComponent implements  OnInit,OnDestroy {
 navigateToEditProfile() {
   this.router.navigate(['/doctor-portal/doctor-profile', this.userId]);
 }
+closeMenu() {
+  this.isMenuActive = false; // Dropdown menu ko band karne ke liye
+}
+
 // navigateToEditProfile(id: number): void {
 //   this.router.navigate(['/admin-portal/add-doctor', id]);
 // }

@@ -90,4 +90,20 @@
   .text-danger {
     margin-top: 5px; /* Optional: Add spacing between the input and error message */
   }
+
+  .admin-login {
+    background-color: #ffdddd; /* Light red for admin */
+   
+}
+
+.doctor-login {
+    background-color: #ddffdd; /* Light green for doctor */
+   
+}
+
+.user-login {
+    background-color: #ddddff; /* Light blue for user */
+   
+}
+
   

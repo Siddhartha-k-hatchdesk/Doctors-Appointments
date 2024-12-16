@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { BookServiceService } from '../../Services/Appointment/book-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { BookAppointmentComponent } from '../../book-appointment/book-appointment.component';
 import { AuthService } from '../../auth.service';
+import { SharedDataServiceService } from '../../Services/sevices/shared-data-service.service';
 
 @Component({
   selector: 'app-user-appointment',
@@ -11,8 +12,8 @@ import { AuthService } from '../../auth.service';
 })
 export class UserAppointmentComponent implements OnInit {
   users:any;
-
-  constructor(private bookservice:BookServiceService, public dialog:MatDialog,private authservice:AuthService){}
+  inProgressId:number|null=null;
+  constructor(private zone:NgZone, private cdr:ChangeDetectorRef, private sharedservice:SharedDataServiceService, private bookservice:BookServiceService, public dialog:MatDialog,private authservice:AuthService){}
 
   openAppointmentDialog(): void {
       //  const loggedInUserId= this.authservice.getUserId();
@@ -32,8 +33,26 @@ export class UserAppointmentComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.loadUserAppointments();  // Fetch appointments when the component initializes
+    this.loadUserAppointments();
+    
+    this.sharedservice.inProgress$.subscribe(id => {
+      this.zone.run(() => {
+          console.log("Received InProgress ID (inside NgZone):", id);
+          this.inProgressId = id;
+          this.cdr.detectChanges(); // Update UI
+      });
+  });
+
+
+ 
+  // Emit the current value manually
+  const currentId = this.sharedservice.getCurrentInProgress();
+  console.log("Manually emitting current value in UserAppointmentComponent:", currentId);
+  if (currentId !== null) {
+      this.sharedservice.updateInProgress(currentId);
   }
+
+}
 
   // Method to load appointments for the logged-in user
   loadUserAppointments(): void {
@@ -54,4 +73,8 @@ export class UserAppointmentComponent implements OnInit {
   }
 }
   
-
+ // const currentId = this.sharedservice.getCurrentInProgress();
+  // if (currentId !== null) {
+  //     console.log("Manually emitting current value in UserAppointmentComponent:", currentId);
+  //     this.sharedservice.updateInProgress(currentId);
+  // }

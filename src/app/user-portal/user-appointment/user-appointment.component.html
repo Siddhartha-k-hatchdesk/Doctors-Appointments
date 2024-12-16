@@ -23,9 +23,24 @@
                   <td>{{item.preferredtime}}</td>
                   <td>{{item.statusName}}</td>
                   <td style="display: flex; gap: 10px;">
-                    <button type="button" class="btn btn-primary">Edit</button>
-                    <button type="button" class="btn btn-danger">Remove</button>
+                    <!-- Buttons will be invisible and disabled when inProgressOrCompletedId matches the current item's ID -->
+                    <button 
+  type="button" 
+  class="btn btn-primary" 
+  [style.visibility]="inProgressId === item.id ? 'hidden' : 'visible'" 
+  [disabled]="inProgressId === item.id">
+  Edit
+</button>
+<button 
+  type="button" 
+  class="btn btn-danger" 
+  [style.visibility]="inProgressId === item.id ? 'hidden' : 'visible'" 
+  [disabled]="inProgressId === item.id">
+  Remove
+</button>
+
                   </td>
+                  
                 </tr>
               </tbody>
             </table>

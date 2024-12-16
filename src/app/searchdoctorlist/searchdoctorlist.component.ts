@@ -5,6 +5,7 @@ import { SharedDataServiceService } from '../Services/sevices/shared-data-servic
 import { UserServiceService } from '../Services/User/user-service.service';
 import { event } from 'jquery';
 import { SearchSharedServiceService } from '../Services/SearchShared/search-shared-service.service';
+import { DoctorServiceService } from '../Services/Doctor/doctor-service.service';
 
 
 
@@ -26,7 +27,9 @@ export class SearchdoctorlistComponent implements OnInit{
   filteredDoctorsByLocation: any[] = []; // New variable for doctors filtered by location
   isSelectionValid: boolean = true; // Flag for validation
   loading: boolean = false;
-  constructor(private searchshared:SearchSharedServiceService, private userservice:UserServiceService, private bookservice:BookServiceService, private route:ActivatedRoute, private Sharedservice:SharedDataServiceService, private router:Router){}
+  doctorAvailability: { days: string; time: string }[] = [];
+
+  constructor(private doctorservice:DoctorServiceService, private searchshared:SearchSharedServiceService, private userservice:UserServiceService, private bookservice:BookServiceService, private route:ActivatedRoute, private Sharedservice:SharedDataServiceService, private router:Router){}
   ngOnInit(): void {
     // Load specialists and doctors asynchronously
     this.loadSpecialistsAndDoctors().then(() => {
@@ -45,6 +48,7 @@ export class SearchdoctorlistComponent implements OnInit{
       }
       // Proceed to display the filtered doctors
       this.displayFilteredDoctors();
+      
     });
   
     // Now load locations
@@ -88,7 +92,10 @@ export class SearchdoctorlistComponent implements OnInit{
     this.Sharedservice.setSpecialistId(specializationId.toString()); // Set specialistId
   
     // Navigate to the next page
-    this.router.navigate(['/stepperpage']);
+    // this.router.navigate(['/stepperpage']).then(() => {
+    //   document.body.scrollTop = 0;
+    //   document.documentElement.scrollTop = 0;
+    // });
   }
   onSpecializationDoctorChange(event: any): void {
     const selectedValues = event || []; // Handle multiple selection
@@ -273,6 +280,39 @@ export class SearchdoctorlistComponent implements OnInit{
       }
     });
   }
+  
+  formatTime(time: string): string {
+    const [hours, minutes] = time.split(':').map(Number);
+    const suffix = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12; // Convert to 12-hour format
+    return `${formattedHours}:${minutes.toString().padStart(2, '0')} ${suffix}`;
+  }
+  
+  getAvailableDays(availability: any): { days: string, startTime: string, endTime: string } {
+    const days = [
+      { name: 'MON', available: availability.monday },
+      { name: 'TUE', available: availability.tuesday },
+      { name: 'WED', available: availability.wednesday },
+      { name: 'THU', available: availability.thursday },
+      { name: 'FRI', available: availability.friday },
+      { name: 'SAT', available: availability.saturday },
+      { name: 'SUN', available: availability.sunday }
+    ];
+  
+    // Filter the days based on availability and join them as a comma-separated string
+    const availableDays = days.filter(day => day.available).map(day => day.name).join(', ');
+  
+    // Format the time range using the start and end times
+    const formattedStartTime = this.formatTime(availability.startTime);
+    const formattedEndTime = this.formatTime(availability.endTime);
+  
+    return {
+      days: availableDays, // Comma-separated string of available days
+      startTime: formattedStartTime,
+      endTime: formattedEndTime
+    };
+  }
+  
   
 }
 

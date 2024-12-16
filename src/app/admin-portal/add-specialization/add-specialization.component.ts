@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { UserServiceService } from '../Services/User/user-service.service';
-import { DoctorServiceService } from '../Services/Doctor/doctor-service.service';
+import { UserServiceService } from '../../Services/User/user-service.service';
+import { DoctorServiceService } from '../../Services/Doctor/doctor-service.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 declare var $:any;

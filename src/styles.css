@@ -25,12 +25,21 @@
 }
 html{
     scroll-behavior: smooth;
+   
 }
 body{
     font-family: var(--primary-font);
     /* font-size: 100%; */
     font-weight:400;
+   
 }
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: auto;
+  }
+  
 
 *{
     margin: 0px;

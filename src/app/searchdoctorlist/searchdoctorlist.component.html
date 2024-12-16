@@ -134,11 +134,12 @@
                     </div>
                   </div>
             
-                  <div class="appointment-day">
+                  <div class="appointment-day" *ngIf="doctor.availabilityDays">
                     <div class="appoint-time">
-                      <h6>(MON,TUE,WED,THU,FRI)</h6>
-                      <p>(11:00 AM - 05:00 PM)</p>
-            
+                      <!-- Show available days and time dynamically -->
+                      <h6>({{ getAvailableDays(doctor.availabilityDays).days }})</h6>
+                      <p>({{ getAvailableDays(doctor.availabilityDays).startTime }} - {{ getAvailableDays(doctor.availabilityDays).endTime }})</p>
+                        
                       <div class="Appointment-btn">
                         <button class="btn" routerLink="/stepperpage" (click)="onAppointmentClick(doctor.id, doctor.specializationId)">Appointment</button>
                       </div>

@@ -46,4 +46,8 @@ getLocations(): Observable<any> {
 updatedoctorprofile(id:number,doctorDTO:any):Observable<any>{
   return this.http.put<any>(`${this.url}/Edit-doctor/${id}`,doctorDTO)
 }
+getDoctorTime(id:number){
+  return this.http.get<any>(`${this.url}/availability/${id}`)
+}
+
 }

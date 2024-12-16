@@ -80,7 +80,7 @@ export class LoginComponent {
           }
         },
         error:(error)=>{
-          alert('Email and/or password are incorrect.');
+          alert('user not found! Please check your Email or password.');
         }
       });
     }

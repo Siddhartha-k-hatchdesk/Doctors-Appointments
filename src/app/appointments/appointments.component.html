@@ -3,7 +3,7 @@
 </div>
 
 <div *ngIf="!errorMessage">
-  <h3 *ngIf="doctorId">Appointments for Doctor {{ doctorId }}</h3>
+  <h3 *ngIf="doctorId">Appointments </h3>
   <h3 *ngIf="!doctorId && specialistId">Appointments for Specialist {{ specialistId }} (All Doctors)</h3>
 
   <table class="table table-striped" *ngIf="appointments.length > 0">
@@ -29,7 +29,14 @@
         <td>
           <button *ngIf="appointment.statusName === 'Waiting'" (click)="startAppointment(appointment.id)" class="btn btn-primary">Start</button>
           <button *ngIf="appointment.statusName === 'InProgress'" (click)="completeAppointment(appointment.id)" class="btn btn-success">Complete</button>
-          <!-- <button *ngIf="!appointment.doctorName" (click)="pickAppointment(appointment.id)" class="btn btn-secondary">Pick</button> -->
+          
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- <button *ngIf="!appointment.doctorName" (click)="pickAppointment(appointment.id)" class="btn btn-secondary">Pick</button> -->
           <!-- Pick button: Show if no doctorName and specialist is selected -->
           <!-- <button *ngIf="!appointment.doctorName && appointment.specialistId" (click)="pickAppointment(appointment.id)" class="btn btn-secondary">Pick</button> -->
           <!-- <button *ngIf="!appointment.doctorName && appointment.specialistId && !appointment.picked" 
@@ -37,9 +44,3 @@
         class="btn btn-secondary">
   Pick
 </button> -->
-
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>

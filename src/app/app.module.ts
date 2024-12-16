@@ -46,7 +46,7 @@ import { StepperpageComponent } from './stepperpage/stepperpage.component';
 import { UserdetailformComponent } from './userdetailform/userdetailform.component';
 import { UserReviewFormComponent } from './user-review-form/user-review-form.component';
 import { PreFooterComponent } from './pre-footer/pre-footer.component';
-import { AddSpecializationComponent } from './add-specialization/add-specialization.component';
+import { AddSpecializationComponent } from './admin-portal/add-specialization/add-specialization.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DoctorprofileComponent } from './doctor-portal/doctorprofile/doctorprofile.component';
@@ -113,6 +113,7 @@ import { DoctorprofileComponent } from './doctor-portal/doctorprofile/doctorprof
     exports:[CdkStepperModule,
       MatStepperModule
     ],
+    
   providers: [
     AuthService,
      

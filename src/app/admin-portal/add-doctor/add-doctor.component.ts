@@ -16,15 +16,20 @@ addDoctorForm: FormGroup;
 isEditMode: boolean = false; 
 doctorId: number | null = null;
 specializations: any[] = [];
+  locations: any[]=[];
   constructor(private doctorservice:DoctorServiceService,private userService:UserServiceService, private fb: FormBuilder,private route:ActivatedRoute,private router:Router,private toastr:ToastrService) {
     this.addDoctorForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      specialization: ['', Validators.required]
+      specialization: ['', Validators.required],
+      location:['',Validators.required],
+      experience:['',Validators.required],
+      education:['',Validators.required],
     });
   }
   ngOnInit(): void {
     this.loadSpecializations();
+    this.loadLocations();
     // Check if we are in edit mode
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -45,7 +50,16 @@ specializations: any[] = [];
       }
     });
   }
-  
+  loadLocations(): void {
+    this.doctorservice.getLocations().subscribe((data: any) => {
+      this.locations = data;
+      console.log('location loaded',this.locations);
+      // console.log('Locations:', this.locations);
+      if (this.isEditMode && this.doctorId !== null) {
+        this.loadDoctorData(this.doctorId);
+      }
+    });
+  }
   loadDoctorData(id: number): void {
     this.doctorservice.getDoctorById(id).subscribe(
       doctor => {
@@ -55,11 +69,21 @@ specializations: any[] = [];
             spec => spec.specializationName === doctor.specialization
           );
           console.log('Matched Specialization:', matchedSpecialization);
+
+          // Match location
+        const matchingLoc = this.locations.find(
+          loc => loc.locationName === doctor.location
+        );
+        console.log('Matched Location:', matchingLoc);
           // Patch the form with doctor data
           this.addDoctorForm.patchValue({
             name: doctor.name,
             email: doctor.email,
-            specialization: matchedSpecialization ? matchedSpecialization.id : '' // Use ID if found
+            specialization: matchedSpecialization ? matchedSpecialization.id : '',
+            location: matchingLoc ? matchingLoc.id : '',
+            experience:doctor.experience,
+            education:doctor.education
+            // Use ID if found
           });
         } else {
           console.error('Doctor not found!');
@@ -70,6 +94,7 @@ specializations: any[] = [];
       }
     );
   }
+ 
 
   onSubmit() {
     if (this.addDoctorForm.invalid) {
@@ -80,7 +105,10 @@ specializations: any[] = [];
     const doctor = {
       name: this.addDoctorForm.value.name,
       email: this.addDoctorForm.value.email,
-      specializationId: this.addDoctorForm.value.specialization  // Map specialization to specializationId
+      specializationId: this.addDoctorForm.value.specialization,
+      locationId:this.addDoctorForm.value.location,
+      experience:this.addDoctorForm.value.experience,
+      education:this.addDoctorForm.value.education  // Map specialization to specializationId
     };
       if(this.isEditMode && this.doctorId !==null){
         this.doctorservice.updateDoctor(this.doctorId,doctor).subscribe(response=>{

@@ -3,6 +3,7 @@ import { BookServiceService } from '../Services/Appointment/book-service.service
 import { BookingStatus } from '../Enums/booking-status.enum';
 import { UserServiceService } from '../Services/User/user-service.service';
 import { ActivatedRoute } from '@angular/router';
+import { SharedDataServiceService } from '../Services/sevices/shared-data-service.service';
 
 @Component({
   selector: 'app-appointments',
@@ -16,25 +17,9 @@ export class AppointmentsComponent implements OnInit{
   appointments: any[] = [];
   errorMessage: string | null=null;
   
-  constructor(private bookService:BookServiceService,private userService:UserServiceService,private route:ActivatedRoute){}
+  constructor(private bookService:BookServiceService,private userService:UserServiceService,private route:ActivatedRoute,private sharedService:SharedDataServiceService){}
 
-  // ngOnInit(): void {
-  //   this.route.params.subscribe(params => {
-  //     this.doctorId = +params['doctorId'] || null; // Read doctorId from route params
-  //     this.specialistId = +params['specialistId'] || null; // Read specialistId from route params
-  //     this.loadAppointments();
-  //   });
-  // }
   
-// appointments.component.ts
-// ngOnInit(): void {
-//   // Fetch the logged-in doctor's ID and specialist ID from the UserService
-//   this.doctorId = this.userService.getDoctorId(); // Get stored doctorId
-//   this.specialistId = this.userService.getSpecialistId(); // Get stored specialistId
-
-//   // Load the appointments automatically after fetching doctorId and specialistId
-//   this.loadAppointments();
-// }
 ngOnInit(): void {
   this.doctorId = localStorage.getItem('doctorId');  // Retrieve doctorId from localStorage
   this.specialistId = localStorage.getItem('specialistId');  // Retrieve specialistId from localStorage
@@ -44,22 +29,25 @@ ngOnInit(): void {
 
   this.loadAppointments();  // Load appointments for the logged-in doctor/specialist
 }
-  startAppointment(id: number) {
+startAppointment(id: number) {
+    console.log("Attempting to start appointment with ID:", id);
     this.bookService.updateStatus(id, BookingStatus.InProgress).subscribe(() => {
-      this.loadAppointments(); // Refresh the list to reflect the status change
-    },
-    error => {
-      console.error("Error updating status", error);
+        this.sharedService.updateInProgress(id); // Ensure this is called with `id`
+        this.loadAppointments(); // Reload appointments if necessary
     });
-  }
-  
-  completeAppointment(id: number) {
+}
+
+completeAppointment(id: number) {
+    console.log("Completing appointment with ID:", id);
     this.bookService.updateStatus(id, BookingStatus.Complete).subscribe(() => {
-      this.loadAppointments(); // Refresh the list to reflect the status change
-    },error => {
-      console.error("Error updating status", error);
+        this.sharedService.updateInProgress(null); // Reset `inProgressId` to `null`
+        this.loadAppointments();
+    }, error => {
+        console.error("Error updating status", error);
     });
-  }
+}
+
+
 
 loadAppointments(): void {
   // Get the stored values from localStorage
@@ -97,29 +85,48 @@ loadAppointments(): void {
     this.appointments = [];
   }
 }
-pickAppointment(appointmentId: number): void {
-  const doctorId = this.doctorId; // Ensure you have doctorId from local storage or auth service
-
-  if (!doctorId) {
-    console.error('No doctor ID found');
-    return;
-  }
-
-  // Call the BookService to pick the appointment
-  this.bookService.pickAppointment(appointmentId, doctorId).subscribe(
-    (response: any) => {
-      console.log('Appointment picked successfully', response);
-      // Find the specific appointment by ID and mark it as picked
-      const appointment = this.appointments.find(app => app.id === appointmentId);
-      if (appointment) {
-        appointment.picked = true;  // Add a new 'picked' property to hide the button
-      }
-    },
-    (error: any) => {
-      console.error('Error picking the appointment:', error);
-    }
-  );
-}
 
 }
+
+
+// ngOnInit(): void {
+  //   this.route.params.subscribe(params => {
+  //     this.doctorId = +params['doctorId'] || null; // Read doctorId from route params
+  //     this.specialistId = +params['specialistId'] || null; // Read specialistId from route params
+  //     this.loadAppointments();
+  //   });
+  // }
   
+// appointments.component.ts
+// ngOnInit(): void {
+//   // Fetch the logged-in doctor's ID and specialist ID from the UserService
+//   this.doctorId = this.userService.getDoctorId(); // Get stored doctorId
+//   this.specialistId = this.userService.getSpecialistId(); // Get stored specialistId
+
+//   // Load the appointments automatically after fetching doctorId and specialistId
+//   this.loadAppointments();
+// }
+  
+// pickAppointment(appointmentId: number): void {
+//   const doctorId = this.doctorId; // Ensure you have doctorId from local storage or auth service
+
+//   if (!doctorId) {
+//     console.error('No doctor ID found');
+//     return;
+//   }
+
+//   // Call the BookService to pick the appointment
+//   this.bookService.pickAppointment(appointmentId, doctorId).subscribe(
+//     (response: any) => {
+//       console.log('Appointment picked successfully', response);
+//       // Find the specific appointment by ID and mark it as picked
+//       const appointment = this.appointments.find(app => app.id === appointmentId);
+//       if (appointment) {
+//         appointment.picked = true;  // Add a new 'picked' property to hide the button
+//       }
+//     },
+//     (error: any) => {
+//       console.error('Error picking the appointment:', error);
+//     }
+//   );
+// }

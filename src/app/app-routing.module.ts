@@ -22,7 +22,7 @@ import { SearchdoctorlistComponent } from './searchdoctorlist/searchdoctorlist.c
 import { StepperComponent } from './stepper/stepper.component';
 import { StepperpageComponent } from './stepperpage/stepperpage.component';
 import { AppointmentinteractionComponent } from './appointmentinteraction/appointmentinteraction.component';
-import { AddSpecializationComponent } from './add-specialization/add-specialization.component';
+import { AddSpecializationComponent } from './admin-portal/add-specialization/add-specialization.component';
 import { DoctorprofileComponent } from './doctor-portal/doctorprofile/doctorprofile.component';
 
 
@@ -83,7 +83,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{
+    scrollPositionRestoration:'enabled',
+    anchorScrolling:'enabled',
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -7,69 +7,143 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>{{ isEditMode ? 'Edit Doctor' : 'Add Doctor' }}</title>
-  
-  
 </head>
 
 <body>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-4 mt-5 bg-light rounded">
+      <div class="col-md-8 mt-5 bg-light rounded">
         <h1 class="text-center font-weight-bold text-primary">{{ isEditMode ? 'Edit Doctor' : 'Add Doctor' }}</h1>
         <hr class="bg-light">
-        <form [formGroup]="addDoctorForm" (ngSubmit)="onSubmit()" id="form-box" class="p-2">
-          <div class="form-group">
-            <label for="name" class="font-weight-bold">Name</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-user"></i></span>
-              </div>
-              <input type="text" id="name" class="form-control" formControlName="name" placeholder="Enter your name" required>
-            </div>
-            <div *ngIf="addDoctorForm.get('name')?.touched && addDoctorForm.get('name')?.invalid" class="text-danger">
-              Name is required.
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="email" class="font-weight-bold">Email</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-              </div>
-              <input type="email" id="email" class="form-control" formControlName="email" placeholder="Enter your email" required>
-            </div>
-            <div *ngIf="addDoctorForm.get('email')?.touched && addDoctorForm.get('email')?.invalid" class="text-danger">
-              <div *ngIf="addDoctorForm.get('email')?.errors?.['required']">Email is required.</div>
-              <div *ngIf="addDoctorForm.get('email')?.errors?.['email']">Invalid email address.</div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="specialization" class="font-weight-bold">Specialization</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
-              </div>
-              <select 
-                id="specialization" 
-                class="form-control" 
-                formControlName="specialization" 
-                [ngClass]="{ 'text-muted': addDoctorForm.get('specialization')?.value === '' }">
-                <option value="" disabled selected>Choose Specialization</option>
-                <option *ngFor="let specialization of specializations" [value]="specialization.id">
-                  {{ specialization.specializationName }}
-                </option>
-              </select>
-            </div>
-            <div *ngIf="addDoctorForm.get('specialization')?.touched && addDoctorForm.get('specialization')?.invalid" class="text-danger">
-              Specialization is required.
-            </div>
-          </div>
+        <form [formGroup]="addDoctorForm" (ngSubmit)="onSubmit()" id="form-box" class="p-4">
           
+          <!-- Name and Email Row -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name" class="font-weight-bold">Name</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  </div>
+                  <input type="text" id="name" class="form-control" formControlName="name" placeholder="Enter your name" required>
+                </div>
+                <div *ngIf="addDoctorForm.get('name')?.touched && addDoctorForm.get('name')?.invalid" class="text-danger">
+                  Name is required.
+                </div>
+              </div>
+            </div>
 
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="email" class="font-weight-bold">Email</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                  </div>
+                  <input type="email" id="email" class="form-control" formControlName="email" placeholder="Enter your email" required>
+                </div>
+                <div *ngIf="addDoctorForm.get('email')?.touched && addDoctorForm.get('email')?.invalid" class="text-danger">
+                  <div *ngIf="addDoctorForm.get('email')?.errors?.['required']">Email is required.</div>
+                  <div *ngIf="addDoctorForm.get('email')?.errors?.['email']">Invalid email address.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Specialization and Location Row -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="specialization" class="font-weight-bold">Specialization</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+                  </div>
+                  <select 
+                    id="specialization" 
+                    class="form-control" 
+                    formControlName="specialization" 
+                    [ngClass]="{ 'text-muted': addDoctorForm.get('specialization')?.value === '' }">
+                    <option value="" disabled selected>Choose Specialization</option>
+                    <option *ngFor="let specialization of specializations" [value]="specialization.id">
+                      {{ specialization.specializationName }}
+                    </option>
+                  </select>
+                </div>
+                <div *ngIf="addDoctorForm.get('specialization')?.touched && addDoctorForm.get('specialization')?.invalid" class="text-danger">
+                  Specialization is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="location" class="font-weight-bold">Location</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                  </div>
+                  <select 
+                    id="location" 
+                    class="form-control" 
+                    formControlName="location" 
+                    [ngClass]="{ 'text-muted': addDoctorForm.get('location')?.value === '' }">
+                    <option value="" disabled selected>Choose Location</option>
+                    <option *ngFor="let location of locations" [value]="location.id">
+                      {{ location.locationName }}
+                    </option>
+                  </select>
+                </div>
+                <div *ngIf="addDoctorForm.get('location')?.touched && addDoctorForm.get('location')?.invalid" class="text-danger">
+                  Location is required.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Experience and Education Row -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="experience" class="font-weight-bold">Experience (Years)</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                  </div>
+                  <input 
+                    type="text" 
+                    id="experience" 
+                    class="form-control" 
+                    formControlName="experience" 
+                    placeholder="Enter your experience in years" 
+                    required>
+                </div>
+                <div *ngIf="addDoctorForm.get('experience')?.touched && addDoctorForm.get('experience')?.invalid" class="text-danger">
+                  Experience is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="education" class="font-weight-bold">Education</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-graduation-cap"></i></span>
+                  </div>
+                  <input type="text" id="education" class="form-control" formControlName="education" placeholder="Enter education details" required>
+                </div>
+                <div *ngIf="addDoctorForm.get('education')?.touched && addDoctorForm.get('education')?.invalid" class="text-danger">
+                  Education is required.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
           <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">
+            <button type="submit" class="btn btn-primary btn-sm ml-auto d-block">
               {{ isEditMode ? 'Submit' : 'Submit' }}
             </button>
           </div>

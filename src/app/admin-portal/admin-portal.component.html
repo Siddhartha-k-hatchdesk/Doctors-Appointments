@@ -4,19 +4,31 @@
         <div class="sidebar-header">
             <h3>Admin Portal</h3>
         </div>
-
+    
         <ul class="list-unstyled components">
-          <li routerLinkActive="active">
-            <a routerLink="/admin-portal/admin-dashboard">Dashboard</a>
-        </li>  
-        <li routerLinkActive="active">
-            <a routerLink="/admin-portal/doctor-list">Doctors</a>
-        </li>  
-          <li routerLinkActive="active">
-                <a routerLink="/admin-portal/allappointments">Appointments</a>
+            <li routerLinkActive="active">
+                <a routerLink="/admin-portal/admin-dashboard">
+                    <i class="fas fa-tachometer-alt" style="margin-right: 10px;"></i> <!-- Dashboard icon -->
+                    Dashboard
+                </a>
+            </li>  
+            <li routerLinkActive="active">
+                <a routerLink="/admin-portal/doctor-list">
+                    <i class="fas fa-user-md" style="margin-right: 11px;"></i> <!-- Doctors icon -->
+                    Doctors
+                </a>
+            </li>  
+            <li routerLinkActive="active">
+                <a routerLink="/admin-portal/allappointments">
+                    <i class="fas fa-calendar-check" style="margin-right: 11px;"></i> <!-- Appointments icon -->
+                    Appointments
+                </a>
             </li>
             <li routerLinkActive="active">
-                <a routerLink="/admin-portal/add-specialization">Specialization</a>
+                <a routerLink="/admin-portal/add-specialization">
+                    <i class="fas fa-layer-group" style="margin-right: 9px;"></i> <!-- Specialization icon -->
+                    Specialization
+                </a>
             </li>
         </ul>
     </nav>
