@@ -24,6 +24,7 @@ import { StepperpageComponent } from './stepperpage/stepperpage.component';
 import { AppointmentinteractionComponent } from './appointmentinteraction/appointmentinteraction.component';
 import { AddSpecializationComponent } from './admin-portal/add-specialization/add-specialization.component';
 import { DoctorprofileComponent } from './doctor-portal/doctorprofile/doctorprofile.component';
+import { TimeanddateComponent } from './timeanddate/timeanddate.component';
 
 
 const routes: Routes = [
@@ -38,6 +39,7 @@ const routes: Routes = [
   {path:'stepper',component:StepperComponent},
   {path:'stepperpage',component:StepperpageComponent},
   {path:'appointmentinteracation', component:AppointmentinteractionComponent},
+  {path: 'time-and-date/:doctorId',component:TimeanddateComponent},
   
   {path:'doctor-portal',
    canActivate:[authGuard],

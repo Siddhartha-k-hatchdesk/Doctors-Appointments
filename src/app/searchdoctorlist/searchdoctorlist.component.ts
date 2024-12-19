@@ -90,13 +90,13 @@ export class SearchdoctorlistComponent implements OnInit{
     // Set both IDs in the shared service
     this.Sharedservice.setDoctorId(doctorId.toString()); 
     this.Sharedservice.setSpecialistId(specializationId.toString()); // Set specialistId
-  
+  }
     // Navigate to the next page
     // this.router.navigate(['/stepperpage']).then(() => {
     //   document.body.scrollTop = 0;
     //   document.documentElement.scrollTop = 0;
     // });
-  }
+  
   onSpecializationDoctorChange(event: any): void {
     const selectedValues = event || []; // Handle multiple selection
     console.log("Event:", event);

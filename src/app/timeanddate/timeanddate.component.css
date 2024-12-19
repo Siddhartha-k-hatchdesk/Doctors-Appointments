@@ -120,7 +120,13 @@
   color: #fff;
   border: 1px solid #28a745;
 }
-.blurred {
-  filter: blur(1px);
-  pointer-events: none;
+.active {
+  background-color: #f0f0f0; /* Highlight active date */
+  border: 2px solid #007bff; /* Blue border for selected date */
 }
+
+.blurred {
+  opacity: 0.5; /* Make unavailable dates appear faded */
+}
+
+

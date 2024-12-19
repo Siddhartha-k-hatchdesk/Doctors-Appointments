@@ -11,13 +11,14 @@
       <div class="col-12 col-sm-10">
         <div>
           <div class="row timeline-list">
-            <div *ngFor="let item of dates" class="col-3 col-sm-2 col-lg-1 timeline-item"
-            [class.active]="item.isSelected"
-            [class.blurred]="item.day ==='Sun'"
-            (click)="item.day !=='Sun' && selectDate(item)">
+            <div *ngFor="let date of dates" 
+              class="col-3 col-sm-2 col-lg-1 timeline-item"
+              [class.active]="date.isSelected"
+              [class.blurred]="!date.isAvailable" 
+              (click)="date.isAvailable && selectDate(date)">
               <a class="timeline-date">
-                <span class="d-block"><strong>{{ item.day }}</strong></span>
-                <span class="d-block">{{ item.date }}</span>
+                <span class="d-block"><strong>{{ date.day | titlecase }}</strong></span>
+                <span class="d-block">{{ date.date }}</span>
               </a>
             </div>
           </div>
@@ -41,37 +42,26 @@
       <div class="morning-section">
         <p>MORNING SLOTS</p>
       </div>
-      <div
-        *ngFor="let slot of morningSlots"
-        class="col-lg-1 col-sm-3 col-md-4 SLOTES"
-        [class.selected]="slot === selectedSlot"
-        (click)="selectSlot(slot)"
-      >
+      <div *ngFor="let slot of morningSlots" class="col-lg-1 col-sm-3 col-md-4 SLOTES"
+        [class.selected]="slot === selectedSlot" (click)="selectSlot(slot)">
         <span>{{ slot }}</span>
       </div>
     </div>
 
-    <br />
-
-    <!-- Afternoon Slots -->
-    <div class="row" *ngIf="!isSaturday">
+    <!-- Afternoon Slots (always shown now) -->
+    <div class="row mt-3">
       <div class="noon-section">
         <p>AFTERNOON SLOTS</p>
       </div>
-      <div
-        *ngFor="let slot of afternoonSlots"
-        class="col-lg-1 col-sm-3 col-md-4 SLOTES"
-        [class.selected]="slot === selectedSlot"
-        (click)="selectSlot(slot)"
-      >
+      <div *ngFor="let slot of afternoonSlots" class="col-lg-1 col-sm-3 col-md-4 SLOTES"
+        [class.selected]="slot === selectedSlot" (click)="selectSlot(slot)">
         <span>{{ slot }}</span>
       </div>
     </div>
 
-    <!-- Buttons -->
     <div class="mt-5">
-      <button type="button" class="btn btn-primary" matStepperPrevious>Prev</button>
-      <button type="button" class="btn btn-success ms-3" matStepperNext [disabled]="!isNextEnabled()">Next</button>
+      <button type="button" class="btn btn-success float-right" matStepperNext [disabled]="!isNextEnabled()">Next</button>
+      <button type="button" class="btn btn-primary float-right ms-3" matStepperPrevious>Prev</button>
     </div>
   </div>
 </section>
