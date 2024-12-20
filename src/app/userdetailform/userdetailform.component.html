@@ -81,7 +81,7 @@
   
                 <div class="mt-4 pt-2">
                     
-                  <button type="submit" class="btn btn-success float-right ms-3" [disabled]="register.invalid || isFormSubmitted" matStepperNext>Submit</button>
+                  <button type="submit" class="btn btn-success float-right ms-3"[disabled]="register.invalid || isFormSubmitted" matStepperNext>Submit</button>
                   <button type="button" class="btn btn-primary float-right " matStepperPrevious>Prev</button>
                   <!-- <button type="button" class="btn btn-primary ms-3" matStepperNext>Next</button> -->
                 </div>
@@ -92,5 +92,22 @@
       </div>
     </div>
   </section>
-  
+  <!-- <div 
+  class="popup" 
+  [ngClass]="{ 'open-popup': isPopupVisible }">
+  <img src="/assets/Logo/404-tick.png">
+  <h2>Thank You</h2>
+  <p>Your Appointment has been successfully booked. Thanks</p>
+  <button type="button">Ok</button>
+</div> -->
+
+  <!-- <script>
+    let popup=document.getElementById("popup");
+    function openPopup(){
+      popup.classList.add(".open-popup");
+    }
+    function closePopup(){
+      popup.classList.remove(".open-popup");
+    }
+  </script> -->
 

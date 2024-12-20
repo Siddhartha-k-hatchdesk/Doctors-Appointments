@@ -14,7 +14,8 @@ import { ToastrService } from 'ngx-toastr';
 export class UserdetailformComponent {
   register : FormGroup;
   isFormSubmitted:boolean=false;
-errorMessage: string='';//varible to store error message
+errorMessage: string='';
+isPopupVisible:boolean=false;//varible to store error message
 
   constructor(private sharedservice:SharedDataServiceService,private registerService:RegisterServiceService,private toastr:ToastrService){
 
@@ -32,6 +33,13 @@ errorMessage: string='';//varible to store error message
         Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$") 
       ])
     })
+  }
+  openPopup() {
+    this.isPopupVisible = true;
+  }
+
+  closePopup() {
+    this.isPopupVisible = false;
   }
   onSubmit(){
     this.isFormSubmitted = true;

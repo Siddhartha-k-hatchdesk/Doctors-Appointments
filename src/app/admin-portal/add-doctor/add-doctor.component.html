@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+
 
 <head>
   <meta charset="UTF-8">
@@ -9,10 +8,9 @@
   <title>{{ isEditMode ? 'Edit Doctor' : 'Add Doctor' }}</title>
 </head>
 
-<body>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-8 mt-5 bg-light rounded">
+      <div class="col-md-8 bg-light rounded">
         <h1 class="text-center font-weight-bold text-primary">{{ isEditMode ? 'Edit Doctor' : 'Add Doctor' }}</h1>
         <hr class="bg-light">
         <form [formGroup]="addDoctorForm" (ngSubmit)="onSubmit()" id="form-box" class="p-4">
@@ -151,6 +149,6 @@
       </div>
     </div>
   </div>
-</body>
 
-</html>
+
+

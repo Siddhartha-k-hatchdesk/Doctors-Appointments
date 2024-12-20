@@ -50,6 +50,7 @@ import { AddSpecializationComponent } from './admin-portal/add-specialization/ad
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DoctorprofileComponent } from './doctor-portal/doctorprofile/doctorprofile.component';
+import { ThankyoupageComponent } from './thankyoupage/thankyoupage.component';
 
 
 
@@ -89,6 +90,8 @@ import { DoctorprofileComponent } from './doctor-portal/doctorprofile/doctorprof
     PreFooterComponent,
     AddSpecializationComponent,
     DoctorprofileComponent,
+    StepperpageComponent,
+    ThankyoupageComponent
     
     ],
 

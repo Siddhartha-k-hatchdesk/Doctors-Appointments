@@ -63,6 +63,7 @@
   padding-top: 5px;
   padding-left: 0;
   padding-right: 0;
+  cursor: pointer;
 }
 .timeline-container .timeline-item a:hover,
 .timeline-container .timeline-item a:visited,
@@ -108,6 +109,7 @@
   padding-top: 15px;
   border-right:none;
   color: #000;
+  cursor: pointer;
   
 }
 .SLOTES:last-child{

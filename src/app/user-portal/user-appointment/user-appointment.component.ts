@@ -21,7 +21,6 @@ export class UserAppointmentComponent implements OnInit {
     const dialogRef = this.dialog.open(BookAppointmentComponent, {
       width: '600px',
       height: 'auto',
-  
     });
 
     // After dialog is closed, check if booking was successful and refresh the list
@@ -34,7 +33,6 @@ export class UserAppointmentComponent implements OnInit {
   }
   ngOnInit(): void {
     this.loadUserAppointments();
-    
     this.sharedservice.inProgress$.subscribe(id => {
       this.zone.run(() => {
           console.log("Received InProgress ID (inside NgZone):", id);
@@ -68,7 +66,8 @@ export class UserAppointmentComponent implements OnInit {
   }
    // Method to add the new booking to the existing list
    addNewBooking(newBooking: any): void {
-    this.users.push(newBooking); // Add the new booking to the list
+    this.users.push(newBooking);
+    // Add the new booking to the list
     console.log('Updated user appointments:', this.users);
   }
 }

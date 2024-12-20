@@ -36,8 +36,8 @@ const routes: Routes = [
   {path:'login',component:LoginComponent},
   {path:'admin/login',component:LoginComponent},
   {path:'doctor/login',component:LoginComponent},
-  {path:'stepper',component:StepperComponent},
-  {path:'stepperpage',component:StepperpageComponent},
+  {path:'stepperpage',component:StepperComponent},
+ // {path:'stepperpage',component:StepperpageComponent},
   {path:'appointmentinteracation', component:AppointmentinteractionComponent},
   {path: 'time-and-date/:doctorId',component:TimeanddateComponent},
   

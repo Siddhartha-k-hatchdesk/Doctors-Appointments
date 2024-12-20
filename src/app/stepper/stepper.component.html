@@ -1,10 +1,11 @@
-<div class="container mt-5">
+<div class="container">
   <ul class="nav nav-pills nav-justified">
     <li class="nav-item" *ngFor="let step of steps;let i=index">
       <div class="d-grid">
         <button
         (click)="onClick(i)"
         [class.active]="selectedIndex===i"
+        [disabled]="!isStepClickable(i)"
         class="nav-link py-3 fw-bold">
       {{step.label}}
     </button>
@@ -15,3 +16,26 @@
     <ng-container [ngTemplateOutlet]="selected.content"></ng-container>
   </div>
 </div>
+
+
+<div class="row">
+    <div class="col-md-11 mx-auto mat-stepper">
+       <mat-horizontal-stepper [linear]="linearModeSelected" #stepper>
+          <mat-step label="AppointmentIntercation">
+             <app-appointmentinteraction></app-appointmentinteraction>
+          </mat-step>
+          <mat-step label="TimeAndDate">
+             <app-timeanddate></app-timeanddate>
+          </mat-step>
+          <mat-step label="UserBookingForm">
+             <!-- Add your third component or content here -->
+              <app-userdetailform></app-userdetailform>
+          </mat-step>
+          <mat-step label="Complete">
+            <app-thankyoupage></app-thankyoupage>
+          </mat-step>
+          <!-- Continue adding steps here -->
+       </mat-horizontal-stepper>
+    </div>
+ </div>
+ 
