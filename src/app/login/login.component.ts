@@ -15,8 +15,7 @@ export class LoginComponent {
   message: boolean=false;
   isAdminLogin:boolean=false;
   isDoctorLogin:boolean=false;
-  show_button: Boolean = false;
-  show_eye: Boolean = false;
+  showPasswordField: boolean = false;
  
 
   constructor(private loginService:LoginServiceService,private router:Router,private userService:UserServiceService,private route:ActivatedRoute){
@@ -80,7 +79,7 @@ export class LoginComponent {
           }
         },
         error:(error)=>{
-          alert('user not found! Please check your Email or password.');
+          alert("We dont't recognize that email or password !Please check your credentials and try again");
         }
       });
     }
@@ -90,9 +89,8 @@ export class LoginComponent {
     }
   }
 
-  showPassword() {
-    this.show_button = !this.show_button;
-    this.show_eye = !this.show_eye;
+  togglePasswordVisibility() {
+    this.showPasswordField = !this.showPasswordField;
   }
 
 }

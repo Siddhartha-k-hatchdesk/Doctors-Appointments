@@ -171,7 +171,31 @@ onSearchClick(): void {
   } else {
     this.isSelectionValid = true;
   }
+ // Check if only one doctor is selected and no specialist is selected
+if (this.selectedDoctor.length === 1 && this.selectedSpecialist.length === 0) {
+  const selectedDoctorId = this.selectedDoctor[0];
+  const selectedSpecialistId = this.selectedSpecialist.length > 0 ? this.selectedSpecialist[0] : null; // If any specialist is selected
 
+  // Save the doctor ID and specialist ID in the shared service
+  this.Sharedservice.setDoctorId(selectedDoctorId.toString());
+  
+  if (selectedSpecialistId) {
+    this.Sharedservice.setSpecialistId(selectedSpecialistId.toString());
+  }
+
+  // Add a slight delay to show the loading indicator before navigation
+  setTimeout(() => {
+    this.Sharedservice.hideLoading(); // Stop loading indicator
+    this.router.navigate(['/stepperpage'], { 
+      queryParams: { 
+        doctorId: selectedDoctorId, 
+        specialistId: selectedSpecialistId || '' // Pass specialistId as query param, if selected
+      }
+    });
+  }, 500); // Delay of 500ms for better user experience
+
+  return;
+}
   // Convert selectedLocation to a number or keep it undefined if not selected
   const locationId: number | undefined = this.selectedLocation ? Number(this.selectedLocation) : undefined;
 

@@ -22,7 +22,7 @@ export class UserAppointmentComponent implements OnInit {
       width: '600px',
       height: 'auto',
     });
-
+      
     // After dialog is closed, check if booking was successful and refresh the list
     dialogRef.afterClosed().subscribe(result => {
       if (result) { // Check if we received a booking response

@@ -1,20 +1,4 @@
-
-
-<!-- <nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img src="assets/Bootstrap_logo.svg.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
-        Appointment
-      </a>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="/">Home</a>
-        </li>
-        </ul>
-    </div>
-  </nav> -->
-  
-  <div class="container">
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
             <div class="text-center login-title mt-5">
@@ -23,47 +7,47 @@
                 <ng-template #otherLogins>
                     <h2 *ngIf="isDoctorLogin; else userLogin">Doctor Login</h2>
                     <ng-template #userLogin>
-                    <h2>Login</h2>
+                        <h2>Login</h2>
                     </ng-template>
                 </ng-template>
-                </div>
+            </div>
             <div class="account-wall"
-            [ngClass]="{
-                'admin-login': isAdminLogin,
-                'doctor-login': isDoctorLogin,
-                'user-login': !isAdminLogin && !isDoctorLogin
-            }">
-                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
-                    alt="">
+                 [ngClass]="{
+                    'admin-login': isAdminLogin,
+                    'doctor-login': isDoctorLogin,
+                    'user-login': !isAdminLogin && !isDoctorLogin
+                 }">
+                <img class="profile-img"
+                     src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                     alt="">
                 <form class="form-signin needs-validation" [formGroup]="login" (ngSubmit)="onSubmit()">
-                <div>
-                    <input id="email" formControlName="email" type="email" placeholder="Email" class="form-control" required autofocus>
-                    <div Class="text-danger" *ngIf="login.controls['email'].invalid && (login.controls['email'].touched||login.controls['email'].dirty||isFormSubmitted)">
-                        <span *ngIf="login.controls['email'].errors?.['required']">Email is Required</span>
-                        <span *ngIf="login.controls['email'].errors?.['email']">This is not proper email</span>
+                    <div>
+                        <input id="email" formControlName="email" type="email" placeholder="Email address" class="form-control" required autofocus>
+                        <div class="text-danger" *ngIf="isFormSubmitted && login.controls['email'].invalid">
+                            <span *ngIf="login.controls['email'].errors?.['required']">The Email field is required</span>
+                            <span *ngIf="login.controls['email'].errors?.['email']">This is not a valid email</span>
+                        </div>
                     </div>
-                </div>
-                <div>
-                <div style="position: relative;">
-                    <input id="password" formControlName="password" [type]="show_button ? 'text' : 'password'" placeholder="Password"  class="form-control" required/>
-                    <button type="button"  class="show-password-button"  (click)="showPassword()" 
-                    style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); border: none; background: none;">
-                    <i class="fa" [ngClass]="show_eye ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    <div>
+                        <div style="position: relative;">
+                            <input id="password" formControlName="password" [type]="showPasswordField  ? 'text' : 'password'" placeholder="Password" class="form-control" required />
+                            <button type="button" class="show-password-button" (click)="togglePasswordVisibility()"
+                                    style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); border: none; background: none;">
+                                <i class="fa" [ngClass]="showPasswordField  ? 'fa-eye-slash' : 'fa-eye'"></i>
+                            </button>
+                        </div>
+                        <div class="text-danger" *ngIf="isFormSubmitted && login.controls['password'].invalid">
+                            <span *ngIf="login.controls['password'].errors?.['required']">The Password field is required</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">
+                        Sign in
                     </button>
-                </div>       
-                    <div Class="text-danger" *ngIf="login.controls['password'].invalid && (login.controls['password'].touched||login.controls['password'].dirty||isFormSubmitted)">
-                        <span *ngIf="login.controls['password'].errors?.['required']">Password is required</span>
-                        <!-- <span *ngIf="login.controls['password'].errors?.['pattern']">
-                            Password must be at least 8 characters long, contain one uppercase letter, 
-                            one lowercase letter,one number, and one special character
-                        </span> -->
-                    </div>
-                </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">
-                    Sign in</button>
                 </form>
             </div>
-            <p class="text-center new-account" *ngIf="!isAdminLogin && !isDoctorLogin">If you havn't account?<a routerLink="/register">Register</a></p>
+            <p class="text-center new-account" *ngIf="!isAdminLogin && !isDoctorLogin">
+                If you don't have an account? <a routerLink="/register">Register</a>
+            </p>
         </div>
     </div>
 </div>

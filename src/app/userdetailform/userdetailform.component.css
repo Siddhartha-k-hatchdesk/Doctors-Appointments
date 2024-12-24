@@ -1,12 +1,15 @@
     .card-registration .select-input.form-control[readonly]:not([disabled]) {
     font-size: 1rem;
-    line-height: 2.15;
     padding-left: .75em;
     padding-right: .75em;
     }
-    .card-registration  {
+    .py-5 {
+        padding-top: 0rem !important;
+        padding-bottom: 3rem !important;
+      }
+    /* .card-registration  {
     top: 10px;
-    }
+    } */
     /* .popup{
         width: 400px;
         background:black;

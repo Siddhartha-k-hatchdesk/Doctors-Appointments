@@ -25,6 +25,7 @@ import { AppointmentinteractionComponent } from './appointmentinteraction/appoin
 import { AddSpecializationComponent } from './admin-portal/add-specialization/add-specialization.component';
 import { DoctorprofileComponent } from './doctor-portal/doctorprofile/doctorprofile.component';
 import { TimeanddateComponent } from './timeanddate/timeanddate.component';
+import { ThankyoupageComponent } from './thankyoupage/thankyoupage.component';
 
 
 const routes: Routes = [
@@ -40,6 +41,7 @@ const routes: Routes = [
  // {path:'stepperpage',component:StepperpageComponent},
   {path:'appointmentinteracation', component:AppointmentinteractionComponent},
   {path: 'time-and-date/:doctorId',component:TimeanddateComponent},
+  
   
   {path:'doctor-portal',
    canActivate:[authGuard],
@@ -77,10 +79,10 @@ const routes: Routes = [
     {path:'add-doctor/:id',component:AddDoctorComponent},
     {path:'doctor-list',component:DoctorListComponent},
     {path:'add-specialization',component:AddSpecializationComponent}
-   
+    
   ]},
   {path:'searchdoctor',component:SearchdoctorlistComponent},
-  
+  {path:'Thankyou',component:ThankyoupageComponent},
   
 ];
 

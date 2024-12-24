@@ -1,9 +1,23 @@
+
 <section class="vh-100 gradient-custom">
     <div class="container py-5 h-100">
       <div class="row justify-content-center align-items-center h-100">
         <div class="col-12 col-lg-9 col-xl-7">
           <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
             <div class="card-body p-4 p-md-5">
+              <ng-container *ngIf="isLoggedIn; else showForm">
+                <h3 class="mb-4">Details</h3>
+                <p><strong>Name:</strong> {{ userDetails?.name }}</p>
+                <p><strong>Email:</strong> {{ userDetails?.email }}</p>
+                <p><strong>Gender:</strong> {{ userDetails?.gender }}</p>
+                <p><strong>Phone:</strong> {{ userDetails?.phoneNumber }}</p>
+                <p><strong>Date of Birth:</strong> {{ userDetails?.dateOfBirth }}</p>
+                <div class="mt-2">
+                  <button type="button" class="btn btn-success float-right ms-3" (click)="submitBooking()">Submit</button>
+                  <button type="button" class="btn btn-primary float-right" matStepperPrevious>Prev</button>
+                </div>
+              </ng-container>
+              <ng-template #showForm>
               <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
               <form [formGroup]="register" (ngSubmit)="onSubmit()" class="needs-validation">
                 <div class="row">
@@ -11,7 +25,6 @@
                     <div class="form-outline">
                         <!-- <label class="form-label" for="name" >Name*</label> -->
                       <input id="name" formControlName="name" type="text" class="form-control form-control-lg" placeholder="Name"/>
-                      
                       <div class="text-danger" *ngIf="register.controls['name'].invalid && (register.controls['name'].touched || register.controls['name'].dirty || isFormSubmitted)">
                         <span *ngIf="register.controls['name'].errors?.['required']">Name is Required</span>
                       </div>
@@ -25,6 +38,9 @@
                       <div class="text-danger" *ngIf="register.controls['email'].invalid && (register.controls['email'].touched || register.controls['email'].dirty || isFormSubmitted)">
                         <span *ngIf="register.controls['email'].errors?.['required']">Email is Required</span>
                         <span *ngIf="register.controls['email'].errors?.['email']">This is not a proper email</span>
+                        <span *ngIf="register.controls['email'].errors?.['emailExists']">
+                          This email is already registered
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -79,35 +95,20 @@
                   </div>
                 </div>
   
-                <div class="mt-4 pt-2">
+                <div class="mt-2 pt-2">
                     
-                  <button type="submit" class="btn btn-success float-right ms-3"[disabled]="register.invalid || isFormSubmitted" matStepperNext>Submit</button>
+                  <button type="submit" class="btn btn-success float-right ms-3"[disabled]="register.invalid || isFormSubmitted">Submit</button>
                   <button type="button" class="btn btn-primary float-right " matStepperPrevious>Prev</button>
                   <!-- <button type="button" class="btn btn-primary ms-3" matStepperNext>Next</button> -->
                 </div>
               </form>
+              </ng-template>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <!-- <div 
-  class="popup" 
-  [ngClass]="{ 'open-popup': isPopupVisible }">
-  <img src="/assets/Logo/404-tick.png">
-  <h2>Thank You</h2>
-  <p>Your Appointment has been successfully booked. Thanks</p>
-  <button type="button">Ok</button>
-</div> -->
-
-  <!-- <script>
-    let popup=document.getElementById("popup");
-    function openPopup(){
-      popup.classList.add(".open-popup");
-    }
-    function closePopup(){
-      popup.classList.remove(".open-popup");
-    }
-  </script> -->
+  
+ 
 

@@ -74,17 +74,23 @@
     margin-top: 10px;
 }
 .show-password-button {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
     cursor: pointer;
     background: none;
     border: none;
     padding: 0;
-  }
+    z-index: 2; /* Ensures it stays on top of the input field */
+}
   .show-password-button i {
     font-size: 16px;
     color: #aaa; /* Optional: Adjust color for better visibility */
   }
   .form-control {
     padding-right: 40px;
+    position: relative;
     /* Add padding to make space for the button inside the input */
   }
   .text-danger {

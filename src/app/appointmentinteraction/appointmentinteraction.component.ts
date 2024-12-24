@@ -23,13 +23,13 @@ export class AppointmentinteractionComponent implements OnInit {
     
     console.log('Doctor ID in Appointment Interaction Component:', this.doctorId);
   }
-  onProceedClick(): void {
-    if (this.selectedOption && this.doctorId) {
-      console.log('Proceed clicked. Selected Doctor ID:', this.doctorId);
-      // Trigger the API here when "Proceed" button is clicked
-      this.doctorservice.getDoctorAvailability(Number(this.doctorId)); // Ensure doctorId is passed as a number
-    } else {
-      console.log('No option selected or no doctor selected.');
-    }
-  }
+  // onProceedClick(): void {
+  //   if (this.selectedOption && this.doctorId) {
+  //     console.log('Proceed clicked. Selected Doctor ID:', this.doctorId);
+  //     // Trigger the API here when "Proceed" button is clicked
+  //     this.doctorservice.getDoctorAvailability(Number(this.doctorId)); // Ensure doctorId is passed as a number
+  //   } else {
+  //     console.log('No option selected or no doctor selected.');
+  //   }
+  // }
 }

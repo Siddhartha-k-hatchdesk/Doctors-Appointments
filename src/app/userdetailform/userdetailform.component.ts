@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RegisterServiceService } from '../Services/Register/register-service.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedDataServiceService } from '../Services/sevices/shared-data-service.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { CdkStepper } from '@angular/cdk/stepper';
 
 
 
@@ -11,13 +13,16 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './userdetailform.component.html',
   styleUrl: './userdetailform.component.css'
 })
-export class UserdetailformComponent {
+export class UserdetailformComponent implements OnInit {
+  @Input() stepper!: CdkStepper;
+  
   register : FormGroup;
   isFormSubmitted:boolean=false;
-errorMessage: string='';
-isPopupVisible:boolean=false;//varible to store error message
+  errorMessage: string='';
+  isLoggedIn:boolean=false;
+  userDetails:any;
 
-  constructor(private sharedservice:SharedDataServiceService,private registerService:RegisterServiceService,private toastr:ToastrService){
+  constructor(private router:Router, private sharedservice:SharedDataServiceService,private registerService:RegisterServiceService,private toastr:ToastrService){
 
     this.register = new FormGroup({
       name : new FormControl("",[Validators.required]),
@@ -34,14 +39,55 @@ isPopupVisible:boolean=false;//varible to store error message
       ])
     })
   }
-  openPopup() {
-    this.isPopupVisible = true;
+  ngOnInit(): void {
+    this.fetchUserDetails();
   }
-
-  closePopup() {
-    this.isPopupVisible = false;
+  fetchUserDetails() {
+    this.sharedservice.loggedinUser().subscribe({
+      next: (response: any) => {
+        this.isLoggedIn = true; // User is logged in
+        this.userDetails = {
+          name: response.name,
+          email: response.email,
+          gender: response.gender,
+          dateOfBirth: response.dateOfBirth,
+          phoneNumber: response.phone
+        };
+      },
+      error: (error: any) => {
+        this.isLoggedIn = false;
+        // this.toastr.error("Failed to fetch user details. Please try again.");
+      }
+    });
   }
-  onSubmit(){
+  submitBooking() {
+    if (this.isLoggedIn) {
+      // Prepare booking details for logged-in user
+      const finalDetails = {
+        Name: this.userDetails.name,
+        Email: this.userDetails.email,
+        Gender: this.userDetails.gender,
+        Phone: this.userDetails.phoneNumber,
+        dateofbirth: this.userDetails.dateOfBirth,
+        preferreddate: this.sharedservice.getSelectedDate(),
+        preferredtime: this.sharedservice.getSelectedTime(),
+        Doctor: [this.sharedservice.getDoctorId()],
+        Specialization: [this.sharedservice.getSpecialistId()],
+      };
+  
+      this.sharedservice.userbooking(finalDetails).subscribe({
+        next: () => {
+          this.toastr.success('Booking successful');
+          this.stepper.next();
+        },
+        error: () => {
+          this.toastr.error('Booking failed. Please try again.');
+        },
+      });
+    }
+  }
+  
+  onSubmit() {
     this.isFormSubmitted = true;
     const isFormValid = this.register.valid;
 
@@ -54,36 +100,42 @@ isPopupVisible:boolean=false;//varible to store error message
         Password: formValue.password,
         Gender: formValue.gender,
         Phone: formValue.phoneNumber,
-        dateofbirth:formValue.dateOfBirth,
+        dateofbirth: formValue.dateOfBirth,
         preferreddate: this.sharedservice.getSelectedDate(),
         preferredtime: this.sharedservice.getSelectedTime(),
-        Doctor: [this.sharedservice.getDoctorId()],  // Include the doctor ID(s)
-        Specialization: [this.sharedservice.getSpecialistId()] // Include the specialization ID(s)
-        // Include any other fields that are part of BookingDTO
+        Doctor: [this.sharedservice.getDoctorId()],
+        Specialization: [this.sharedservice.getSpecialistId()],
       };
-      
-      console.log(finalDetails);
 
+      console.log(finalDetails);
       this.sharedservice.userbooking(finalDetails).subscribe({
         next: (response) => {
-          this.toastr.success('Registration successful');
+          this.toastr.success('Booking successful');
           this.register.reset();
           this.isFormSubmitted = false;
           this.register.patchValue({ gender: 'Male' });
-          this.errorMessage = ''; // Clear any error message
+          this.errorMessage = '';
+          this.isFormSubmitted = false;
+
+          // Move to the next step
+          this.stepper.next();
         },
         error: (error) => {
-          this.isFormSubmitted = false; // Reset submit state on error
-          if (error.status === 409) {
-            this.toastr.info('A user with this email already exists.');
+          this.isFormSubmitted = false;
+
+          if (error.status === 400 && error.error?.message?.includes("email is already registered")) {
+            // Set a custom error for the email field
+            this.register.controls['email'].setErrors({ emailExists: true });
           } else {
-            this.toastr.error('Registration failed. Please try again.');
+            // Generic error handling
+            this.toastr.error('Booking failed. Please try again.');
           }
-        }
+        },
       });
     } else {
       console.log('Form is not valid');
-      this.isFormSubmitted = false; // Reset submit state if form invalid
+      this.isFormSubmitted = false;
     }
-}
+  }
+  
 }

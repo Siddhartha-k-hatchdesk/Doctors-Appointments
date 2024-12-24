@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { SharedDataServiceService } from '../Services/sevices/shared-data-service.service';
 import  $ from 'jquery';
 import { DoctorServiceService } from '../Services/Doctor/doctor-service.service';
+import { ActivatedRoute } from '@angular/router';
 
 interface DateItem {
   day: string;
@@ -35,12 +36,24 @@ export class TimeanddateComponent implements OnInit, AfterViewInit {
   constructor(
     private doctorservice: DoctorServiceService,
     private sharedservice: SharedDataServiceService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private route:ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.doctorId = this.sharedservice.getDoctorId();  // Get doctor ID
-    if (this.doctorId) {
+    // First check if we have a doctor ID from the shared service
+    this.doctorId = this.sharedservice.getDoctorId(); 
+
+    if (!this.doctorId) {
+      // If no doctor ID from the service, check query params
+      this.route.queryParams.subscribe((params) => {
+        this.doctorId = params['doctorId'];
+        if (this.doctorId) {
+          this.fetchDoctorAvailability(); // Fetch the availability when doctorId is available
+        }
+      });
+    } else {
+      // If doctor ID is available from shared service, fetch the availability
       this.fetchDoctorAvailability();
     }
   }
@@ -49,24 +62,24 @@ export class TimeanddateComponent implements OnInit, AfterViewInit {
     if (this.doctorId) {
       this.doctorservice.getDoctorAvailability(Number(this.doctorId)).subscribe((availability) => {
         console.log('Availability response:', availability);
-  
+
         if (availability && availability.days) {
           this.doctorAvailability = availability.days;
-          console.log('Doctor Availability:', this.doctorAvailability);  // Log to check structure
-          
+          console.log('Doctor Availability:', this.doctorAvailability);
+
+          // Proceed with setting availability for days and slots
           this.daysOfWeek.forEach((item) => {
             const dayLowerCase = item.day.toLowerCase();
             item.isAvailable = this.doctorAvailability[dayLowerCase] !== undefined && this.doctorAvailability[dayLowerCase] !== null;
           });
-  
-          this.generateDates();  // Now generate dates after availability is fetched
+
+          this.generateDates(); // Generate available dates
         } else {
           console.log('No availability data found for doctor.');
         }
       });
     }
   }
-
   generateDates(): void {
     if (!this.doctorAvailability || Object.keys(this.doctorAvailability).length === 0) {
       console.log('Doctor availability data is not available yet.');

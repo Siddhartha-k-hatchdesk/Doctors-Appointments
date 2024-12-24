@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -41,8 +41,22 @@ export class SharedDataServiceService {
 
   // Booking API call
   userbooking(BookingDTO: any): Observable<any> {
-    return this.httpclient.post(`${this.url}/userbookappointment`, BookingDTO);
+     const token = localStorage.getItem('auth_token');  // Retrieve the token from localStorage
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`  // Add the JWT token to the Authorization header
+        });
+    return this.httpclient.post(`${this.url}/bookappointment`, BookingDTO, { headers });
   }
+  loggedinUser(): Observable<any> {
+    const token = localStorage.getItem('auth_token'); // Retrieve the token from localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Add the JWT token to the Authorization header
+    });
+  
+    return this.httpclient.get(`${this.url}/getdetails`, { headers });
+  }
+  
 
   // Doctor ID methods
   setDoctorId(id: string): void {

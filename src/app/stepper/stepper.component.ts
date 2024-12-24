@@ -10,25 +10,30 @@ import { Component } from '@angular/core';
 export class StepperComponent extends CdkStepper {
   linearModeSelected = true;
 
-  // onClick method to prevent skipping any steps
-  onClick(index: number): void {
-    // In linear mode, the user can only go to the next step (immediate next step) or previous steps.
-    if (this.linearModeSelected) {
-      // Allow moving to the next step only if it's the immediate next step.
-      if (index === this.selectedIndex + 1) {
-        this.selectedIndex = index;  // Proceed to the next step.
-      } else if (index <= this.selectedIndex) {
-        this.selectedIndex = index;  // Allow going back to previous steps.
-      } else {
-        alert('Please complete the current step before proceeding to the next one.');
-      }
+ // onClick method to prevent skipping any steps
+ onClick(index: number): void {
+  if (this.linearModeSelected) {
+    // Users can only proceed if they are at the next step or a previous step
+    if (index === this.selectedIndex + 1) {
+      this.selectedIndex = index;  // Proceed to the next step
+    } else if (index < this.selectedIndex) {
+      this.selectedIndex = index;  // Allow going back to previous steps
+    } else {
+      // Prevent users from jumping ahead
+      alert('Please complete the current step before proceeding to the next one.');
     }
   }
+}
 
-  // Method to check if the step is clickable
-  isStepClickable(index: number): boolean {
-    // In linear mode, only the current or previous steps are clickable.
-    // Allow clicking the immediate next step and the previous steps, but not skipping.
-    return this.linearModeSelected ? index <= this.selectedIndex : true;
-  }
+// Method to check if the step is clickable
+isStepClickable(index: number): boolean {
+  // In linear mode, only the current or previous steps are clickable
+  return this.linearModeSelected ? index <= this.selectedIndex : true;
+}
+
+// Optionally you can also prevent skipping steps completely at initialization
+ngOnInit() {
+  // Ensures that no steps can be clicked unless they are the current or previous step
+  this.selectedIndex = 0;  // Start at the first step
+}
 }
