@@ -51,23 +51,22 @@ export class UserAppointmentComponent implements OnInit {
 }
 
    // Method to load appointments for the logged-in user
-  loadUserAppointments(): void {
+   loadUserAppointments(): void {
     this.sharedservice.showLoading();
     this.bookservice.getAppointmentsForUser(this.currentPage, this.pageSize).subscribe(
-        (response: any) => {
-            console.log('API Response:', response); // Log full response
-            this.users = response?.appointments || []; // Assign appointments array
-            this.totalPages = response?.totalPages || 1; // Assign total pages
-           // console.log('Assigned Users:', this.users); // Log assigned users
-            this.sharedservice.hideLoading();
-        },
-        (error: any) => {
-            console.error('Error fetching appointments:', error);
-            this.sharedservice.hideLoading();
-        }
+      (response: any) => {
+        console.log('API Response:', response); // Log full response
+        this.users = response?.data || []; // Assign appointments array
+        this.totalPages = Math.ceil(response?.totalCount / this.pageSize) || 1; // Calculate total pages
+        this.sharedservice.hideLoading();
+      },
+      (error: any) => {
+        console.error('Error fetching appointments:', error);
+        this.sharedservice.hideLoading();
+      }
     );
-}
-
+  }
+  
 
   changePage(action: string): void {
     if (action === 'prev' && this.currentPage > 1) {

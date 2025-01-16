@@ -28,8 +28,12 @@
   accept="image/*"
 />
 <div *ngIf="newSpecialization.image" class="mt-2">
-  <img [src]="newSpecialization.image" alt="Specialization Image" class="img-thumbnail" style="max-width: 100px;" />
+  <img [src]="getImageUrl(newSpecialization.image)"
+       alt="Specialization Image"
+       class="img-thumbnail" style="max-width: 100px;" />
 </div>
+
+
     <div class="modal-actions">
       <button
         type="submit"

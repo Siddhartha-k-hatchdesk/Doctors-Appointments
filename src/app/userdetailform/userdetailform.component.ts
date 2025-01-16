@@ -98,6 +98,7 @@ export class UserdetailformComponent implements OnInit {
     if (this.isLoggedIn) {
       // Prepare booking details for logged-in user
       this.sharedservice.showLoading();
+      const specialization = this.sharedservice.getSpecialistId();
       const userDetails = {
         Name: this.userDetails.name,
         Email: this.userDetails.email,
@@ -107,7 +108,7 @@ export class UserdetailformComponent implements OnInit {
         preferreddate: this.sharedservice.getSelectedDate(),
         preferredtime: this.sharedservice.getSelectedTime(),
         Doctor: [this.sharedservice.getDoctorId()],
-        Specialization: [this.sharedservice.getSpecialistId()],
+        Specialization: specialization ? [specialization] : [], // Set empty array if no specialization
       };
       console.log("userdetails:",userDetails);
       this.sharedservice.userbooking(userDetails).subscribe({

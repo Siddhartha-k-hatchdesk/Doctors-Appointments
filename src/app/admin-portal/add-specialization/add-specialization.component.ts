@@ -71,19 +71,20 @@ export class AddSpecializationComponent implements OnInit,AfterViewInit {
   }
   openModal(specialization?: any): void {
     this.isModalOpen = true;
-
+  
     if (specialization) {
       // Editing mode
       this.editingId = specialization.id;
       this.newSpecialization.specializationName = specialization.specializationName;
-      this.newSpecialization.image = specialization.imagePath;
+      this.newSpecialization.image = specialization.imagePath; // Ensure correct path or file is set
       console.log('Editing Specialization:', this.newSpecialization);
     } else {
       // Adding mode
       this.editingId = null;
-      this.newSpecialization = { specializationName: '' , image: null};
+      this.newSpecialization = { specializationName: '', image: null };
     }
   }
+  
   closeModal(): void {
     this.isModalOpen = false;
     this.newSpecialization = { specializationName: '', image: null };
@@ -95,6 +96,12 @@ export class AddSpecializationComponent implements OnInit,AfterViewInit {
       this.newSpecialization.image = file; // Save the file in `newSpecialization.image`
     }
   }
+  isImageFile(image: any): boolean {
+    return image instanceof File;
+  }
+  getImageUrl(image: any): string {
+    return this.isImageFile(image) ? URL.createObjectURL(image) : image;
+  }
   
   addSpecialization(): void {
     if (this.newSpecialization.specializationName.trim()) {
@@ -102,13 +109,15 @@ export class AddSpecializationComponent implements OnInit,AfterViewInit {
   
       const formData = new FormData();
       formData.append('specializationName', this.newSpecialization.specializationName);
+  
       if (this.newSpecialization.image) {
+        console.log("Image selected for upload:", this.newSpecialization.image); // Log image data
         formData.append('image', this.newSpecialization.image);
-        console.log("formdata",formData);
       }
   
       if (this.editingId) {
         // Update specialization
+        console.log("Sending request to update specialization with ID:", this.editingId);
         this.doctorservice.updateSpecialization(this.editingId, formData).subscribe(
           (response: any) => {
             this.sharedservice.hideLoading(); // Hide loading spinner after the request
@@ -130,7 +139,7 @@ export class AddSpecializationComponent implements OnInit,AfterViewInit {
             this.toastr.success('Specialization added successfully!');
             this.loadSpecializations(); // Update table
             this.closeModal(); // Close modal
-          },                                                    
+          },
           (error: any) => {
             this.sharedservice.hideLoading(); // Hide loading spinner on error
             console.error('Error adding specialization:', error);
@@ -148,6 +157,8 @@ export class AddSpecializationComponent implements OnInit,AfterViewInit {
       this.toastr.warning('Specialization name cannot be empty!');
     }
   }
+  
+  
   
   
   deletespecialization(id: number): void {

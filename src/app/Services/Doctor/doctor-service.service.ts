@@ -36,7 +36,6 @@ getSpecializations(page: number = 1, pageSize: number = 5, searchQuery: string =
   return this.http.get<any>(`${this.url}/specializations?page=${page}&pageSize=${pageSize}&searchQuery=${searchQuery}`);
 }
 
-
 // getDSpecializationById(id:number){
 //   return this.http.get<any>(`${this.apiUrl}/specialization/${id}`);
 // }
