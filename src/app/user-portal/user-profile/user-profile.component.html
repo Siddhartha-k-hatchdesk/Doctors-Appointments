@@ -1,0 +1,56 @@
+<h2>Edit Profile</h2>
+<hr class="mt-0 mb-4">
+<div class="row">
+    <div class="col-xl-4">
+        <!-- Profile picture card-->
+        <div class="card mb-4 mb-xl-0">
+            <div class="card-header">Profile Picture</div>
+            <div class="card-body text-center">
+    <!-- Profile picture image-->
+    <img class="img-account-profile rounded-circle mb-2" [src]="user.profileImageUrl || 'http://bootdey.com/img/Content/avatar/avatar1.png'" alt="Profile Image">
+    <!-- Profile picture help block-->
+    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+    <!-- Profile picture upload button-->
+    <input
+    type="file"
+    id="fileInput"
+    (change)="onFileSelected($event)"
+    accept="image/*"
+    style="display: none;"
+  />
+    <button class="btn btn-primary" (click)="triggerFileInput()">Upload new image</button>
+</div>
+
+        </div>
+    </div>
+    <div class="col-xl-8">
+        <!-- Account details card-->
+        <div class="card mb-4">
+            <div class="card-header">Account Details</div>
+            <div class="card-body">
+                <form (ngSubmit)="saveChanges()">
+                    <div class="mb-3">
+                      <label class="small mb-1" for="name">Name</label>
+                      <input type="text" class="form-control" id="name" [(ngModel)]="user.name" name="name" />
+                    </div>
+                    <div class="mb-3">
+                      <label class="small mb-1" for="email">Email address</label>
+                      <input type="email" class="form-control" id="email" [(ngModel)]="user.email" name="email" />
+                    </div>
+                    <div class="row gx-3 mb-3">
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="gender">Gender</label>
+                        <input type="text" class="form-control" id="gender" [(ngModel)]="user.gender" name="gender" />
+                      </div>
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="phone">Phone Number</label>
+                        <input type="text" class="form-control" id="phone" [(ngModel)]="user.phone" name="phone number" />
+                      </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                  </form>
+                  
+            </div>
+        </div>
+    </div>
+</div>

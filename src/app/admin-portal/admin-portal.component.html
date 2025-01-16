@@ -46,20 +46,20 @@
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-align-justify"></i>
                 </button>
-                <p>Welcome to Admin-Portal</p>
+                <p>Welcome to Admin Portal</p>
                 <div class="profile" (click)="toggleMenu()">
                     <div class="user">
                         <h3>{{username}}</h3>
                     </div>
                     <div class="img-box">
-                        <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" alt="User Image">
+                        <img src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="User Image">
                     </div>
                 </div>
                 <div class="menu" [class.active]="isMenuActive">
                     <ul>
                         <li><i class="fa fa-user"></i>&nbsp;Profile</li>
-                        <li><i class="fa fa-envelope"></i>&nbsp;Inbox</li>
-                        <li><i class="fa fa-cog"></i>&nbsp;Settings</li>
+                        <li ><i class="fa fa-envelope"></i>&nbsp;Inbox</li>
+                        <li routerLink="/admin-portal/Changepassword" (click)="closeMenu()" ><i class="fa fa-cog"></i>&nbsp;Change Password</li>
                         <li (click)="logout()"><i class="fa fa-sign-out-alt"></i>&nbsp;Sign Out</li>
                     </ul>
                 </div>

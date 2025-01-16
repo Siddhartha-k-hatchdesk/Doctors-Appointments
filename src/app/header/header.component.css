@@ -69,3 +69,51 @@
     height: 80px;
     width: 160px;
  }
+ .gear-wrapper {
+    position: relative;
+  }
+  
+  .gear {
+    position: relative;
+    z-index: 1; /* Keep the gear icon clickable */
+  }
+  
+  .menu {
+    position: absolute;
+    top: 40px; /* Dropdown position below the gear icon */
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 2; /* Ensure menu appears above the gear */
+    display: none; /* Initially hidden */
+    flex-direction: column;
+  }
+  
+  .menu.active {
+    display: flex; /* Show menu when active */
+  }
+  
+  .menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .menu li {
+    padding: 10px;
+    cursor: pointer;
+    display: flex; /* Ensures the icon and text are aligned horizontally */
+    align-items: center; /* Vertically centers the text and icon */
+    white-space: nowrap; /* Prevents wrapping of text */
+  }
+  
+  .menu li i {
+    margin-right: 8px; /* Space between icon and text */
+  }
+  
+  .menu li:hover {
+    background-color: #8076dd; /* Highlight effect on hover */
+  }
+  
+  

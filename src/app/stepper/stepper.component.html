@@ -18,19 +18,23 @@
   </div>
 </div>
 
+
 <div class="row">
   <div class="col-md-11 mx-auto mat-stepper">
+    <div class="mb-3">
+      <h5 class="fw-bold">{{ doctorName }}</h5>
+    </div>
     <mat-horizontal-stepper [linear]="linearModeSelected" #stepper>
-      <mat-step label="Appointment">
+      <mat-step label="Choose How You’d Like to Consult">
         <app-appointmentinteraction></app-appointmentinteraction>
       </mat-step>
-      <mat-step label="TimeDate">
+      <mat-step label="Pick a Date & Time ">
         <app-timeanddate></app-timeanddate>
       </mat-step>
-      <mat-step label="UserBooking">
+      <mat-step label="Complete Your Information">
         <app-userdetailform [stepper]="stepper"></app-userdetailform>
       </mat-step>
-      <mat-step label="Complete">
+      <mat-step label="Booking Confirmed">
         <app-thankyoupage></app-thankyoupage>
       </mat-step>
     </mat-horizontal-stepper>

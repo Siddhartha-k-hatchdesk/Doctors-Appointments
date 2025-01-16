@@ -202,6 +202,7 @@ a.article:hover {
     transform: translateY(-10px);
     visibility: hidden;
     transition: 300ms;
+    cursor: pointer;
 }
 .menu::before {
     content: '';
@@ -229,6 +230,7 @@ a.article:hover {
     flex-direction: column;
     z-index: 10;
     background: #fff;
+    padding-left: 1rem;
 }
 
 .menu ul li {

@@ -3,6 +3,9 @@
             role="button">Book Appointment</a> -->
 
             <!-- <a class="btn btn-primary btn-sm" (click)="openAppointmentDialog()" role="button">Book Appointment</a> -->
+            <div *ngIf="isLoading">
+              <app-loading-spinner></app-loading-spinner>
+            </div>
             <a class="btn btn-primary btn-sm" routerLink="/searchdoctor" role="button">Book Appointment</a>
 
             <table class="table mt-2">
@@ -25,22 +28,39 @@
                   <td>{{item.statusName}}</td>
                   <td style="display: flex; gap: 10px;">
                     <!-- Buttons will be invisible and disabled when inProgressOrCompletedId matches the current item's ID -->
-                    <button 
+                    <!-- <button 
                     type="button" 
                     class="btn btn-primary" 
                     [style.visibility]="inProgressId === item.id ? 'hidden' : 'visible'" 
                     [disabled]="inProgressId === item.id">
                     Edit
-                  </button>
+                  </button> -->
                   <button 
-                    type="button" 
-                    class="btn btn-danger" 
-                    [style.visibility]="inProgressId === item.id ? 'hidden' : 'visible'" 
-                    [disabled]="inProgressId === item.id">
-                    Remove
-                  </button>
+                  type="button" 
+                  class="btn btn-danger" 
+                  [style.visibility]="inProgressId === item.id ? 'hidden' : 'visible'" 
+                  [disabled]="inProgressId === item.id"
+                  (click)="removeAppointment(item.id)">
+                  Remove
+                </button>
+                
                   </td>
                   
                 </tr>
               </tbody>
             </table>
+            <div *ngIf="users.length > 0" class="pagination-controls">
+              <label for="pageSize">Page Size:</label>
+              <select
+                id="pageSize"
+                class="form-select d-inline w-auto ms-2"
+                [(ngModel)]="pageSize"
+                (change)="onPageSizeChange($event)">
+                <option *ngFor="let size of [5, 10, 20, 50]" [value]="size">{{ size }}</option>
+              </select>
+            <div class="pagination-controls mt-3 float-right">
+              <button class="btn btn-sm btn-primary" (click)="changePage('prev')" [disabled]="currentPage === 1">Previous</button>
+              <span class="mx-2">Page {{ currentPage }} of {{ totalPages }}</span>
+              <button class="btn btn-sm btn-primary" (click)="changePage('next')" [disabled]="currentPage === totalPages">Next</button>
+            </div>
+            </div>

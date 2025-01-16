@@ -1,79 +1,79 @@
 <section>
   <div class="container">
-    <div class="row  mt-3">
-      <div class="col-md-3">
+    <div class="row mt-3">
+      <div class="col-md-3" *ngIf="fees">
         <div class="app-card-box" (click)="selectOption('hospital')" [class.selected]="selectedOption === 'hospital'">
           <div class="app-icon-circle">
-            <div class="apontment-icon"><i class="bi bi-hospital"></i><p>In Hospital</p></div>
-
-
+            <div class="apontment-icon">
+              <i class="bi bi-hospital"></i>
+              <p>In Hospital</p>
+            </div>
           </div>
-              <p class="app-box-para">Interact face to face at our hospital</p>
-              <div>
-                
-                <div class="appointment-price-1">
-               
-                  <span class="doctor-fee">Fee : <i class="bi bi-currency-rupee"></i>1500</span></div>
-              </div>
+          <p class="app-box-para">Interact face to face at our hospital</p>
+          <div>
+            <div class="appointment-price-1">
+              <span class="doctor-fee">Fee: <i class="bi bi-currency-rupee"></i>{{ fees.inHospitalFee }}</span>
+            </div>
+          </div>
         </div>
-
       </div>
-      <div class="col-md-3">
-        <div class="app-card-box"  (click)="selectOption('video')" [class.selected]="selectedOption === 'video'">
-          <div class="app-box-circle">
+
+      <div class="col-md-3" *ngIf="fees">
+        <div class="app-card-box" (click)="selectOption('video')" [class.selected]="selectedOption === 'video'">
           <div class="app-icon-circle">
-            <div class="apontment-icon"><i class="bi bi-webcam"></i><p>Vedio call</p></div>
+            <div class="apontment-icon">
+              <i class="bi bi-webcam"></i>
+              <p>Video Call</p>
+            </div>
           </div>
+          <p class="app-box-para">Schedule a virtual meet <br>from anywhere</p>
+          <div>
+            <div class="appointment-price-2">
+              <span class="doctor-fee">Fee: <i class="bi bi-currency-rupee"></i>{{ fees.videoCallFee }}</span>
+            </div>
           </div>
-              <p class="app-box-para">Schedule a virtual meet <br>from anywhere</p>
-              <div>
-                
-                <div class="appointment-price-2">
-               
-                  <span class="doctor-fee">Fee : <i class="bi bi-currency-rupee"></i>1500</span></div>
-              </div>
         </div>
-
       </div>
-      <div class="col-md-3">
-        <div class="app-card-box"(click)="selectOption('oncall')" [class.selected]="selectedOption === 'oncall'">
+
+      <div class="col-md-3" *ngIf="fees">
+        <div class="app-card-box" (click)="selectOption('oncall')" [class.selected]="selectedOption === 'oncall'">
           <div class="app-icon-circle">
-            <div class="apontment-icon"><i class="bi bi-phone-vibrate"></i><p>On Call</p></div>
-
-
+            <div class="apontment-icon">
+              <i class="bi bi-phone-vibrate"></i>
+              <p>On Call</p>
+            </div>
           </div>
-              <p class="app-box-para">Talk over the phone for quicker responses</p>
-              <div>
-                
-                <div class="appointment-price-3">
-               
-                  <span class="doctor-fee">Fee : <i class="bi bi-currency-rupee"></i>1500</span></div>
-              </div>
+          <p class="app-box-para">Talk over the phone for quicker responses</p>
+          <div>
+            <div class="appointment-price-3">
+              <span class="doctor-fee">Fee: <i class="bi bi-currency-rupee"></i>{{ fees.onCallFee }}</span>
+            </div>
+          </div>
         </div>
-
       </div>
-      <div class="col-md-3">
+
+      <div class="col-md-3" *ngIf="fees">
         <div class="app-card-box" (click)="selectOption('offline')" [class.selected]="selectedOption === 'offline'">
           <div class="app-icon-circle">
-            <div class="apontment-icon"><i class="bi bi-chat"></i><p>Off Line</p></div>
-
+            <div class="apontment-icon">
+              <i class="bi bi-chat"></i>
+              <p>Offline Query</p>
+            </div>
           </div>
-              <p class="app-box-para">Send a written query about your problem or treatment</p>
-              <div>
-                
-                <div class="appointment-price-4">
-               
-                  <span  class="doctor-fee">Fee : <i class="bi bi-currency-rupee"></i>1500</span></div>
-              </div>
+          <p class="app-box-para">Send a written query about your problem or treatment</p>
+          <div>
+            <div class="appointment-price-4">
+              <span class="doctor-fee">Fee: <i class="bi bi-currency-rupee"></i>{{ fees.offlineQueryFee }}</span>
+            </div>
+          </div>
         </div>
       </div>
-
     </div>
+
     <div class="appointment-step-button mt-5 ms-2">
       <button class="btn btn-success float-right ms-2" [disabled]="!selectedOption" cdkStepperNext>
         Proceed <i class="bi bi-arrow-right"></i>
       </button>
     </div>
-    
   </div>
- </section>
+</section>

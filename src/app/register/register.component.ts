@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { RegisterServiceService } from '../Services/Register/register-service.service';
+import { Router } from '@angular/router';
+import { SharedDataServiceService } from '../Services/sevices/shared-data-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -11,24 +14,39 @@ import { RegisterServiceService } from '../Services/Register/register-service.se
 export class RegisterComponent {
     register : FormGroup;
     isFormSubmitted:boolean=false;
-  errorMessage: string='';//varible to store error message
+    isLoading = false;
+    errorMessage: string='';//varible to store error message
 
-    constructor(private registerService:RegisterServiceService){
+    constructor(private registerService:RegisterServiceService,private router:Router,private sharedservice:SharedDataServiceService,private toastr:ToastrService){
 
       this.register = new FormGroup({
         name : new FormControl("",[Validators.required]),
         email : new FormControl("",[Validators.required,Validators.email]),
         gender:new FormControl("Male"),
         phoneNumber: new FormControl("",[
-          Validators.required,
           Validators.pattern("^[0-9]{10}$")
         ]),
         password:new FormControl("",[
           Validators.required,
           Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$") 
-        ])
-      })
+        ]),
+        confirmPassword: new FormControl("", [Validators.required])
+      },
+      { validators: this.passwordMatchValidator } // Attach the custom validator
+    );
+     // Subscribe to loading state
+     this.sharedservice.loading$.subscribe((loading) => {
+      this.isLoading = loading;
+    });
     }
+    // Custom Validator for Matching Passwords
+      passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+        const password = control.get('password')?.value;
+        const confirmPassword = control.get('confirmPassword')?.value;
+      
+        // Return an error if passwords do not match
+        return password && confirmPassword && password !== confirmPassword ? { passwordsMismatch: true } : null;
+      };
     onSubmit(){
       const isformvalid=this.register.valid;
       this.isFormSubmitted=true;
@@ -42,10 +60,13 @@ export class RegisterComponent {
           gender:formValue.gender,
           phone:formValue.phoneNumber
         };
+        this.sharedservice.showLoading();
         this.registerService.registerUser(user).subscribe({
           next:(response)=>{
-            alert('registraion succefully');
-            
+            this.sharedservice.hideLoading();
+            this.toastr.success('registraion succefully');
+             // Navigate to login page after successful registration
+          this.router.navigate(['/login']);
             //reset the form after succesfully submit
             this.register.reset();
             this.isFormSubmitted=false;
@@ -55,9 +76,11 @@ export class RegisterComponent {
           },
           error:(error)=>{
             if(error.status===409){
-              alert('A user with email already exites.');
+              this.sharedservice.hideLoading();
+              this.toastr.warning('A user with email already exites.');
             }
-            alert('registraion faild.Please try agin.');
+            this.sharedservice.hideLoading();
+            this.toastr.error('registraion faild.Please try agin.');
           }
         });
       }  

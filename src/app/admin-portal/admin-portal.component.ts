@@ -11,7 +11,9 @@ import { UserServiceService } from '../Services/User/user-service.service';
 export class AdminPortalComponent implements OnInit {
   username: string | null=null;
   isMenuActive = false;
-  constructor(private elementRef:ElementRef, private authService:AuthService, private router:Router,private userService:UserServiceService){}
+  constructor(private elementRef:ElementRef, private authService:AuthService, private router:Router,private userService:UserServiceService){
+    
+  }
 
   ngOnInit(): void {
     this.username = this.userService.getUserName();
@@ -34,19 +36,27 @@ export class AdminPortalComponent implements OnInit {
     }
   }
   
+closeMenu() {
+  this.isMenuActive = false; // Dropdown menu ko band karne ke liye
+}
 
   logout() {
     this.authService.logout();
-    const isAdmin = this.authService.isAdmin(); 
-    if (isAdmin) {
-      this.router.navigateByUrl('/admin/login').then(() => {
-        window.history.replaceState({}, '', '/admin/login'); // Forcing URL update
-      });
-    } else {
-      this.router.navigateByUrl('/login').then(() => {
-        window.history.replaceState({}, '', '/login'); // Forcing URL update
-      });
-    }
+    this.router.navigateByUrl('/').then(() => {
+        window.history.replaceState({}, '', '/'); // Redirect to HomeComponent
+    });
   }
-  
 }
+ // logout() {
+  //   this.authService.logout();
+  //   const isAdmin = this.authService.isAdmin(); 
+  //   if (isAdmin) {
+  //     this.router.navigate(['']).then(() => {
+  //       window.history.replaceState({}, '', '/admin/login'); // Forcing URL update
+  //     });
+  //   } else {
+  //     this.router.navigateByUrl('/login').then(() => {
+  //       window.history.replaceState({}, '', '/login'); // Forcing URL update
+  //     });
+  //   }
+  // }

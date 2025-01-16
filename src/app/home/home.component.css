@@ -16,4 +16,254 @@
     height: 3rem;
     color:black;
   }
+
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: #007bff; /* Customize spinner color */
+  }
+  .banner-section{
+    position: relative;
+    background-image: url("/assets/BackgrundImages/slider-bg-2.jpg");
+    width:100%;
+    height: 550px;
+    background-size:cover;
+    
+}
+.para_head{
+    letter-spacing: 2px;
+}
+.banner_heading{
+  position: relative;
+  top: 10%;
+   
+    font-size: 45px;
+    font-weight: 500;
+    color: #223a66;
+    text-transform: capitalize;
+    /* /* text-align: center */ 
+}
+.banner_paragraph{
+    word-spacing: 2px;
+}
+.Appointment_link{
+    width: 40%;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    padding-top: 10px;
+    border-radius: 30px;
+    background-color: rgb(172, 13, 13);
+    /* color: red; */
+    text-decoration: none;
+    cursor: pointer;
+}
+.Appointment_link:hover{
+    background-color:#223a66 ;
+}
+.Appointment_link a{
+    text-decoration: none;
+    color:white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.Appointment_big_box{
+    position: relative;
+    top: 40%;
+    transform: translateY(30%);
+}
+
+
+
+
+
+
+
+
+
+ 
+.Appointment{
+    position: relative;
+    top: 50px;
+    width:90%;
+    height: 30vh;
+    /* background-image: url("../IMAGES/BackGround_images/slider-bg-1.jpg"); */
+    /* background-size:cover */
+} 
+/* .Appointment_big_box{
+    position: relative;
+    top: 60%; 
+    Appointment
+}   */
+.appoinntment_head{
+    width: 35%;
+    height: 50px;
+    font-size: 25px;
+    font-weight: 300;
+    position: relative  ;
+    left: 20%;
+    padding-left: 25px;
+    /* border:1px solid #3966a7ed;; */
+    border-radius: 5px;
+   /* text-align: center; */
+   /* padding-left: 15px; */
+  
+   
+}
+.appoinntment_head h4{
+font-size: 35px;
+color:#223a66 ;
+
+}
+.Appointment-card{
+  display: flex;
+}
+
+.card_img img{
+  width: 250px;
+  height: 175px;
+  object-fit: contain;
+  object-fit: cover;
+  border-radius: 12px;
+  
+} 
+.Appointment-card{
+  margin-top: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15);
+  padding: 25px;
+}
+.card-heading h4{
+  font-size: 20px;
+  margin-left: 20px;
+
+}
+.link_button{
+  width: 200px;
+  height: 35px;
+  margin-left: 15px;
+  padding-top: 5px;
+  border-radius: 5px;
+  text-align: center;
+  /* border: 1px solid black; */
+  background-color: #3966a7ed;
+  cursor: pointer;
+  color: white;
+
+}
+
+.link_button a{
+  color: #fff;
+ width: 150px;
+  text-decoration: none;
+  margin: 20px;
+  font-size: 15px;
+}
+.link_button:hover{
+  /* border: 1px solid  #3966a7ed; */
+  background-color: rgb(172, 13, 13);
+      color: #fff;
+}
+
+/* .card-heading .service{
+  padding-top: 15px;
+} */
+.box-para{
+  margin-left: 20px;
+}
+.offer-box{
+  display: flex;
+  justify-content: center;
+
+}
+
+.price-tag{
+margin-left: 25px;
+color: red;
+font-size: 25px;
+padding-top: 15px;
+}
+.offer-pera{
+  padding-top: 15px;
+  color: red;
+  font-size: 15px;
+  margin-top: 5px;
+  margin-left: 15px;
+}
+.carosal-box{
+  /* border: 1px solid black; */
+  width: 100%;
+  height: 250px;
+}
+.owl-carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item {
+  display: inline-block;
+  text-align: center;
+  padding: 10px;
+}
+
+.image-item{
+width: 150px;
+height: 150px;
+border-radius:50%;
+/* border-radius: 50%; */
+border: 1px solid rgb(197, 190, 190);
+margin-top: 50px;
+margin-left: 20px;
+}
+
+/* .owl-carousel .owl-item img {
+  display: block !important;
+  width: 80% !important;
+  position: relative;
+  left: 15px !important;
+  top: 35px;
+} */
+
+.image_text_box{
+  text-align: center;
+  align-items: center;
+  font-size:15px;
+}
+.consult_link {
+  text-decoration: none;
+  color: #223a66;
+  text-align: center;
+  align-items: center;
+ width: 130px;
+ height: 30px;
+ position: relative;
+ left: 45px;
+ background-color: #2b6adf;
+ color: white;
+ border-radius: 5px;
+ padding-top: 2px;
+ cursor: pointer;
+}
+.consult_link:hover{
+  background-color: rgb(172, 13, 13);
+  color: #fff;
+}
+.consult_link a{
+  text-decoration: none;
+  color: #fff;
+  padding-top: 5px;
+}
+
   

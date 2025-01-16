@@ -7,7 +7,7 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
 import { RegisterComponent } from './register/register.component';
 import { UserPortalComponent } from './user-portal/user-portal.component';
 import { LoginComponent } from './login/login.component';
-import { AppointmentsComponent } from './appointments/appointments.component';
+import { AppointmentsComponent } from './doctor-portal/appointments/appointments.component';
 import { DoctorPortalComponent } from './doctor-portal/doctor-portal.component';
 import { AdminPortalComponent } from './admin-portal/admin-portal.component';
 import { UserDashboardComponent } from './user-portal/user-dashboard/user-dashboard.component';
@@ -20,12 +20,14 @@ import { DoctorListComponent } from './admin-portal/Doctor-List/doctor-list/doct
 import { AllappointmentsComponent } from './admin-portal/allappointments/allappointments.component';
 import { SearchdoctorlistComponent } from './searchdoctorlist/searchdoctorlist.component';
 import { StepperComponent } from './stepper/stepper.component';
-import { StepperpageComponent } from './stepperpage/stepperpage.component';
 import { AppointmentinteractionComponent } from './appointmentinteraction/appointmentinteraction.component';
 import { AddSpecializationComponent } from './admin-portal/add-specialization/add-specialization.component';
 import { DoctorprofileComponent } from './doctor-portal/doctorprofile/doctorprofile.component';
 import { TimeanddateComponent } from './timeanddate/timeanddate.component';
 import { ThankyoupageComponent } from './thankyoupage/thankyoupage.component';
+import { UserProfileComponent } from './user-portal/user-profile/user-profile.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 const routes: Routes = [
@@ -41,7 +43,8 @@ const routes: Routes = [
  // {path:'stepperpage',component:StepperpageComponent},
   {path:'appointmentinteracation', component:AppointmentinteractionComponent},
   {path: 'time-and-date/:doctorId',component:TimeanddateComponent},
-  
+  {path:'resetpassword',component:ResetPasswordComponent},
+ 
   
   {path:'doctor-portal',
    canActivate:[authGuard],
@@ -51,7 +54,9 @@ const routes: Routes = [
     {path:'',redirectTo:'doctor-dashboard',pathMatch:'full'},
     {path:'doctor-dashboard',component:DoctorDashboardComponent},
     {path:'appointments',component:AppointmentsComponent},
-    {path:'doctor-profile/:id',component:DoctorprofileComponent}
+    {path:'doctor-profile/:id',component:DoctorprofileComponent},
+    {path:'Changepassword',component:ChangePasswordComponent},
+  
   ]
   },
 
@@ -64,6 +69,8 @@ const routes: Routes = [
       {path:'',redirectTo:'user-dashboard',pathMatch:'full'},
       {path:'user-dashboard',component:UserDashboardComponent},
       {path:'user-appointment',component:UserAppointmentComponent},
+      {path:'user-profile',component:UserProfileComponent},
+      {path:'Changepassword',component:ChangePasswordComponent},
     ]
   },
   
@@ -78,7 +85,8 @@ const routes: Routes = [
     {path:'add-doctor',component:AddDoctorComponent},
     {path:'add-doctor/:id',component:AddDoctorComponent},
     {path:'doctor-list',component:DoctorListComponent},
-    {path:'add-specialization',component:AddSpecializationComponent}
+    {path:'add-specialization',component:AddSpecializationComponent},
+    {path:'Changepassword',component:ChangePasswordComponent},
     
   ]},
   {path:'searchdoctor',component:SearchdoctorlistComponent},

@@ -1,7 +1,14 @@
+<div *ngIf="isLoading">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+  
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
             <div class="text-center login-title mt-5">
+                <div *ngIf="errorMessage" class="alert alert-danger text-center single-line-error">
+                    {{ errorMessage }}
+                </div>
                 <!-- Dynamic Heading -->
                 <h2 *ngIf="isAdminLogin; else otherLogins">Admin Login</h2>
                 <ng-template #otherLogins>
@@ -11,6 +18,7 @@
                     </ng-template>
                 </ng-template>
             </div>
+            
             <div class="account-wall"
                  [ngClass]="{
                     'admin-login': isAdminLogin,
@@ -20,6 +28,7 @@
                 <img class="profile-img"
                      src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
                      alt="">
+                     
                 <form class="form-signin needs-validation" [formGroup]="login" (ngSubmit)="onSubmit()">
                     <div>
                         <input id="email" formControlName="email" type="email" placeholder="Email address" class="form-control" required autofocus>
@@ -40,6 +49,9 @@
                             <span *ngIf="login.controls['password'].errors?.['required']">The Password field is required</span>
                         </div>
                     </div>
+                    <p class="forgot-password">
+                        <a (click)="openForgotPasswordModal()">forgot password ?</a>
+                      </p>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">
                         Sign in
                     </button>
@@ -51,3 +63,35 @@
         </div>
     </div>
 </div>
+
+
+<div *ngIf="isForgotPasswordModalOpen" class="forgot-password-modal">
+    <div class="modal-content">
+      <h4>Forgot Password</h4>
+      <form [formGroup]="forgotPasswordForm" (ngSubmit)="onForgotPasswordSubmit()">
+        <div>
+          <input
+            id="forgot-password-email"
+            formControlName="email"
+            type="email"
+            placeholder="Enter your email"
+            class="form-control"
+            required
+          />
+          <div class="text-danger" *ngIf="isForgotPasswordFormSubmitted && forgotPasswordForm.controls['email'].invalid">
+            <span *ngIf="forgotPasswordForm.controls['email'].errors?.['required']">
+              The Email field is required
+            </span>
+            <span *ngIf="forgotPasswordForm.controls['email'].errors?.['email']">
+              This is not a valid email
+            </span>
+          </div>
+        </div>
+        <div class="modal-buttons">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-secondary" (click)="closeForgotPasswordModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

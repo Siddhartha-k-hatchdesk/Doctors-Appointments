@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginServiceService } from '../Services/Login/login-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserServiceService } from '../Services/User/user-service.service';
+import { SharedDataServiceService } from '../Services/sevices/shared-data-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: '.app-login',
@@ -16,9 +18,15 @@ export class LoginComponent {
   isAdminLogin:boolean=false;
   isDoctorLogin:boolean=false;
   showPasswordField: boolean = false;
- 
-
-  constructor(private loginService:LoginServiceService,private router:Router,private userService:UserServiceService,private route:ActivatedRoute){
+  isLoading = false;
+  errorMessage: string = '';  // Declare this property to hold error message
+  forgotPasswordForm: FormGroup; // Form for the forgot password modal
+  isForgotPasswordFormSubmitted: boolean = false;
+  isForgotPasswordModalOpen: boolean = false; // Modal state
+  
+  constructor(private toastr:ToastrService, private sharedservice:SharedDataServiceService, private loginService:LoginServiceService,private router:Router,private userService:UserServiceService,private route:ActivatedRoute)
+  {
+    
     const currentPath = this.route.snapshot.routeConfig?.path;
     this.isAdminLogin = currentPath === 'admin/login';
     this.isDoctorLogin = currentPath === 'doctor/login';
@@ -26,8 +34,58 @@ export class LoginComponent {
     this.login = new FormGroup({
       email : new FormControl("",[Validators.required,Validators.email]),
       password:new FormControl("",[Validators.required ])
-    })
+    });
+    this.forgotPasswordForm = new FormGroup({
+      email: new FormControl("", [Validators.required, Validators.email]),
+    });
+     // Subscribe to loading state
+     this.sharedservice.loading$.subscribe((loading) => {
+      this.isLoading = loading;
+    });
+}
+openForgotPasswordModal() {
+  this.isForgotPasswordModalOpen = true;
+}
+
+closeForgotPasswordModal() {
+  this.isForgotPasswordModalOpen = false;
+  this.isForgotPasswordFormSubmitted = false;
+  this.forgotPasswordForm.reset();
+}
+
+
+onForgotPasswordSubmit() {
+  this.isForgotPasswordFormSubmitted = true;
+  this.sharedservice.showLoading();
+  if (this.forgotPasswordForm.invalid) {
+    this.sharedservice.hideLoading();
+    // If form is invalid, stop further processing
+    return;
   }
+
+  const email = this.forgotPasswordForm.get('email')?.value;
+  console.log('Forgot Password submitted for email:', email);
+
+  // Call the service method to trigger forgot password API
+  this.loginService.forgotPassword(email).subscribe({
+    next: (response) => {
+      
+      this.toastr.success('A password reset link has been sent to your email.');
+      this.sharedservice.hideLoading();
+    },
+    error: (error) => {
+      
+      this.toastr.error('There was an issue sending the reset link.');
+      this.sharedservice.hideLoading();
+
+    }
+  });
+
+  // Optionally, close the modal after successful submission
+  this.isForgotPasswordModalOpen = false;
+  this.isForgotPasswordFormSubmitted = false;
+  this.forgotPasswordForm.reset();
+}
 
   onSubmit(){
     const isformvalid=this.login.valid;
@@ -40,11 +98,21 @@ export class LoginComponent {
         username:formValue.email,
         password:formValue.password
       };
+      this.sharedservice.showLoading();
       this.loginService.loginUser(users).subscribe({
         next:(response)=>{
-         
+          this.sharedservice.hideLoading(); // Stop the loading spinner
           this.loginService.handleLoginResponse(response);
+           // Check if the response contains 'name' property
+        console.log('Response:', response);
+
+        if (response.name) {
+          localStorage.setItem('name', response.username); // Save name to localStorage
+        } else {
+          console.error('Name not found in response!');
+        }
           localStorage.setItem('roleId', response.roleId.toString()); // Save roleId
+       
           const roleId =response.roleId;
           let returnUrl='';
           
@@ -79,7 +147,9 @@ export class LoginComponent {
           }
         },
         error:(error)=>{
-          alert("We dont't recognize that email or password !Please check your credentials and try again");
+          this.sharedservice.hideLoading(); // Stop the loading spinner
+          this.errorMessage = "We don't recognize that email or password";
+        
         }
       });
     }

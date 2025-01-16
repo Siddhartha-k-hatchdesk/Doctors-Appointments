@@ -92,7 +92,7 @@ a:focus {
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: #6d7fcc;
+    background: #9094ad;
 }
 
 a[data-toggle="collapse"] {
@@ -202,6 +202,7 @@ a.article:hover {
     transform: translateY(-10px);
     visibility: hidden;
     transition: 300ms;
+    cursor: pointer;
 }
 .menu::before {
     content: '';
@@ -229,6 +230,7 @@ a.article:hover {
     flex-direction: column;
     z-index: 10;
     background: #fff;
+    padding-left: 1rem;
 }
 
 .menu ul li {
@@ -251,6 +253,82 @@ a.article:hover {
 .menu ul li a i {
     font-size: 1.2em;
 }
+
+/* Style the toggle switch */
+/* Style the toggle switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 140px; /* Increased width for better space */
+    height: 40px;
+    left: 10px; /* Adjusted height */
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px; /* Padding around the text */
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #4CAF50;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(100px); /* Adjusted position for better alignment */
+  }
+  
+  /* Adjust the text visibility */
+  .switch-text {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    width: 100%; /* Ensures the text takes full width */
+    text-align: center; /* Center the text */
+    white-space: nowrap; /* Prevent the text from wrapping */
+    overflow: hidden; /* Hide overflowed text */
+  }
+  
+  input:checked + .slider .switch-text {
+    color: white;
+  }
+  
+  /* Optional: Style for the label */
+  .toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */

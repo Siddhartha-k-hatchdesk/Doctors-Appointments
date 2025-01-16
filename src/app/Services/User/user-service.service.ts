@@ -11,9 +11,16 @@ export class UserServiceService {
   }
   private url="https://localhost:7009/users";
   private username:string | null=null;
-
+  private doctorName: string | null= null;
   constructor(private http:HttpClient){}
 
+  setDoctorName(name: string) {
+    this.doctorName = name;
+  }
+  
+  getDoctorName1(): string |null{
+    return this.doctorName;
+  }
   setUser(username:string){
     this.username=username;
     localStorage.setItem('username',username);
@@ -27,7 +34,13 @@ export class UserServiceService {
     this.username=null;
     localStorage.removeItem('username');
   }
-
+  getUserDetails(id: number): Observable<any> {
+    return this.http.get<any>(`${this.url}/userdetails/${id}`);
+  }
+  updateUserDetails(id: number, userDetails: any): Observable<any> {
+    return this.http.put<any>(`${this.url}/updateuserdetails/${id}`, userDetails);
+  }
+  
   getDoctors():Observable<any[]>{
     return this.http.get<any[]>(`${this.url}/doctors`);
   }
@@ -48,7 +61,6 @@ export class UserServiceService {
   getDoctorsBySpecialization(specializationId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.url}/getDoctorsBySpecialization?specializationId=${specializationId}`)
     .pipe(
-      delay(2000),
     );
   }
   getDoctorsByLocationAndSpecialization(locationId?: number, specializationId?: number): Observable<any[]> {
@@ -68,18 +80,38 @@ export class UserServiceService {
 
   
    
-  getAppointments(doctorId?: number, specialistId?: number): Observable<any[]> {
-    let params = new HttpParams();
-    
-    if (doctorId) {
-      params = params.set('doctorId', doctorId.toString());
-    }
-    if (specialistId) {
-      params = params.set('specialistId', specialistId.toString());
-    }
-  
-    return this.http.get<any[]>(`${this.url}/Bookings/ds`, { params });
+getAppointments(
+  doctorId: number | null = null,
+  specialistId: number | null = null,
+  searchQuery: string = '',   
+  sortBy: string = 'preferreddate',
+  isAscending: boolean = true, 
+  pageNumber: number = 1,
+  pageSize: number = 10
+): Observable<any> {
+  let params = new HttpParams();
+
+  if (doctorId !== null) {
+    params = params.set('doctorId', doctorId.toString());
   }
+  if (specialistId !== null) {
+    params = params.set('specialistId', specialistId.toString());
+  }
+
+  // Add search query, sort field, and sort order to the params
+  if (searchQuery) {
+    params = params.set('searchQuery', searchQuery);
+  }
+  params = params.set('sortBy', sortBy);
+  params = params.set('isAscending', isAscending.toString());
+
+  params = params.set('pageNumber', pageNumber.toString()).set('pageSize', pageSize.toString());
+
+  return this.http.get<any>(`${this.url}/Bookings/ds`, { params });
+}
+
+
+
   
 getDoctorId(): number | null {
   const doctorId = localStorage.getItem('doctorId');
@@ -98,6 +130,10 @@ getLocation(searchTerm: string): Observable<any> {
 //   return this.http.get<any[]>(`${this.url}/doctors/search`, { params: { searchTerm } });
 // }
 getuserdetailsbyId(id:number){
-  return this.http.get<any>(`${this.url}/userdeatils/${id}`);
+  return this.http.get<any>(`${this.url}/userdetails/${id}`);
 }
+uploadProfileImage(formData: FormData): Observable<any> {
+  return this.http.post(`${this.url}/upload-profile-image`, formData);
+}
+
 }

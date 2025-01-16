@@ -7,9 +7,6 @@ import { event } from 'jquery';
 import { SearchSharedServiceService } from '../Services/SearchShared/search-shared-service.service';
 import { DoctorServiceService } from '../Services/Doctor/doctor-service.service';
 
-
-
-
 @Component({
   selector: 'app-searchdoctorlist',
   templateUrl: './searchdoctorlist.component.html',
@@ -28,122 +25,214 @@ export class SearchdoctorlistComponent implements OnInit{
   isSelectionValid: boolean = true; // Flag for validation
   loading: boolean = false;
   doctorAvailability: { days: string; time: string }[] = [];
-
+  totalRecords: number = 0;
+  page: number = 1;
+  pageSize: number = 5;
+  totalPages: number = 0;
+  isGetAppointmentPage=false;
   constructor(private doctorservice:DoctorServiceService, private searchshared:SearchSharedServiceService, private userservice:UserServiceService, private bookservice:BookServiceService, private route:ActivatedRoute, private Sharedservice:SharedDataServiceService, private router:Router){}
   ngOnInit(): void {
-    // Load specialists and doctors asynchronously
+    // First, load specialists and doctors asynchronously
     this.loadSpecialistsAndDoctors().then(() => {
       // After specialists and doctors are loaded, retrieve the shared data
       const searchData = this.searchshared.getSearchData();
+      
       if (searchData) {
         this.selectedLocation = searchData.location ? Number(searchData.location) : null;
         this.selectedSpecialists = searchData.specialists || [];
         this.selectedDoctors = searchData.doctors || [];
-
+        
         console.log('Selected Location:', this.selectedLocation);
         console.log('Selected Specialists:', this.selectedSpecialists);
         console.log('Selected Doctors:', this.selectedDoctors);
-        console.log('Location List:', this.location);
-        console.log('Combined List:', this.combinedList);
       }
-      // Proceed to display the filtered doctors
-      this.displayFilteredDoctors();
-      
-    });
   
-    // Now load locations
-    // this.loadLocation({term: 'Noida', items: []});
-  }
-
-  // getSelectedItemsDisplay(): string {
-  //   const specialistNames = this.selectedSpecialists.map((id) => `Specialist ${id}`).join(', ');
-  //   const doctorNames = this.selectedDoctors.map((id) => `Doctor ${id}`).join(', ');
-  
-  //   return [specialistNames, doctorNames].filter(Boolean).join(' | ');
-  // }
-  displayFilteredDoctors(): void {
-    // Fetch filtered doctors from service
-    this.filteredDoctors = this.bookservice.getFilteredDoctors()||[];
-    this.searchPerformed = true;
-    
-
-    if (this.filteredDoctors.length > 0) {
-      console.log('Filtered Doctors in search doctor list:', this.filteredDoctors);
-    } else {
-      console.log('No doctors found.');
-    }
-
-    if (this.specializations) {
-      const specializationNames = this.selectedSpecialists.map((id) => {
-        const spec = this.specializations.find((s: { id: number }) => s.id === Number(id));
-        return spec ? spec.specializationName : '<unknown>';
+      // Now, check if we have query parameters that override or add to the selected specialists
+      this.route.queryParams.subscribe((params) => {
+        const specialistsParam = params['specialists'];
+        if (specialistsParam) {
+          this.selectedSpecialists = JSON.parse(specialistsParam);
+          console.log('Specialists from Query Params:', this.selectedSpecialists);
+        }
+        
+        // Proceed to display the filtered doctors with the combined data
+        this.fetchDoctors();
       });
-      console.log('Selected Specializations:', specializationNames);
-    } else {
-      console.error('Specializations are not loaded.');
-    }
+    });
   }
-  onAppointmentClick(doctorId: number, specializationId: number): void {
+  
+  onPageChange(newPage: number): void {
+    this.page = newPage;
+    this.fetchDoctors();
+  }
+  onPageSizeChange(event: Event) {
+    this.pageSize = +(event.target as HTMLSelectElement).value; // Get selected value
+    this.page = 1; // Reset to the first page
+    this.fetchDoctors(); // Reload data
+  }
+ 
+  fetchDoctors(): void {
+    const locationId = this.selectedLocation ? Number(this.selectedLocation) : undefined;
+    const specialistIds = this.selectedSpecialists.length ? this.selectedSpecialists : [];
+   const doctorIds = this.selectedDoctors.length ? this.selectedDoctors : [];
+    
+   // Ensure we have valid search criteria
+  if (!specialistIds.length && !locationId) {
+    console.log('No valid search criteria. Not fetching doctors.');
+    this.filteredDoctors = [];
+    this.totalRecords = 0;
+    this.totalPages = 0;
+    return;
+  }
+    // Ensure there are valid search criteria
+    if (!locationId && specialistIds.length === 0 && doctorIds.length === 0) {
+      console.log('No valid search criteria. Not fetching doctors.');
+      this.filteredDoctors = [];
+      this.totalRecords = 0;
+      this.totalPages = 0;
+      return;
+    }
+  
+    console.log('Fetching doctors with criteria:', { locationId, specialistIds, doctorIds });
+  
+    this.bookservice.getDoctorsByLocation(locationId, specialistIds, doctorIds, this.page, this.pageSize).subscribe({
+      next: (response) => {
+        this.filteredDoctors = response.data || [];
+        this.totalRecords = response.totalRecords || 0;
+        this.totalPages = response.totalPages || 0;
+  
+        if (this.filteredDoctors.length === 0) {
+          console.log('No doctors found based on the selected criteria.');
+        } else {
+          console.log('Filtered doctors:', this.filteredDoctors);
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching doctors:', error);
+      }
+    });
+  }
+  
+
+  
+  onAppointmentClick(doctorId: number, specializationId: number,doctorName: string): void {
     console.log('Selected Doctor ID:', doctorId);
     console.log('Selected Specialist ID:', specializationId);
-  
+    console.log('Selected Doctor Name:', doctorName)
     // Set both IDs in the shared service
     this.Sharedservice.setDoctorId(doctorId.toString()); 
     this.Sharedservice.setSpecialistId(specializationId.toString()); // Set specialistId
+    this.userservice.setDoctorName(doctorName);
+   // console.log('Doctor Name set in service:', doctorName);
   }
+  
+  formatTime(time: string): string {
+    const [hours, minutes] = time.split(':').map(Number);
+    const suffix = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12; // Convert to 12-hour format
+    return `${formattedHours}:${minutes.toString().padStart(2, '0')} ${suffix}`;
+  }
+  
+  getAvailableDays(availability: any): { days: string, startTime: string, endTime: string } {
+    const days = [
+      { name: 'MON', available: availability.monday },
+      { name: 'TUE', available: availability.tuesday },
+      { name: 'WED', available: availability.wednesday },
+      { name: 'THU', available: availability.thursday },
+      { name: 'FRI', available: availability.friday },
+      { name: 'SAT', available: availability.saturday },
+      { name: 'SUN', available: availability.sunday }
+    ];
+  
+    // Filter the days based on availability and join them as a comma-separated string
+    const availableDays = days.filter(day => day.available).map(day => day.name).join(', ');
+  
+    // Format the time range using the start and end times
+    const formattedStartTime = this.formatTime(availability.startTime);
+    const formattedEndTime = this.formatTime(availability.endTime);
+  
+    return {
+      days: availableDays, // Comma-separated string of available days
+      startTime: formattedStartTime,
+      endTime: formattedEndTime
+    };
+  }
+
+  // displayFilteredDoctors(): void {
+  //   // Fetch filtered doctors from service
+  //   this.filteredDoctors = this.bookservice.getFilteredDoctors()||[];
+  //   this.searchPerformed = true;
+    
+
+  //   if (this.filteredDoctors.length > 0) {
+  //     console.log('Filtered Doctors in search doctor list:', this.filteredDoctors);
+  //   } else {
+  //     console.log('No doctors found.');
+  //   }
+
+  //   if (this.specializations) {
+  //     const specializationNames = this.selectedSpecialists.map((id) => {
+  //       const spec = this.specializations.find((s: { id: number }) => s.id === Number(id));
+  //       return spec ? spec.specializationName : '<unknown>';
+  //     });
+  //     console.log('Selected Specializations:', specializationNames);
+  //   } else {
+  //     console.error('Specializations are not loaded.');
+  //   }
+  // }
     // Navigate to the next page
     // this.router.navigate(['/stepperpage']).then(() => {
     //   document.body.scrollTop = 0;
     //   document.documentElement.scrollTop = 0;
     // });
   
-  onSpecializationDoctorChange(event: any): void {
-    const selectedValues = event || []; // Handle multiple selection
-    console.log("Event:", event);
-    console.log("Selected Values:", selectedValues); // Debug selected values
+  // onSpecializationDoctorChange(event: any): void {
+  //   const selectedValues = event || []; // Handle multiple selection
+  //   console.log("Event:", event);
+  //   console.log("Selected Values:", selectedValues); // Debug selected values
   
-    this.selectedSpecialists = []; // Clear previous selections
-    this.selectedDoctors = []; // Clear previous selections
-    selectedValues.forEach((item: any) => {
-      console.log("Processing Item:", item);
+  //   this.selectedSpecialists = []; // Clear previous selections
+  //   this.selectedDoctors = []; // Clear previous selections
+  //   selectedValues.forEach((item: any) => {
+  //     console.log("Processing Item:", item);
   
-      // Check if the selected item has a specializationId (i.e., it is a Specialist)
-      if (item.specializationId) {
-        this.selectedSpecialists.push(item.specializationId);
-        console.log('Added Specialist ID:', item.specializationId);
-      }
-      // Check if the selected item has a doctorId (i.e., it is a Doctor)
-      else if (item.doctorId) {
-        this.selectedDoctors.push(item.doctorId);
-        console.log('Added Doctor ID:', item.doctorId);
-      }
-      // Handle fallback cases for debugging
-      else {
-        console.log('Item does not have specializationId or doctorId:', item);
-      }
-    });
+  //     // Check if the selected item has a specializationId (i.e., it is a Specialist)
+  //     if (item.specializationId) {
+  //       this.selectedSpecialists.push(item.specializationId);
+  //       console.log('Added Specialist ID:', item.specializationId);
+  //     }
+  //     // Check if the selected item has a doctorId (i.e., it is a Doctor)
+  //     else if (item.doctorId) {
+  //       this.selectedDoctors.push(item.doctorId);
+  //       console.log('Added Doctor ID:', item.doctorId);
+  //     }
+  //     // Handle fallback cases for debugging
+  //     else {
+  //       console.log('Item does not have specializationId or doctorId:', item);
+  //     }
+  //   });
   
-    console.log('Final selected specialists:', this.selectedSpecialists);
-    console.log('Final selected doctors:', this.selectedDoctors);
-  }
-  loadLocation(event: {term: string; items: any[] }): void {
-    const searchTerm = event.term;
-    console.log('Search Term:', searchTerm); // Debug log
+  //   console.log('Final selected specialists:', this.selectedSpecialists);
+  //   console.log('Final selected doctors:', this.selectedDoctors);
+  // }
+  // loadLocation(event: {term: string; items: any[] }): void {
+  //   const searchTerm = event.term;
+  //   console.log('Search Term:', searchTerm); // Debug log
   
-    if (searchTerm.length >= 3) {
-      this.userservice.getLocation(searchTerm).subscribe(
-          (data: any) => {
-              this.location = data;
-              console.log('Loaded Locations:', this.location); // Log loaded locations
-          },
-          (error) => {
-              console.error("Error loading locations", error);
-          }
-      );
-    } else {
-      this.location = []; // Clear the location list if less than 3 characters
-    }
-  }
+  //   if (searchTerm.length >= 3) {
+  //     this.userservice.getLocation(searchTerm).subscribe(
+  //         (data: any) => {
+  //             this.location = data;
+  //             console.log('Loaded Locations:', this.location); // Log loaded locations
+  //         },
+  //         (error) => {
+  //             console.error("Error loading locations", error);
+  //         }
+  //     );
+  //   } else {
+  //     this.location = []; // Clear the location list if less than 3 characters
+  //   }
+  // }
   loadSpecialistsAndDoctors(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.userservice.getDoctors().subscribe({
@@ -192,126 +281,128 @@ export class SearchdoctorlistComponent implements OnInit{
     });
   }
   
-  onLocationChange(event: any): void {
-    console.log('Selected Location ID:', this.selectedLocation);
+  // onLocationChange(event: any): void {
+  //   console.log('Selected Location ID:', this.selectedLocation);
   
-    if (this.selectedLocation) {
-        const locationId = Number(this.selectedLocation); // Ensure it's a number
-        this.userservice.getDoctorsByLocation(locationId).subscribe({
-            next: (response) => {
-                console.log('Filtered Doctors response:', response); // Log the response
+  //   if (this.selectedLocation) {
+  //       const locationId = Number(this.selectedLocation); // Ensure it's a number
+  //       this.userservice.getDoctorsByLocation(locationId).subscribe({
+  //           next: (response) => {
+  //               console.log('Filtered Doctors response:', response); // Log the response
                 
-                // Filtered doctors from the selected location
-                this.filteredDoctorsByLocation = response || []; // Update the filtered list
+  //               // Filtered doctors from the selected location
+  //               this.filteredDoctorsByLocation = response || []; // Update the filtered list
                 
-                // Maintain the original combined list, filtering to keep only specialists and the new filtered doctors
-                const filteredDoctorsWithSpecialization = this.filteredDoctorsByLocation.map((doctor: any) => ({
-                    groupName: 'Doctors',
-                    name: `${doctor.name} (${doctor.specialization})`, // Format as needed
-                    doctorId: doctor.id,
-                }));
+  //               // Maintain the original combined list, filtering to keep only specialists and the new filtered doctors
+  //               const filteredDoctorsWithSpecialization = this.filteredDoctorsByLocation.map((doctor: any) => ({
+  //                   groupName: 'Doctors',
+  //                   name: `${doctor.name} (${doctor.specialization})`, // Format as needed
+  //                   doctorId: doctor.id,
+  //               }));
                
-                // Combine specialists and filtered doctors
-                this.combinedList = [
-                    ...this.combinedList.filter(item => item.groupName === 'Specialists'), // Only keep specialists
-                    ...filteredDoctorsWithSpecialization // Add filtered doctors with specializations
-                ];
+  //               // Combine specialists and filtered doctors
+  //               this.combinedList = [
+  //                   ...this.combinedList.filter(item => item.groupName === 'Specialists'), // Only keep specialists
+  //                   ...filteredDoctorsWithSpecialization // Add filtered doctors with specializations
+  //               ];
   
-                console.log('Updated Combined List after location change:', this.combinedList);
-            },
-            error: (error) => {
-                console.error('Error fetching doctors:', error);
-            }
-        });
-    } else {
-        // If no location is selected, reset the combined list to show all specialists and doctors
-        this.loadSpecialistsAndDoctors(); // This will re-fetch and display the full list
+  //               console.log('Updated Combined List after location change:', this.combinedList);
+  //           },
+  //           error: (error) => {
+  //               console.error('Error fetching doctors:', error);
+  //           }
+  //       });
+  //   } else {
+  //       // If no location is selected, reset the combined list to show all specialists and doctors
+  //       this.loadSpecialistsAndDoctors(); // This will re-fetch and display the full list
         
-    }
-  }
-  onSearchClick(): void {
-    this.Sharedservice.showLoading();
+  //   }
+  // }
+//   onSearchClick(): void {
+//     this.Sharedservice.showLoading();
   
-    // Ensure at least one selection is made
-    if (this.selectedSpecialists.length === 0 && this.selectedDoctors.length === 0) {
-      this.isSelectionValid = false;
-      this.Sharedservice.hideLoading();
-      return;
-    } else {
-      this.isSelectionValid = true;
-    }
+//     // Clear previous search results
+//     this.filteredDoctors = [];
+//     this.bookservice.setFilteredDoctors([]);
   
-    // Convert selectedLocation to a number or keep it undefined if not selected
-    const locationId: number | undefined = this.selectedLocation ? Number(this.selectedLocation) : undefined;
-    
-    // Pass the entire arrays of selected specialists and doctors
-    const specialistIds: number[] | undefined = this.selectedSpecialists.length ? this.selectedSpecialists : [];
-    const doctorIds: number[] | undefined = this.selectedDoctors.length ? this.selectedDoctors : [];
+//     // Ensure at least one selection is made
+//     if (this.selectedSpecialists.length === 0 && this.selectedDoctors.length === 0) {
+//       this.isSelectionValid = false;
+//       this.Sharedservice.hideLoading();
+//       console.log('No selection made. Please select at least one specialist or doctor.');
+//       return;
+//     } else {
+//       this.isSelectionValid = true;
+//     }
+//    // Check if only one doctor is selected and no specialist is selected
+// if (this.selectedDoctors.length === 1 && this.selectedSpecialists.length === 0) {
+//   const selectedDoctorId = this.selectedDoctors[0];
+//   const selectedSpecialistId = this.selectedSpecialists.length > 0 ? this.selectedSpecialists[0] : null; // If any specialist is selected
+
+//   // Save the doctor ID and specialist ID in the shared service
+//   this.Sharedservice.setDoctorId(selectedDoctorId.toString());
   
-    console.log('Selected Location ID:', locationId);
-    console.log('Selected Specialist IDs:', specialistIds);
-    console.log('Selected Doctor IDs:', doctorIds);
+//   if (selectedSpecialistId) {
+//     this.Sharedservice.setSpecialistId(selectedSpecialistId.toString());
+//   }
+
+//   // Add a slight delay to show the loading indicator before navigation
+//   setTimeout(() => {
+//     this.Sharedservice.hideLoading(); // Stop loading indicator
+//     this.router.navigate(['/stepperpage'], { 
+//       queryParams: { 
+//         doctorId: selectedDoctorId, 
+//         specialistId: selectedSpecialistId || '' // Pass specialistId as query param, if selected
+//       }
+//     });
+//   }, 500); // Delay of 500ms for better user experience
+
+//   return;
+// }
+//     // Convert location, specialists, and doctors into variables
+//     const locationId = this.selectedLocation ? Number(this.selectedLocation) : undefined;
+//     const specialistIds = this.selectedSpecialists.length ? this.selectedSpecialists : [];
+//     const doctorIds = this.selectedDoctors.length ? this.selectedDoctors : [];
   
-    // this.searchShared.setSearchCriteria(locationId, specialistIds, doctorIds);
-   
-    this.bookservice.getDoctorsByLocation(locationId, specialistIds, doctorIds).subscribe({
-      next: (response) => {
-        this.filteredDoctors = response.data || response || [];
-        this.Sharedservice.hideLoading();
+//     // Validate the search criteria
+//     if (!locationId && specialistIds.length === 0 && doctorIds.length === 0) {
+//       this.Sharedservice.hideLoading();
+      
+//       console.log('No valid search criteria provided.');
+//       return;
+//     }
   
-        if (this.filteredDoctors.length > 0) {
-          this.bookservice.setFilteredDoctors(this.filteredDoctors);
-         
-          this.router.navigate(['/searchdoctor'], {
-            queryParams: {
-              location: this.selectedLocation,
-              specialists: JSON.stringify(this.selectedSpecialists),
-              doctors: JSON.stringify(this.selectedDoctors),
-            },
-          });
-        } else {
-          console.log('No doctors found.');
-        }
-      },
-      error: (error) => {
-        this.router.navigate(['/searchdoctor']);
-        this.Sharedservice.hideLoading();
-        console.error('Error fetching doctors:', error);
-      }
-    });
-  }
+//     console.log('Search Criteria:', { locationId, specialistIds, doctorIds });
   
-  formatTime(time: string): string {
-    const [hours, minutes] = time.split(':').map(Number);
-    const suffix = hours >= 12 ? 'PM' : 'AM';
-    const formattedHours = hours % 12 || 12; // Convert to 12-hour format
-    return `${formattedHours}:${minutes.toString().padStart(2, '0')} ${suffix}`;
-  }
+//     // Call the API to fetch matching doctors
+//     this.bookservice.getDoctorsByLocation(locationId, specialistIds, doctorIds).subscribe({
+//       next: (response) => {
+//         this.filteredDoctors = response.data || [];
+//         this.Sharedservice.hideLoading();
   
-  getAvailableDays(availability: any): { days: string, startTime: string, endTime: string } {
-    const days = [
-      { name: 'MON', available: availability.monday },
-      { name: 'TUE', available: availability.tuesday },
-      { name: 'WED', available: availability.wednesday },
-      { name: 'THU', available: availability.thursday },
-      { name: 'FRI', available: availability.friday },
-      { name: 'SAT', available: availability.saturday },
-      { name: 'SUN', available: availability.sunday }
-    ];
+//         if (this.filteredDoctors.length > 0) {
+//           this.bookservice.setFilteredDoctors(this.filteredDoctors);
   
-    // Filter the days based on availability and join them as a comma-separated string
-    const availableDays = days.filter(day => day.available).map(day => day.name).join(', ');
+//           this.searchshared.setSearchData({
+//             location: this.selectedLocation,
+//             specialists: this.selectedSpecialists,
+//             doctors: this.selectedDoctors,
+//           });
   
-    // Format the time range using the start and end times
-    const formattedStartTime = this.formatTime(availability.startTime);
-    const formattedEndTime = this.formatTime(availability.endTime);
+//           this.router.navigate(['/searchdoctor']);
+//         } else {
+//           console.log('No doctors found.');
+//         }
+//       },
+//       error: (error) => {
+//         this.Sharedservice.hideLoading();
+//         alert('No doctor found this specilist in thislocation! Please select other location near you');
+//         console.error('Error fetching doctors:', error);
+//       }
+//     });
+//   }
   
-    return {
-      days: availableDays, // Comma-separated string of available days
-      startTime: formattedStartTime,
-      endTime: formattedEndTime
-    };
-  }
+ 
   
   
 }

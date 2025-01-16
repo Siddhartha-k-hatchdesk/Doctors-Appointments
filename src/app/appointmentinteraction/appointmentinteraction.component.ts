@@ -10,7 +10,7 @@ import { DoctorServiceService } from '../Services/Doctor/doctor-service.service'
 export class AppointmentinteractionComponent implements OnInit {
   selectedOption: string | null = null;
   doctorId: string | null = null;
-
+  fees: any = null;
   constructor(private doctorservice:DoctorServiceService, private sharedService:SharedDataServiceService){}
 
   selectOption(option: string) {
@@ -22,6 +22,19 @@ export class AppointmentinteractionComponent implements OnInit {
     this.doctorId = this.sharedService.getDoctorId();
     
     console.log('Doctor ID in Appointment Interaction Component:', this.doctorId);
+    // Fetch fees if doctor ID is available
+    if (this.doctorId) {
+      this.doctorservice.getDoctorfee(Number(this.doctorId)).subscribe({
+        next: (response) => {
+          this.fees = response; // Store the response
+          console.log('Fetched Fees:', this.fees);
+        },
+        error: (error) => {
+          console.error('Error fetching fees:', error);
+        }
+      });
+    }
+  }
   }
   // onProceedClick(): void {
   //   if (this.selectedOption && this.doctorId) {
@@ -32,4 +45,4 @@ export class AppointmentinteractionComponent implements OnInit {
   //     console.log('No option selected or no doctor selected.');
   //   }
   // }
-}
+

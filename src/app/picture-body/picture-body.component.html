@@ -1,19 +1,8 @@
- <section class="banner-section" >
-    <div class="container-fluid">
-      <div class="row col-lg-12 col-md-12 col-sm-12 ">
 
-        <div class="text-block py-2 ps-5 ">
-          <!-- <span class="para_head py-2 mt-2  letter-specing text-uppercase"><p>Total Health care solution</p></span> -->
-          <h1 class="banner_heading ms-2 mt-5 ps-5 ">Your most trusted health partner</h1>
-        </div>
-      </div>
-      <div class="Appointment">
-        <div class="container">
-          <div class="row  ms-auto Appointment_big_box">
-            <div class=" pb-3 appoinntment_head">
-              <h4>Book An Appointment</h4>
-            </div>
-               <!-- start of search  -->
+<div *ngIf="isLoading">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+              <!-- start of search  -->
           <div class="row justify-content-left ms-auto Apointment-box ps-5 ms-3">
             <!-- Location Box -->
             <div class="col-md-4 col-sm-6 location-box">
@@ -29,9 +18,7 @@
                 (change)="onLocationChange($event)">
               </ng-select>
             </div>
-            
-            
-            <!-- Search Box for Doctor & Speciality -->
+<!-- Search Box for Doctor & Speciality -->
 <div class="col-md-4 col-sm-6 search-box">
   <div class="Search-icon"><i class="bi bi-search"></i></div>
   <ng-select 
@@ -52,37 +39,15 @@
       <span>{{item.name}}</span>
     </ng-template>
   </ng-select>
-  <div *ngIf="!isSelectionValid" class="text-danger">
-    Please select at least one doctor or specialist.
-  </div>
+ 
 </div>
-
-            
-        
-          
-          
-          
               <!-- <div class="col-md-1 partition_icon">|</div> -->
-
-
-              <div class="col-md-4 col-sm-0 button-box">
+ <div class="col-md-4 col-sm-0 button-box">
                 <div class="btn-submit-box">
-                  <button type="submit" [disabled]="loading" (click)="onSearchClick()">Search </button></div>
+                  <button type="submit"  (click)="onSearchClick()">Search </button></div>
               </div>
-
             </div>
             <!-- End Of Search -->
-            <div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-    </section>
+          
 
 

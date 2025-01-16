@@ -14,6 +14,17 @@
                 <a routerLink="/doctor-portal/appointments">
                     <i class="fas fa-calendar-check" style="margin-right: 11px;"></i>Appointments</a>
             </li>
+            <li>
+                <div class="toggle-container mt-2">
+                    <label class="switch">
+                      <input type="checkbox" [(ngModel)]="isReady"  (change)="updateDoctorStatus()">
+                      <span class="slider">
+                        <!-- Text inside the rectangle -->
+                        <span class="switch-text">{{ isReady ? 'Active' : 'Not Active' }}</span>
+                      </span>
+                    </label>
+                  </div>
+            </li>
         </ul>
     </nav>
 
@@ -30,21 +41,24 @@
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-align-justify"></i>
                 </button>
-                <p>Welcome to Doctor-Portal</p>
+                <p>Welcome to Doctor Portal</p>
                 <div class="profile" (click)="toggleMenu()">
                   <div class="user">
                       <h3>{{username}}</h3>
                   </div>
                   <div class="img-box">
-                      <img src="https://i.postimg.cc/BvNYhMHS/user-img.jpg" alt="User Image">
+                    <!-- Use the dynamic profile image here -->
+                    <img *ngIf="profileImage" [src]="profileImage" alt="User Image" />
+                    <!-- Fallback image in case profileImage is not available -->
+                    <img *ngIf="!profileImage" src="https://example.com/default-profile.jpg" alt="Default Profile Image" />
                   </div>
               </div>
-              <div class="menu" [class.active]="isMenuActive">
+              <div class="menu" [class.active]="isMenuActive"                >
                   <ul>
                     <li (click)="navigateToEditProfile();closeMenu()">
                         <i class="fa fa-user"></i>&nbsp;Edit Profile
                       </li>                      
-                      <li (click)="closeMenu()"><i class="fa fa-envelope"></i>&nbsp;Inbox</li>
+                      <li routerLink="/doctor-portal/Changepassword" (click)="closeMenu()"><i class="fa fa-envelope"></i>&nbsp;Change Password</li>
                       <li (click)="closeMenu()"><i class="fa fa-cog"></i>&nbsp;Settings</li>
                       <li (click)="logout()"><i class="fa fa-sign-out-alt"></i>&nbsp;Sign Out</li>
                   </ul>

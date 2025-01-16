@@ -1,15 +1,35 @@
+
+
 <button class="btn btn-secondary" (click)="openModal()">Add Specialization</button>
 <!-- Modal -->
 <div *ngIf="isModalOpen" class="modal">
   <div class="modal-content">
+      <!-- Loading Spinner that overlays the modal -->
+      <div *ngIf="isLoading" class="loading-overlay">
+        <app-loading-spinner></app-loading-spinner>
+      </div>
     <h3>{{ editingId ? 'Edit Specialization' : 'Add Specialization' }}</h3>
     <label for="specializationName">Specialization Name:</label>
-    <input
+    <!-- <input
       type="text"
       id="specializationName"
       [(ngModel)]="newSpecialization.specializationName"
       placeholder="Enter specialization"
-    />
+    /> -->
+    <input type="text" id="specializationName" class="form-control"
+    [(ngModel)]="newSpecialization.specializationName" placeholder="Enter specialization" maxlength="20" required>
+
+    <label for="specializationImage">Specialization Image:</label>
+<input
+  type="file"
+  id="specializationImage"
+  class="form-control"
+  (change)="onFileSelected($event)"
+  accept="image/*"
+/>
+<div *ngIf="newSpecialization.image" class="mt-2">
+  <img [src]="newSpecialization.image" alt="Specialization Image" class="img-thumbnail" style="max-width: 100px;" />
+</div>
     <div class="modal-actions">
       <button
         type="submit"
@@ -22,9 +42,23 @@
     </div>
   </div>
 </div>
+<div *ngIf="isLoading" class="loading-overlay">
+  <app-loading-spinner></app-loading-spinner>
+</div>
 
+<div class="mb-3 w-auto float-right">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Search Specializations..."
+    [(ngModel)]="searchQuery"
+    (input)="onSearchChange()" 
+    style="max-width: 300px;"
+  />
+  <!-- <button class="btn btn-secondary mt-2" (click)="clearSearch()">Clear Search</button> -->
+  </div>
 <table class="table table-striped mt-2">
-  <thead>
+  <thead class="thead-dark">
     <tr>
       <th scope="col">S.No</th>
       <th scope="col">Name</th>
@@ -33,9 +67,68 @@
   </thead>
   <tbody>
     <tr *ngFor="let specialization of specializations; let i = index">
-      <th scope="row">{{ i + 1 }}</th>
+      <th scope="row">{{ (currentPage - 1) * pageSize + i + 1 }}</th>
       <td>{{ specialization.specializationName }}</td>
-      <!-- <td>
+      <div style="display: flex; gap: 10px;">
+        <!-- Edit Button with Tooltip -->
+        <button
+          class="btn btn-success btn-sm rounded-0"
+          type="button"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Edit"
+          (click)="openModal(specialization)"
+        >Edit
+          <i class="fa fa-edit"></i>
+        </button>
+    
+        <!-- Delete Button with Tooltip -->
+        <button
+          class="btn btn-danger btn-sm rounded-0"
+          type="button"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Delete"
+          (click)="deletespecialization(specialization.id)"
+        >Delete
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- Pagination Controls -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div class="pagination-controls">
+    <label for="pageSize">Page Size:</label>
+    <select
+      id="pageSize"
+      class="form-select d-inline w-auto ms-2"
+      [(ngModel)]="pageSize"
+      (change)="onPageSizeChange($event)">
+      <option *ngFor="let size of [5, 10, 20, 50]" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+  
+  <nav>
+    <ul class="pagination mb-0">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
+      </li>
+      <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item" [class.active]="currentPage === i + 1">
+        <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
+      </li>
+      <li class="page-item" [class.disabled]="specializations.length < pageSize">
+        <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+<!-- <td>
         <div style="display: flex;gap:10px">
         <button class="btn btn-primary me-2" (click)="openModal(specialization)">
           Edit
@@ -45,34 +138,3 @@
         </button>
         </div>
       </td> -->
-      <td>
-        <div style="display: flex; gap: 10px;">
-          <!-- Edit Button with Tooltip -->
-          <button
-            class="btn btn-success btn-sm rounded-0"
-            type="button"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Edit"
-            (click)="openModal(specialization)"
-          >Edit
-            <i class="fa fa-edit"></i>
-          </button>
-      
-          <!-- Delete Button with Tooltip -->
-          <button
-            class="btn btn-danger btn-sm rounded-0"
-            type="button"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Delete"
-            (click)="deletespecialization(specialization.id)"
-          >Delete
-            <i class="fa fa-trash"></i>
-          </button>
-        </div>
-      </td>
-      
-    </tr>
-  </tbody>
-</table>

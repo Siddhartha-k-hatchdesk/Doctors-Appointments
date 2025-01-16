@@ -1,212 +1,108 @@
-<!-- <div class="col-6" >
-  <form (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input
-        type="text"
-        class="form-control"
-        id="name"
-        placeholder="Enter name"
-        [(ngModel)]="formData.name"
-        name="name"
-      />
-    </div>
-    <div class="form-group">
-      <label for="email">Email address</label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        placeholder="Enter email"
-        [(ngModel)]="formData.email"
-        name="email"
-      />
-    </div>
-    <div class="form-group">
-      <label for="education">Education</label>
-      <input
-        type="education"
-        class="form-control"
-        id="education"
-        placeholder="Enter Education"
-        [(ngModel)]="formData.education"
-        name="education"
-      />
-    </div>
-    <div class="form-group">
-      <label for="experience">Experience</label>
-      <input
-        type="experience"
-        class="form-control"
-        id="experience"
-        placeholder="Enter Experience"
-        [(ngModel)]="formData.experience"
-        name="experience"
-      />
-    </div>
-    <div class="form-group">
-      <label for="specialization">Specialization</label>
-      <select
-        class="form-control"
-        id="specialization"
-        [(ngModel)]="formData.specialization"
-        name="specialization"
-      >
-        <option *ngFor="let spec of specializations" [value]="spec.id">
-          {{ spec.specializationName  }}
-        </option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="location">Location</label>
-      <select
-        class="form-control"
-        id="location"
-        [(ngModel)]="formData.location"
-        name="location"
-      >
-        <option *ngFor="let loc of locations" [value]="loc.id">
-          {{ loc.locationName }}
-        </option>
-      </select>
-    </div>
-    <button type="submit" (click)="onSubmit()" class="btn btn-primary">Submit</button>
-  </form>
-  </div> -->
-  
-  <h2>Edit Profile</h2>
-  <hr class="mt-0 mb-4">
-    <div class="row">
-        <div class="col-xl-4">
-            <!-- Profile picture card-->
-            <div class="card mb-4 mb-xl-0">
-                <div class="card-header">Profile Picture</div>
-                <div class="card-body text-center">
-                    <!-- Profile picture image-->
-                    <img class="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
-                    <!-- Profile picture help block-->
-                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                    <!-- Profile picture upload button-->
-                    <button class="btn btn-primary" type="file">Upload new image</button>
-                </div>
+<h2>Edit Profile</h2>
+<hr class="mt-0 mb-4">
+<div class="row">
+    <div class="col-xl-4">
+        <!-- Profile picture card-->
+        <div class="card mb-4 mb-xl-0">
+            <div class="card-header">Profile Picture</div>
+            <div class="card-body text-center">
+                <!-- Profile picture image -->
+                <img class="img-account-profile rounded-circle mb-2"
+                [src]="profileImage ? profileImage : 'http://bootdey.com/img/Content/avatar/avatar1.png'" alt="Profile Picture" />
+                <!-- Profile picture help block -->
+                <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MBs</div>
+                <!-- Profile picture upload button -->
+                <input type="file" id="fileInput" (change)="onFileSelect($event)" style="display: none;" />
+                <button class="btn btn-primary" (click)="triggerFileInput()">Upload new image</button>
             </div>
         </div>
-        <div class="col-xl-8">
-            <!-- Account details card-->
-            <div class="card mb-4">
-                <div class="card-header">Account Details</div>
-                <div class="card-body">
-                  <form (ngSubmit)="onSubmit()">
-                        <!-- Form Group (username)-->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputUsername">Name</label>
-                            <input type="text" class="form-control" id="name"
-                            placeholder="Enter name"
-                            [(ngModel)]="formData.name"
-                            name="name"
-                          />
+        </div>
+    <div class="col-xl-8">
+        <!-- Account details card-->
+        <div class="card mb-4">
+            <div class="card-header">Account Details</div>
+            <div class="card-body">
+                <form (ngSubmit)="onSubmit()">
+                    <!-- Form Group (username)-->
+                    <div class="mb-3">
+                        <label class="small mb-1" for="inputUsername">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter name" [(ngModel)]="formData.name" name="name" />
+                    </div>
+                    <!-- Form Group (email address)-->
+                    <div class="mb-3">
+                        <label class="small mb-1" for="inputEmailAddress">Email address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter email" [(ngModel)]="formData.email" name="email"/>
+                    </div>
+                    <!-- Form Row-->
+                    <div class="row gx-3 mb-3">
+                        <!-- Form Group (first name)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputFirstName">Experience</label>
+                            <input type="number" class="form-control" id="experience" placeholder="Enter Experience" [(ngModel)]="formData.experience" name="experience" min="0" step="1" />
                         </div>
-                         <!-- Form Group (email address)-->
-                         <div class="mb-3">
-                          <label class="small mb-1" for="inputEmailAddress">Email address</label>
-                         <input type="email" class="form-control"id="email" placeholder="Enter email" [(ngModel)]="formData.email" name="email"/>
-                      </div>
-                        <!-- Form Row-->
-                        <div class="row gx-3 mb-3">
-                            <!-- Form Group (first name)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputFirstName">Experience</label>
-                                <input
-                                type="experience"
-                                class="form-control"
-                                id="experience"
-                                placeholder="Enter Experience"
-                                [(ngModel)]="formData.experience"
-                                name="experience"
-                              />
-                            </div>
-                            <!-- Form Group (last name)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputLastName">Education</label>
-                                <input
-                                  type="education"
-                                  class="form-control"
-                                  id="education"
-                                  placeholder="Enter Education"
-                                  [(ngModel)]="formData.education"
-                                  name="education"
-                                />
-                            </div>
+                        <!-- Form Group (last name)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputLastName">Education</label>
+                            <input type="text" class="form-control" id="education" placeholder="Enter Education" [(ngModel)]="formData.education" name="education" />
                         </div>
-                        <!-- Form Row        -->
-                        <div class="row gx-3 mb-3">
-                            <!-- Form Group (organization name)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputOrgName">specialization</label>
-                                <select
-                                  class="form-control"
-                                  id="specialization"
-                                  [(ngModel)]="formData.specialization"
-                                  name="specialization"
-                                >
-                                  <option *ngFor="let spec of specializations" [value]="spec.id">
-                                    {{ spec.specializationName  }}
-                                  </option>
-                                </select>
-                            </div>
-                            <!-- Form Group (location)-->
-                            <div class="col-md-6">
-                                <label class="small mb-1" for="inputLocation">Location</label>
-                                                          <!-- <input class="form-control" id="inputLocation" type="text" placeholder="Enter your location" value="San Francisco, CA"> -->
-                                   <select
-                                  class="form-control"
-                                  id="inputLocation"
-                                  [(ngModel)]="formData.location"
-                                  name="location"
-                                >
-                                  <option *ngFor="let loc of locations" [value]="loc.id">
+                    </div>
+                    <!-- Form Row-->
+                    <div class="row gx-3 mb-3">
+                        <!-- Form Group (specialization)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputOrgName">Specialization</label>
+                            <select class="form-control" id="specialization" [(ngModel)]="formData.specialization" name="specialization">
+                                <option *ngFor="let spec of specializations" [value]="spec.id">
+                                    {{ spec.specializationName }}
+                                </option>
+                            </select>
+                        </div>
+                        <!-- Form Group (location)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputLocation">Location</label>
+                            <select class="form-control" id="inputLocation" [(ngModel)]="formData.location" name="location">
+                                <option *ngFor="let loc of locations" [value]="loc.id">
                                     {{ loc.locationName }}
-                                  </option>
-                                </select>
-                              </div>
+                                </option>
+                            </select>
                         </div>
-                       
-                        <!-- Form Row-->
-                        <div class="row gx-3 mb-3">
-                          <!-- Checklist for days of the week-->
-                          <div class="col-md-6">
-                              <label class="small mb-1">Select Days</label>
-                              <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" [(ngModel)]="formData.days.mon" name="mon">
-                                  <label class="form-check-label">Monday</label>
-                              </div>
-                              <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" [(ngModel)]="formData.days.tue" name="tue">
-                                  <label class="form-check-label">Tuesday</label>
-                              </div>
-                              <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" [(ngModel)]="formData.days.wed" name="wed">
-                                  <label class="form-check-label">Wednesday</label>
-                              </div>
-                              <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" [(ngModel)]="formData.days.thu" name="thu">
-                                  <label class="form-check-label">Thursday</label>
-                              </div>
-                              <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" [(ngModel)]="formData.days.fri" name="fri">
-                                  <label class="form-check-label">Friday</label>
-                              </div>
-                              <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" [(ngModel)]="formData.days.sat" name="sat">
-                                  <label class="form-check-label">Saturday</label>
-                              </div>
-                              <div class="form-check">
-                                  <input class="form-check-input" type="checkbox" [(ngModel)]="formData.days.sun" name="sun">
-                                  <label class="form-check-label">Sunday</label>
-                              </div>
-                          </div>
-                          <!-- Time range (start and end time)-->
-                          <div class="col-md-6">
+                    </div>
+                    <!-- Form Row-->
+                    <div class="row gx-3 mb-3">
+                        <!-- Checklist for days of the week-->
+                        <div class="col-md-6">
+                            <label class="small mb-1">Select Days</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="formData.days.mon" name="mon">
+                                <label class="form-check-label">Monday</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="formData.days.tue" name="tue">
+                                <label class="form-check-label">Tuesday</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="formData.days.wed" name="wed">
+                                <label class="form-check-label">Wednesday</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="formData.days.thu" name="thu">
+                                <label class="form-check-label">Thursday</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="formData.days.fri" name="fri">
+                                <label class="form-check-label">Friday</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="formData.days.sat" name="sat">
+                                <label class="form-check-label">Saturday</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="formData.days.sun" name="sun">
+                                <label class="form-check-label">Sunday</label>
+                            </div>
+                        </div>
+                        <!-- Time range (start and end time)-->
+                        <div class="col-md-6">
                             <label class="small mb-1" for="inputTimeRange">Available Time</label>
                             <div class="d-flex">
                                 <input class="form-control" type="time" id="startTime" [(ngModel)]="formData.startTime" name="startTime" />
@@ -214,18 +110,38 @@
                                 <input class="form-control" type="time" id="endTime" [(ngModel)]="formData.endTime" name="endTime" />
                             </div>
                         </div>
-                        
-                      </div>
-                        <!-- Save changes button-->
-                        <button  type="Submit" (click)="onSubmit()" class="btn btn-primary" type="button">Save changes</button>
-                    </form>
-                </div>
+                    </div>
+
+                    <!-- Form Row for Fees-->
+                    <div class="row gx-3 mb-3">
+                        <!-- Form Group (In Hospital Fee)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputInHospitalFee">In-Hospital Fee</label>
+                            <input type="number" class="form-control" id="InHospitalFee" placeholder="Enter In-Hospital Fee" [(ngModel)]="formData.inHospitalFee" name="InHospitalFee" />
+                        </div>
+                        <!-- Form Group (Video Call Fee)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputVideoCallFee">Video Call Fee</label>
+                            <input type="number" class="form-control" id="VideoCallFee" placeholder="Enter Video Call Fee" [(ngModel)]="formData.videoCallFee" name="VideoCallFee" />
+                        </div>
+                    </div>
+                    <div class="row gx-3 mb-3">
+                        <!-- Form Group (On Call Fee)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputOnCallFee">On-Call Fee</label>
+                            <input type="number" class="form-control" id="OnCallFee" placeholder="Enter On-Call Fee" [(ngModel)]="formData.onCallFee" name="OnCallFee"  />
+                        </div>
+                        <!-- Form Group (Offline Query Fee)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputOfflineQueryFee">Offline Query Fee</label>
+                            <input type="number" class="form-control" id="OfflineQueryFee" placeholder="Enter Offline Query Fee" [(ngModel)]="formData.offlineQueryFee" name="OfflineQueryFee" />
+                        </div>
+                    </div>
+
+                    <!-- Save changes button-->
+                    <button type="Submit" (click)="onSubmit()" class="btn btn-primary" type="button">Save changes</button>
+                </form>
             </div>
         </div>
     </div>
-
-    
-     
-   
-
-                            
+</div>

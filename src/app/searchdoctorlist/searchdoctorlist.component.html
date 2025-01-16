@@ -16,77 +16,13 @@
               <h4>Book An Appointment</h4>
             </div>
             <!-- start of search -->
-            <div class="row justify-content-left ms-auto Apointment-box ps-5 ms-3">
-              <!-- Location Box -->
-              <div class="col-md-4 col-sm-6 location-box">
-                <div class="location-icon"><i class="bi bi-geo-alt"></i></div>
-                <ng-select 
-                  [items]="location" 
-                  bindLabel="locationName"  
-                  bindValue="id"            
-                 
-                  [searchable]="true" 
-                  placeholder="Select a Location"
-                  (search)="loadLocation($event)" 
-                  (change)="onLocationChange($event)">
-                </ng-select>
-              </div>
-              
-              <!-- Search Box for Doctor & Speciality -->
-              <div class="col-md-4 col-sm-6 search-box">
-                <div class="Search-icon"><i class="bi bi-search"></i></div>
-                <ng-select 
-                  [items]="combinedList" 
-                  bindLabel="name" 
-                  bindValue="value" 
-                  placeholder="Search doctor & Specialty" 
-                  
-                  [searchable]="true"
-                  [multiple]="true"
-                  [groupBy]="'groupName'"
-                  (change)="onSpecializationDoctorChange($event)">
-                  
-                  <!-- Group Template -->
-                  <ng-template ng-optgroup-tmp let-item="item">
-                    <span>{{item.groupName}}</span>
-                  </ng-template>
-            
-                  <!-- Option Template -->
-                  <ng-template ng-option-tmp let-item="item">
-                    <span>{{item.name}}</span>
-                  </ng-template>
-                </ng-select>
-                <div *ngIf="!isSelectionValid" class="text-danger">
-                  Please select at least one doctor or specialist.
-                </div>
-              </div>
-            
-              <!-- Search Button -->
-              <div class="col-md-4 col-sm-0 button-box">
-                <div class="btn-submit-box">
-                  <button 
-                    type="submit" 
-                    [disabled]="loading" 
-                    (click)="onSearchClick()">
-                    Search
-                  </button>
-                </div>
-              </div>
-            </div>
-            
-            
-            
-            <!-- End of search -->
-
-          </div>
-
+            <app-picture-body></app-picture-body>
+         <!-- End of search -->
+         </div>
         </div>
-
       </div>
-
-  </div>
-
-  </section>
+    </div>
+</section>
 
   <!--  -->
 
@@ -107,7 +43,7 @@
                     <div class="dr-profile pt-3">
                       <div class="dr-profile-section">
                         <h4 class="dr-heading">{{ doctor.name }}</h4>
-                        <p class="dr-para">{{ doctor.specializationName  }}{{doctor.specialization}} | {{doctor.experience}}</p>
+                        <p class="dr-para">{{ doctor.specializationName  }}{{doctor.specialization}} | {{doctor.experience}} Years </p>
                         <div class="dr-hr">
                           <hr>
                         </div>
@@ -141,7 +77,7 @@
                       <p>({{ getAvailableDays(doctor.availabilityDays).startTime }} - {{ getAvailableDays(doctor.availabilityDays).endTime }})</p>
                         
                       <div class="Appointment-btn">
-                        <button class="btn" routerLink="/stepperpage" (click)="onAppointmentClick(doctor.id, doctor.specializationId)">Appointment</button>
+                        <button class="btn" routerLink="/stepperpage" (click)="onAppointmentClick(doctor.id, doctor.specializationId,doctor.name)">Appointment</button>
                       </div>
                       
                     </div>
@@ -149,15 +85,35 @@
                 </div>
               </div>
             </div>
-            
-            <div *ngIf="filteredDoctors.length === 0" class="no-doctors-found">
-              <p>No doctors found based on your search criteria.</p>
+            <div *ngIf="filteredDoctors.length === 0 && !isGetAppointmentPage" class="no-doctors-message">
+              <p>No doctors selected</p>
             </div>
-         
+            <div class="pagination-container mt-2" *ngIf="filteredDoctors.length > 0 && !isGetAppointmentPage">
+              <div class="pagination-controls">
+                <label for="pageSize">Page Size:</label>
+                <select
+                  id="pageSize"
+                  class="form-select d-inline w-auto ms-2"
+                  [(ngModel)]="pageSize"
+                  (change)="onPageSizeChange($event)">
+                  <option *ngFor="let size of [5, 10, 20, 50]" [value]="size">{{ size }}</option>
+                </select>
+                <ul class="pagination float-right">
+                  <li class="page-item" [class.disabled]="page === 1">
+                    <button class="page-link" (click)="onPageChange(page - 1)">Previous</button>
+                  </li>
+                  <li *ngFor="let p of [].constructor(totalPages); let i = index" class="page-item" [class.active]="page === i + 1">
+                    <button class="page-link" (click)="onPageChange(i + 1)">{{ i + 1 }}</button>
+                  </li>
+                  <li class="page-item" [class.disabled]="page === totalPages">
+                    <button class="page-link" (click)="onPageChange(page + 1)">Next</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
             </div>
           </div>
         </div>
       </div>
-  </section>
-
+     </section>
 <app-footer></app-footer>

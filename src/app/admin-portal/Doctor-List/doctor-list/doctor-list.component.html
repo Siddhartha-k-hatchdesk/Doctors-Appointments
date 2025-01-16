@@ -1,49 +1,85 @@
+<div *ngIf="isLoading">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+
 <button class="btn btn-secondary" routerLink="/admin-portal/add-doctor"> Add Doctor</button>
+<!-- Search Bar -->
+<div class="mb-3 w-auto float-right">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Search..."
+    [(ngModel)]="searchQuery"
+    (input)="onSearchChange($event)"
+    style="max-width: 300px;"
+  />
+</div>
+
+<!-- Table with Sorting -->
 <table class="table table-striped mt-2">
-    <thead>
-      <tr>
-        <th scope="col">S.No</th>
-        <th scope="col">Name</th>
-        <th scope="col">Email</th>
-        <th scope="col">Specilization</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let Doctor of doctors;let i=index">
-        <th scope="row">{{i+1}}</th>
-        <td>{{Doctor.name}}</td>
-        <td>{{Doctor.email}}</td>
-        <td>{{Doctor.specialization}}</td>
-        <td>
-          <div style="display: flex; gap: 10px;">
-            <!-- Edit Button with Tooltip -->
-            <button
-              class="btn btn-success btn-sm rounded-0"
-              type="button"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Edit"
-              (click)="editDoctor(Doctor.id)"
-            >Edit
-              <i class="fa fa-edit"></i>
-            </button>
-        
-            <!-- Delete Button with Tooltip -->
-            <button
-              class="btn btn-danger btn-sm rounded-0"
-              type="button"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Delete"
-              (click)="deleteDoctor(Doctor.id)"
-            >Delete
-              <i class="fa fa-trash"></i>
-            </button>
-          </div>
-        </td>
-        
-      </tr>
-      
-    </tbody>
-  </table>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">S.No</th>
+      <th scope="col" (click)="onSortChange('Name')">
+        Name
+        <i [class]="sortBy === 'Name' ? (isAscending ? 'fa fa-arrow-up' : 'fa fa-arrow-down') : ''"></i>
+      </th>
+      <th scope="col" (click)="onSortChange('Email')">
+        Email
+        <i [class]="sortBy === 'Email' ? (isAscending ? 'fa fa-arrow-up' : 'fa fa-arrow-down') : ''"></i>
+      </th>
+      <th scope="col" (click)="onSortChange('Specialization')">
+        Specialization
+        <i [class]="sortBy === 'Specialization' ? (isAscending ? 'fa fa-arrow-up' : 'fa fa-arrow-down') : ''"></i>
+      </th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let doctor of doctors; let i = index">
+      <th scope="row">{{ (currentPage - 1) * pageSize + i + 1 }}</th>
+      <td>{{ doctor.name }}</td>
+      <td>{{ doctor.email }}</td>
+      <td>{{ doctor.specialization }}</td>
+      <td>
+        <div style="display: flex; gap: 10px;">
+          <button (click)="editDoctor(doctor.id)" class="btn btn-success btn-sm rounded-0" type="button" title="Edit">
+            Edit <i class="fa fa-edit"></i>
+          </button>
+          <button (click)="deleteDoctor(doctor.id)" class="btn btn-danger btn-sm rounded-0" type="button" title="Delete">
+            Delete <i class="fa fa-trash"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div class="pagination-controls">
+    <label for="pageSize">Page Size:</label>
+    <select
+      id="pageSize"
+      class="form-select d-inline w-auto ms-2"
+      [(ngModel)]="pageSize"
+      (change)="onPageSizeChange($event)">
+      <option *ngFor="let size of [5, 10, 20, 50]" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+<nav>
+  <ul class="pagination float-right">
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
+    </li>
+    <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item" [class.active]="currentPage === i + 1">
+      <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
+    </li>
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
+    </li>
+  </ul>
+</nav>
+</div>
+

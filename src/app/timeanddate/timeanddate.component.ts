@@ -85,21 +85,21 @@ export class TimeanddateComponent implements OnInit, AfterViewInit {
       console.log('Doctor availability data is not available yet.');
       return;
     }
-
+  
     const today = new Date();
     this.dates = [];
-
+  
     const daysAvailability = this.doctorAvailability || {};
-
+  
     for (let i = 0; i < 30; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
-
+  
       const dayName = date.toLocaleString('en-US', { weekday: 'long' }).toLowerCase();
       const dayAvailability = daysAvailability[dayName];
-
+  
       const isAvailable = dayAvailability && dayAvailability.startTime && dayAvailability.endTime;
-
+  
       this.dates.push({
         day: dayName,
         date: date.toLocaleDateString('en-US', { day: '2-digit', month: 'short' }),
@@ -107,27 +107,32 @@ export class TimeanddateComponent implements OnInit, AfterViewInit {
         isAvailable: isAvailable,
       });
     }
-
+  
+    // Automatically select the first available date
     const firstAvailableDate = this.dates.find((d) => d.isAvailable);
     if (firstAvailableDate) {
       firstAvailableDate.isSelected = true;
       this.selectedDate = firstAvailableDate;
       console.log('First Available Date Selected:', firstAvailableDate);
   
+      // Update selected date in shared service
+      this.sharedservice.setSelectedDate(firstAvailableDate.date);
+  
+      // Programmatically trigger the slot refresh
       this.refreshSlots();
     } else {
       console.log('No available dates found in the next 30 days.');
     }
   }
-
+  
   selectDate(date: DateItem): void {
     console.log('Selecting date:', date);
   
     this.dates.forEach((d) => (d.isSelected = false));
-    
+  
     date.isSelected = true;
     this.selectedDate = date;
-    
+  
     // Store selected date in shared service
     this.sharedservice.setSelectedDate(date.date);
   
@@ -135,6 +140,7 @@ export class TimeanddateComponent implements OnInit, AfterViewInit {
   
     this.refreshSlots();
   }
+  
   
 
   generateSlots(): void {

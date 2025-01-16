@@ -1,9 +1,161 @@
-<app-picture-body></app-picture-body>
-<app-other></app-other>
-<app-pre-footer></app-pre-footer>
-
-<div class="loading-overlay" *ngIf="isLoading">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
+<div *ngIf="isLoading">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+<section class="banner-section" >
+  <div class="container-fluid">
+    <div class="row col-lg-12 col-md-12 col-sm-12 ">
+    <div class="text-block py-2 ps-5 ">
+        <!-- <span class="para_head py-2 mt-2  letter-specing text-uppercase"><p>Total Health care solution</p></span> -->
+        <h1 class="banner_heading ms-2 mt-5 ps-5 ">Your most trusted health partner</h1>
+      </div>
+    </div>
+    <div class="Appointment">
+      <div class="container">
+        <div class="row  ms-auto Appointment_big_box">
+          <div class=" pb-3 appoinntment_head">
+            <h4>Book An Appointment</h4>
+          </div>
+          
+          <app-picture-body></app-picture-body>
+          <div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+  </section>
+
+  <section>
+    <div class="container mb-5">
+    <div class="row text-center mt-4 py-3 ">
+      <div class="Appointment-type-heading">
+        <h3>Largest Healthcare Network Across East India</h3>
+        <p>Find best doctors across specialities or hospitals in your city.</p>
+      </div>
+    </div>
+    <div class="row">
+  
+      <div class="col-md-6">
+        <div class="Appointment-card d-felx flex-fill ">
+          <div class="card_img">
+            <img src="/assets/Card_Images/promo_test1.png" class="image-fluid" alt="">
+          </div>
+          <div class="card-heading">
+            <h4>Book Lab Test</h4>
+            <p class="box-para">It's fast, easy and secure</p>
+            <div class="link_button"><a href="#">find dignostic center</a></div>
+            <!-- <p class="service">Book Lab Test <br>
+            It's fast, easy and secure
+            Get Upto 25% OFF On Lab Test</p> -->
+            <div class="offer-box d-felx">
+              <div class="price-tag "><i class="bi bi-tags-fill"></i></div>
+              <div class="offer-pera">
+                <p>Get Upto 25% OFF</p>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+  
+  
+  
+  
+      <div class="col-md-6">
+        <div class="Appointment-card d-felx flex-fill ">
+          <div class="card_img">
+            <img src="/assets/Card_Images/appointment2.png" alt="">
+          </div>
+          <div class="card-heading">
+            <h4>Book Appointment</h4>
+            <p class="box-para">It's fast, easy and secure</p>
+            <div class="link_button"><a href="#">find doctor now</a></div>
+  
+            <div class="offer-box d-felx">
+              <div class="price-tag"><i class="bi bi-tags-fill"></i></div>
+              <div class="offer-pera">
+                <p>Get Upto 25% OFF t</p>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+  
+  
+  
+      <div class="col-md-6">
+        <div class="Appointment-card ">
+          <div class="card_img">
+            <img src="/assets/Card_Images/surgery.png.png" class="image-fluid" alt="">
+          </div>
+          <div class="card-heading">
+            <h4>Surgery Assistance</h4>
+            <p class="box-para">It's fast, easy and secure</p>
+            <div class="link_button"><a href="#">consult now</a></div>
+  
+            <div class="offer-box d-felx">
+              <div class="price-tag"><i class="bi bi-tags-fill"></i></div>
+              <div class="offer-pera">
+                <p>Get Upto 25% OFF </p>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+  
+      <div class="col-md-6">
+        <div class="Appointment-card d-felx flex-fill ">
+          <div class="card_img">
+            <img src="/assets/Card_Images/medicines.png" class="image-fluid" alt="">
+          </div>
+          <div class="card-heading">
+            <h4>Buy Medicine</h4>
+            <p class="box-para">It's fast, easy and secure</p>
+            <div class="link_button"><a href="#">bay now</a></div>
+  
+            <div class="offer-box d-felx">
+              <div class="price-tag"><i class="bi bi-tags-fill"></i></div>
+              <div class="offer-pera">
+                <p>Get Upto 25% OFF </p>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+  
+    </div>
+  
+  </div>
+  
+  
+  </section>
+  
+  <section>
+    <div class="carosal-section my-5 pb-5">
+      <div class="container">
+        <div class="row">
+          <div class="carosal-box">
+            <div class="owl-carousel owl-theme">
+              <div *ngFor="let specialization of specializations" >
+                <div class="image image-item ps-4 pt-2">
+                  <img [src]="specialization.imagePath" alt="{{ specialization.specializationName }}" style="width: 100px;" height="120px" class="image-fluid">
+                </div>
+                <div class="image_text_box">
+                  <p>{{ specialization.specializationName }}</p> <!-- Display specialization name -->
+                </div>
+                <div class="consult_link">
+                  <a href="#" (click)="consultSpecialization(specialization.id)">Consult Now</a>
+                
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+

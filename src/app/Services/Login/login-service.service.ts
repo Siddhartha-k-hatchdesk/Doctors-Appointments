@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { delay, Observable } from 'rxjs';
 import { UserServiceService } from '../User/user-service.service';
 import { AuthService } from '../../auth.service';
 
@@ -13,9 +13,24 @@ export class LoginServiceService {
   url="https://localhost:7009/users";
 
   constructor(private http:HttpClient,private userService:UserServiceService,private authService:AuthService) { }
-  loginUser(user:any):Observable<any>{
-      return this.http.post(`${this.url}/LogIn`,user);
-    }
+  loginUser(user: any): Observable<any> {
+    return this.http.post(`${this.url}/LogIn`, user)
+  }
+  changePassword(currentPassword: string, newPassword: string): Observable<any> {
+    const body = {
+      OldPassword: currentPassword,
+      NewPassword: newPassword
+    };
+ // Retrieve the token from localStorage
+ const token = localStorage.getItem('auth_token');
+ const headers = new HttpHeaders({
+   'Content-Type': 'application/json',
+   'Authorization': `Bearer ${token}`  // Add the token to the Authorization header
+ });
+     // Make POST request to change the password with the token in the header
+  return this.http.post(`${this.url}/change-password`, body, { headers });
+  }
+  
 
     handleLoginResponse(response:any){
       console.log(response);
@@ -46,10 +61,7 @@ export class LoginServiceService {
     else {
       console.log("No Specialist ID found in the response.");
     }
-      // if(response.roleId===2){
-      //   console.log("storing the doctor name",response.username);
-      //   this.loginDoctor(response.username);
-      // }
+     
       this.authService.loginUser(response.roleId,response.token);
     
     }else{
@@ -59,8 +71,36 @@ export class LoginServiceService {
     loginDoctor(doctorName:string){
       localStorage.setItem('doctorName',doctorName);
     }
-    // logout(): void{
+    // In LoginServiceService
+
+forgotPassword(email: string): Observable<any> {
+  const body = { Email: email }; // Construct the payload
+
+  return this.http.post(`${this.url}/forgot-password`, body);
+}
+resetPassword(token: string, newPassword: string): Observable<any> {
+  const body = { Token: token, NewPassword: newPassword };
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
+
+  return this.http.post(`${this.url}/reset-password`, body, { headers });
+}
+
+
+   }
+
+
+
+
+
+   
+ // if(response.roleId===2){
+      //   console.log("storing the doctor name",response.username);
+      //   this.loginDoctor(response.username);
+      // }
+
+       // logout(): void{
     //   this.authService.logout();
     // }
-    
-}

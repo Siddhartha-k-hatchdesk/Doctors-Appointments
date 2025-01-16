@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UserServiceService } from '../../Services/User/user-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { DoctorServiceService } from '../../Services/Doctor/doctor-service.service';
 import { ToastrService } from 'ngx-toastr';
+import { SharedDataServiceService } from '../../Services/sevices/shared-data-service.service';
 
 @Component({
   selector: 'app-doctorprofile',
@@ -10,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './doctorprofile.component.css'
 })
 export class DoctorprofileComponent implements OnInit {
+  isLoading:boolean=false;
+  profileImage: string | null = null;
   specializations: any[]=[];
   locations: any[] = [];
   formData = { 
@@ -19,6 +22,7 @@ export class DoctorprofileComponent implements OnInit {
     location: '',
     education:'',
     experience:'',
+    profileImage:'',
     days: {
       mon: false,
       tue: false,
@@ -29,18 +33,34 @@ export class DoctorprofileComponent implements OnInit {
       sun: false
   },
   startTime: '',
-  endTime: ''
+  endTime: '',
+  inHospitalFee: 0,
+  videoCallFee: 0,
+  onCallFee: 0,
+  offlineQueryFee: 0
   };
   constructor(private userService:UserServiceService,private route:ActivatedRoute,
-    private doctorService:DoctorServiceService,private toastr:ToastrService){}
-
+    private doctorService:DoctorServiceService,private toastr:ToastrService,
+    private sharedservice:SharedDataServiceService, private cdr:ChangeDetectorRef){
+       // Subscribe to loading state
+     this.sharedservice.loading$.subscribe((loading) => {
+      this.isLoading = loading;
+    });
+    }
+    triggerFileInput(): void {
+      const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+      fileInput?.click();
+    }
     ngOnInit(): void {
       const doctorId = this.route.snapshot.paramMap.get('id');
       if (doctorId) {
         this.doctorService.getDoctorsById(+doctorId).subscribe((data: any) => {
+          console.log('Doctor Data:', data); 
           if (data) {
             // Map the response to formData
             const availability = data.availability || [];
+            this.profileImage = data.profileimage; 
+            const fees = data.fees?.[0] || {};
             this.formData = {
               name: data.name,
               email: data.email,
@@ -48,6 +68,7 @@ export class DoctorprofileComponent implements OnInit {
               experience: data.experience,
               specialization: data.specialization,
               location: data.location,
+              profileImage:data.profileimage,
               startTime: this.formatTime(availability[0]?.startTime),
               endTime: this.formatTime(availability[0]?.endTime),
               days: {
@@ -59,7 +80,13 @@ export class DoctorprofileComponent implements OnInit {
                 sat: availability.some((a: any) => a.saturday),
                 sun: availability.some((a: any) => a.sunday),
               },
+                // Log the fee values
+          inHospitalFee: fees.inHospitalFee || 0,
+          videoCallFee: fees.videoCallFee || 0,
+          onCallFee: fees.onCallFee || 0,
+          offlineQueryFee: fees.offlineQueryFee || 0,
             };
+            this.cdr.detectChanges(); // Manually trigger change detection
           }
   
           console.log('Prefilled Form Data:', this.formData);
@@ -76,6 +103,96 @@ export class DoctorprofileComponent implements OnInit {
   }
   
   
+ 
+  onSubmit(): void {
+    const doctorId = this.route.snapshot.paramMap.get('id'); // Get doctor ID
+    if (doctorId) {
+
+      this.sharedservice.showLoading();
+      // Map days to the backend expected structure
+      const availabilities = [
+        {
+          monday: this.formData.days.mon,
+          tuesday: this.formData.days.tue,
+          wednesday: this.formData.days.wed,
+          thursday: this.formData.days.thu,
+          friday: this.formData.days.fri,
+          saturday: this.formData.days.sat,
+          sunday: this.formData.days.sun,
+          startTime: this.formatTimeToHHMMSS(this.formData.startTime),
+          endTime: this.formatTimeToHHMMSS(this.formData.endTime),
+          isAvailable: Object.values(this.formData.days).some(day => day === true)
+          // Mark as available if any day is true
+        }
+      ];
+  
+      // Prepare updated data for submission
+      const updatedData = {
+        name: this.formData.name,
+        email: this.formData.email,
+        education: this.formData.education,
+        experience: this.formData.experience,
+        specializationId: this.formData.specialization,
+        locationId: this.formData.location,
+        availabilities: availabilities,
+        profileImage:this.profileImage,
+        doctorFees: [
+          {
+            InHospitalFee: this.formData.inHospitalFee,
+            VideoCallFee: this.formData.videoCallFee,
+            OnCallFee: this.formData.onCallFee,
+            OfflineQueryFee: this.formData.offlineQueryFee
+          }
+        ]
+      };
+      
+  console.log("Form Data being submitted:", this.formData);
+
+      // Call the update API
+      this.doctorService.updatedoctorprofile(+doctorId, updatedData).subscribe(
+        response => {
+          console.log('API response:', response);
+          this.toastr.success('Doctor details updated successfully.');
+            // Update profile image immediately after success
+        this.profileImage = response.profileImage;  // Assuming response contains the updated profile image
+          this.sharedservice.hideLoading();
+        },
+        error => {
+          console.error('API error:', error);
+          this.toastr.error('Failed to update doctor details. Please try again.');
+          this.sharedservice.hideLoading();
+        }
+      );
+    } else {
+      this.toastr.error('Invalid doctor ID.');
+      this.sharedservice.hideLoading();
+    }
+  }
+  onFileSelect(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.sharedservice.showLoading();
+      const formData = new FormData();
+      const doctorId = this.route.snapshot.paramMap.get('id'); // Ensure doctorId is sent
+      formData.append('profileImage', file);
+      formData.append('doctorId', doctorId || '');
+  
+      this.doctorService.uploadProfileImage(formData).subscribe(
+        (response: any) => {
+          this.profileImage = response.imageUrl; // Update the image preview
+          this.sharedservice.hideLoading();
+          this.toastr.success('Profile image uploaded successfully.');
+        },
+        (error: any) => {
+          console.error('Error uploading image:', error);
+          this.sharedservice.hideLoading
+          this.toastr.error('Failed to upload profile image.');
+        }
+      );
+    }
+  }
+  
+
   loadSpecializations(): void {
     this.userService.getSpecializations().subscribe((data: any) => {
       this.specializations = data;
@@ -108,49 +225,6 @@ export class DoctorprofileComponent implements OnInit {
       }
       // console.log('Updated Form Location:', this.formData.location);
     });
-  }
-  onSubmit(): void {
-    const doctorId = this.route.snapshot.paramMap.get('id'); // Get doctor ID
-    if (doctorId) {
-      // Map days to the backend expected structure
-      const availabilities = [
-        {
-          monday: this.formData.days.mon,
-          tuesday: this.formData.days.tue,
-          wednesday: this.formData.days.wed,
-          thursday: this.formData.days.thu,
-          friday: this.formData.days.fri,
-          saturday: this.formData.days.sat,
-          sunday: this.formData.days.sun,
-          startTime: this.formatTimeToHHMMSS(this.formData.startTime),
-          endTime: this.formatTimeToHHMMSS(this.formData.endTime),
-          isAvailable: Object.values(this.formData.days).some(day => day === true) // Mark as available if any day is true
-        }
-      ];
-  
-      // Prepare updated data for submission
-      const updatedData = {
-        name: this.formData.name,
-        email: this.formData.email,
-        education: this.formData.education,
-        experience: this.formData.experience,
-        specializationId: this.formData.specialization,
-        locationId: this.formData.location,
-        availabilities: availabilities // Send availability array
-      };
-  
-      // Call the update API
-      this.doctorService.updatedoctorprofile(+doctorId, updatedData).subscribe(
-        response => {
-          this.toastr.success('Doctor details updated successfully!');
-        },
-        error => {
-          this.toastr.error('Failed to update doctor details. Please try again.');
-        }
-      );
-    } else {
-      this.toastr.error('Invalid doctor ID.');
-    }
   }
   
   // Utility function to format time into HH:mm:ss

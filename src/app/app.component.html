@@ -1,11 +1,15 @@
 
 <div *ngIf="showHeaderFooter()">
     <header></header></div>
+
 <router-outlet></router-outlet>
+
 <div *ngIf="showHeaderFooter()">
     <app-footer></app-footer>
 </div>
-
+<div *ngIf="isLoading">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
 
  <!-- if u have use as a class then use this
    <div class="app-footer"></div> -->

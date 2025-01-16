@@ -10,15 +10,12 @@
     align-items: center;
     z-index: 1000; /* Ensure it appears on top of other content */
   }
-  
   .spinner-border {
     width: 3rem;
     height: 3rem;
     color: #007bff; /* Customize spinner color */
   }
-  
-
-.banner-section{
+  .banner-section{
     position: relative;
     background-image: url("/assets/BackgrundImages/slider-bg-2.jpg");
     width:100%;
@@ -26,7 +23,6 @@
     background-size:cover;
     
 }
-
 .para_head{
     letter-spacing: 2px;
 }
@@ -163,7 +159,10 @@ color:#223a66 ;
   ::ng-deep .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
     top:9px
   }
- 
+  ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+    background-color: #3181d2;
+    color: #333;
+  }
 .search-box ng-select{
     position: relative;
     left: 0px;

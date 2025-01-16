@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-light bg-light">
+<!-- <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img src="assets/Bootstrap_logo.svg.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
@@ -11,7 +11,11 @@
         </li>
         </ul>
     </div>
-  </nav>
+  </nav> -->
+  <div *ngIf="isLoading">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+  
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="row w-100 justify-content-center">
         <div class="col-md-10">
@@ -24,8 +28,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label" for="name">Name*</label>
-                                <input id="name" formControlName="name" type="text" placeholder="Name" class="form-control input-md">
+                                <label class="control-label" for="name">Name<span class="text-danger">*</span></label>
+                                <input id="name" formControlName="name" type="text" maxlength="40" placeholder="Name" class="form-control input-md">
                                <div Class="text-danger" *ngIf="register.controls['name'].invalid && (register.controls['name'].touched||register.controls['name'].dirty||isFormSubmitted)">
                                 <span *ngIf="register.controls['name'].errors?.['required']">Name is Required</span>
                                </div>
@@ -34,7 +38,7 @@
                         <!-- Text input-->
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label" for="email">Email*</label>
+                                <label class="control-label" for="email">Email<span class="text-danger">*</span></label>
                                 <input id="email" formControlName="email" type="text" placeholder="E-Mail" class="form-control input-md">
                                 <div Class="text-danger" *ngIf="register.controls['email'].invalid && (register.controls['email'].touched||register.controls['email'].dirty||isFormSubmitted)">
                                     <span *ngIf="register.controls['email'].errors?.['required']">Email is Required</span>
@@ -44,7 +48,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label" for="password">Password*</label>
+                                <label class="control-label" for="password">Password<span class="text-danger">*</span></label>
                                 <input id="password" formControlName="password" type="password" placeholder="Password" class="form-control input-md">
                                 <div Class="text-danger" *ngIf="register.controls['password'].invalid && (register.controls['password'].touched||register.controls['password'].dirty||isFormSubmitted)">
                                     <span *ngIf="register.controls['password'].errors?.['required']">Password is required</span>
@@ -55,6 +59,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="password">Confirm Password<span class="text-danger">*</span></label>
+                              <input id="confirmPassword" formControlName="confirmPassword" type="password" class="form-control input-md" placeholder="Confirm Password" />
+                              <div class="text-danger" *ngIf="register.errors?.['passwordsMismatch'] && (register.controls['confirmPassword'].touched || isFormSubmitted)">
+                                <span>Passwords do not match</span>
+                              </div>
+                              <div class="text-danger" *ngIf="register.controls['confirmPassword'].invalid && (register.controls['confirmPassword'].touched || isFormSubmitted)">
+                                <span *ngIf="register.controls['confirmPassword'].errors?.['required']">Confirm Password is required</span>
+                              </div>
+                            </div>
+                          </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label" for="gender">Gender</label>
@@ -69,10 +85,11 @@
                             <div class="form-group">
                                 <label class="control-label" for="phoneNumber">Phone Number</label>
                                 <input id="phoneNumber" formControlName="phoneNumber" type="text" placeholder="Phone Number" class="form-control input-md">
-                            <div class="text-danger" *ngIf="register.controls['phoneNumber'].invalid && (register.controls['phoneNumber'].touched||register.controls['phoneNumber'].dirty||isFormSubmitted)">
+                                <span *ngIf="register.controls['phoneNumber'].errors?.['pattern']" class="text-danger">Phone number must be exactly 10 digits</span>
+
+                                <!-- <div class="text-danger" *ngIf="register.controls['phoneNumber'].invalid && (register.controls['phoneNumber'].touched||register.controls['phoneNumber'].dirty||isFormSubmitted)">
                                 <span *ngIf="register.controls['phoneNumber'].errors?.['required']">Phone Number is Required</span>
-                                <span *ngIf="register.controls['phoneNumber'].errors?.['pattern']">Phone number must be exactly 10 digits</span>
-                            </div>
+                            </div> -->
                             </div>
                         </div>
                         

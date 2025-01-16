@@ -32,13 +32,13 @@ export class BookServiceService {
         })
       );
   }
-  getAppointmentsForUser(): Observable<any> {
+  getAppointmentsForUser(pageNumber: number = 1, pageSize: number = 10): Observable<any> {
     const token = localStorage.getItem('auth_token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`  // Add the JWT token to the Authorization header
     });
     
-    return this.http.get(`${this.url}/appointments`, { headers })
+    return this.http.get(`${this.url}/appointments?pageNumber=${pageNumber}&pageSize=${pageSize}`, { headers })
       .pipe(
         catchError((error: any) => {
           console.error('Error fetching appointments:', error); // Log error to console
@@ -46,11 +46,18 @@ export class BookServiceService {
         })
       );
   }
+
   
-    GetAllAppointmemts():Observable<any>{
-      return this.http.get(this.url+'/Booking/GetAll')
-    }
-    
+  GetAllAppointments(pageNumber: number, pageSize: number, sortBy?: string, isAscending?: boolean, searchQuery?: string): Observable<any> {
+    let params = `pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    if (sortBy) params += `&sortBy=${sortBy}`;
+    if (isAscending !== undefined) params += `&isAscending=${isAscending}`;
+    if (searchQuery) params += `&searchQuery=${searchQuery}`;
+  
+    return this.http.get<any>(`${this.url}/Booking/GetAll?${params}`);
+  }
+  
+  
     updateStatus(id: number, status: BookingStatus): Observable<any> {
       return this.http.put(`${this.url}/Booking/UpdateStatus/${id}?newStatusId=${status}`, {});
     }
@@ -71,6 +78,16 @@ export class BookServiceService {
           })
         );
     }
+    deleteAppointment(appointmentId: number): Observable<any> {
+      return this.http.delete(`${this.url}/deleteappointment/${appointmentId}`).pipe(
+        tap(() => console.log(`Appointment ${appointmentId} deleted successfully.`)),
+        catchError(error => {
+          console.error(`Error deleting appointment ${appointmentId}:`, error);
+          return throwError(() => new Error('Failed to delete appointment'));
+        })
+      );
+    }
+    
     // New Method to get doctors by location, specialist, or doctor
   // getDoctorsByLocation(locationId?: number, specialistId?: number, doctorId?: number): Observable<any> {
   //   let params = new HttpParams();
@@ -97,24 +114,26 @@ export class BookServiceService {
   //     );
   // }
 
-  getDoctorsByLocation(locationId?: number, specialistIds?: number[], doctorIds?: number[]): Observable<any> {
+  getDoctorsByLocation(locationId?: number, specialistIds?: number[], doctorIds?: number[], page: number = 1, pageSize: number = 10): Observable<any> {
     let params = new HttpParams();
   
     if (locationId !== undefined) {
       params = params.set('locationId', locationId.toString());
     }
-    
+  
     if (specialistIds && specialistIds.length) {
-      params = params.set('specialistIds', specialistIds.join(',')); // Convert array to comma-separated string
+      params = params.set('specialistIds', specialistIds.join(','));
     }
-    
+  
     if (doctorIds && doctorIds.length) {
-      params = params.set('doctorIds', doctorIds.join(',')); // Convert array to comma-separated string
+      params = params.set('doctorIds', doctorIds.join(','));
     }
+  
+    params = params.set('page', page.toString());
+    params = params.set('pageSize', pageSize.toString());
   
     return this.http.get(`${this.Apiurl}/GetDoctorsByLocation`, { params })
       .pipe(
-        delay(2000),
         retry(2),
         catchError((error: any) => {
           console.error('Error fetching doctors:', error);

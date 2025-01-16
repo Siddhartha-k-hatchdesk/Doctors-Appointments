@@ -54,7 +54,7 @@ a:focus {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: rgb(216, 179, 207);
+    background: rgb(191, 194, 233);
     color: #fff;
     transition: all 0.3s;
 }
@@ -65,7 +65,7 @@ a:focus {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background:rgb(216, 179, 207);
+    background:rgb(191, 194, 233);
 }
 
 #sidebar ul.components {
@@ -202,6 +202,7 @@ a.article:hover {
     transform: translateY(-10px);
     visibility: hidden;
     transition: 300ms;
+    cursor: pointer;
 }
 .menu::before {
     content: '';
@@ -229,6 +230,7 @@ a.article:hover {
     flex-direction: column;
     z-index: 10;
     background: #fff;
+    padding-left: 1rem;
 }
 
 .menu ul li {

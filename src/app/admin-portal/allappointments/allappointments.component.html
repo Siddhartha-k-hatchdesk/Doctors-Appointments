@@ -1,31 +1,72 @@
+<div *ngIf="isLoading">
+<app-loading-spinner></app-loading-spinner>
+</div>
 <div *ngIf="errorMessage" class="alert alert-danger">
-    {{ errorMessage }}
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="!errorMessage">
+  <h3>Appointments List
+  <div class="mb-3 w-auto float-right">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search..."
+      [(ngModel)]="searchQuery"
+      (input)="onSearchChange($event)"
+      style="max-width: 300px;"
+    />
   </div>
+  </h3>
   
-  <div *ngIf="!errorMessage">
-    <h3>Appointments List</h3>
+  <table class="table table-striped" *ngIf="appointments && appointments.length > 0">
+    <thead class="thead-dark">
+      <tr>
+        <th>S.No</th>
+        <th (click)="onSortChange('Name')">Name <i [class]="sortBy === 'Name' ? (isAscending ? 'fa fa-arrow-up' : 'fa fa-arrow-down') : ''"></i></th>
+        <th (click)="onSortChange('Gender')">Gender <i [class]="sortBy === 'Gender' ? (isAscending ? 'fa fa-arrow-up' : 'fa fa-arrow-down') : ''"></i></th>
+        <th (click)="onSortChange('preferreddate')">Date <i [class]="sortBy === 'preferreddate' ? (isAscending ? 'fa fa-arrow-up' : 'fa fa-arrow-down') : ''"></i></th>
+        <th (click)="onSortChange('preferredtime')">Time <i [class]="sortBy === 'preferredtime' ? (isAscending ? 'fa fa-arrow-up' : 'fa fa-arrow-down') : ''"></i></th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let appointment of appointments; let i = index">
+        <th>{{ i + 1 + (pageNumber - 1) * pageSize }}</th>
+        <td>{{ appointment.name }}</td>
+        <td>{{ appointment.gender }}</td>
+        <td>{{ appointment.preferreddate }}</td>
+        <td>{{ appointment.preferredtime }}</td>
+        <td>{{ appointment.statusName }}</td>
+      </tr>
+    </tbody>
+  </table>
   
-    <table class="table table-striped" *ngIf="appointments.length > 0">
-      <thead>
-        <tr>
-          <th>S.No</th>
-          <th>Name</th>
-          <th>Gender</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let appointment of appointments; let i=index">
-           <th>{{ i + 1 }}</th>
-          <td>{{ appointment.name }}</td>
-          <td>{{ appointment.gender }}</td>
-          <td>{{ appointment.preferreddate }}</td>
-          <td>{{ appointment.preferredtime }}</td>
-          <td>{{ appointment.statusName }}</td>
-        </tr>
-      </tbody>
-    </table>
+
+  <div class="pagination-controls">
+    <label for="pageSize">Page Size:</label>
+    <select
+      id="pageSize"
+      class="form-select d-inline w-auto ms-2"
+      [(ngModel)]="pageSize"
+      (change)="onPageSizeChange($event)">
+      <option *ngFor="let size of [5, 10, 20, 50]" [value]="size">{{ size }}</option>
+    </select>
+  
+  <div class="pagination-controls float-right mt-2">
+    <button
+      class="btn btn-primary"
+      [disabled]="pageNumber === 1"
+      (click)="onPageChange(pageNumber - 1)">
+      Previous
+    </button>
+    <span class="ms-2">Page {{ pageNumber }} of {{ Math.ceil(totalRecords / pageSize) }}</span>
+    <button
+      class="btn btn-primary ms-2"
+      [disabled]="pageNumber >= Math.ceil(totalRecords / pageSize)"
+      (click)="onPageChange(pageNumber + 1)">
+      Next
+    </button>
+  </div>
   </div>
   

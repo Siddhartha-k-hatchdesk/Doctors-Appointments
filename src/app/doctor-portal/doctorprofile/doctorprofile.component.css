@@ -60,3 +60,8 @@ select.form-control:not([size]):not([multiple]) {
     margin-left: 1rem;
     margin-right: 1rem;
 }
+.img-account-profile {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}

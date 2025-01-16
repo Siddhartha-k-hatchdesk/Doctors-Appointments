@@ -1,5 +1,7 @@
 import { CdkStepper } from '@angular/cdk/stepper';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import { UserServiceService } from '../Services/User/user-service.service';
+import { Directionality } from '@angular/cdk/bidi';
 
 @Component({
   selector: 'app-stepper',
@@ -7,9 +9,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./stepper.component.css'],
   providers: [{ provide: CdkStepper, useExisting: StepperComponent }]
 })
-export class StepperComponent extends CdkStepper {
+export class StepperComponent extends CdkStepper implements OnInit {
   linearModeSelected = true;
-
+  doctorName: string | null=null;
+  constructor(
+    private userservice: UserServiceService,
+    _dir: Directionality,  // Inject Directionality
+    _changeDetectorRef: ChangeDetectorRef,  // Inject ChangeDetectorRef
+    _elementRef: ElementRef<HTMLElement>  // Inject ElementRef
+  ) {
+    super(_dir, _changeDetectorRef, _elementRef);  // Pass the required arguments to the parent constructor
+  }
+ 
  // onClick method to prevent skipping any steps
  onClick(index: number): void {
   if (this.linearModeSelected) {
@@ -32,8 +43,11 @@ isStepClickable(index: number): boolean {
 }
 
 // Optionally you can also prevent skipping steps completely at initialization
-ngOnInit() {
+ngOnInit():void {
   // Ensures that no steps can be clicked unless they are the current or previous step
+  this.doctorName = this.userservice.getDoctorName1();
+  console.log("selecteddoctor:",this.doctorName);
   this.selectedIndex = 0;  // Start at the first step
+ 
 }
 }

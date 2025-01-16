@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {MatStepperModule} from '@angular/material/stepper';
@@ -6,7 +6,6 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { MenuLinkComponent } from './header/menu-link/menu-link.component';
 import { FooterComponent } from './footer/footer.component';
 
 import { PictureBodyComponent } from './picture-body/picture-body.component';
@@ -20,7 +19,7 @@ import { RegisterComponent } from './register/register.component';
 import { UserPortalComponent } from './user-portal/user-portal.component';
 import { LoginComponent } from './login/login.component';
 import { CommonModule } from '@angular/common';
-import { AppointmentsComponent } from './appointments/appointments.component';
+import { AppointmentsComponent } from './doctor-portal/appointments/appointments.component';
 import { DoctorPortalComponent } from './doctor-portal/doctor-portal.component';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -42,15 +41,19 @@ import { SearchdoctorlistComponent } from './searchdoctorlist/searchdoctorlist.c
 import { StepperComponent } from './stepper/stepper.component';
 import { TimeanddateComponent } from './timeanddate/timeanddate.component';
 import { AppointmentinteractionComponent } from './appointmentinteraction/appointmentinteraction.component';
-import { StepperpageComponent } from './stepperpage/stepperpage.component';
 import { UserdetailformComponent } from './userdetailform/userdetailform.component';
-import { UserReviewFormComponent } from './user-review-form/user-review-form.component';
 import { PreFooterComponent } from './pre-footer/pre-footer.component';
 import { AddSpecializationComponent } from './admin-portal/add-specialization/add-specialization.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DoctorprofileComponent } from './doctor-portal/doctorprofile/doctorprofile.component';
 import { ThankyoupageComponent } from './thankyoupage/thankyoupage.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { UserProfileComponent } from './user-portal/user-profile/user-profile.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
 
 
 
@@ -58,7 +61,6 @@ import { ThankyoupageComponent } from './thankyoupage/thankyoupage.component';
   declarations: [
     AppComponent,
     HeaderComponent,
-    MenuLinkComponent,
     FooterComponent,
     PictureBodyComponent,
     OtherComponent,
@@ -84,14 +86,16 @@ import { ThankyoupageComponent } from './thankyoupage/thankyoupage.component';
     StepperComponent,
     TimeanddateComponent,
     AppointmentinteractionComponent,
-    StepperpageComponent,
     UserdetailformComponent,
-    UserReviewFormComponent,
     PreFooterComponent,
     AddSpecializationComponent,
     DoctorprofileComponent,
-    StepperpageComponent,
-    ThankyoupageComponent
+    ThankyoupageComponent,
+    LoadingSpinnerComponent,
+    UserProfileComponent,
+    ChangePasswordComponent,
+    ResetPasswordComponent,
+    
     
     ],
 
@@ -107,12 +111,15 @@ import { ThankyoupageComponent } from './thankyoupage/thankyoupage.component';
     CdkStepperModule,
     MatStepperModule,
     BrowserAnimationsModule,
+    NgxPaginationModule,
+    
     ToastrModule.forRoot({   // Global toastr settings
       timeOut: 3000,
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     exports:[CdkStepperModule,
       MatStepperModule
     ],

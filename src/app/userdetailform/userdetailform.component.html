@@ -5,13 +5,12 @@
         <div class="col-12 col-lg-9 col-xl-7">
           <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
             <div class="card-body p-4 p-md-5">
-              <ng-container *ngIf="isLoggedIn; else showForm">
+              <ng-container *ngIf="isLoggedIn && !isAdminLogin && !isDoctorLogin; else showForm">
                 <h3 class="mb-4">Details</h3>
                 <p><strong>Name:</strong> {{ userDetails?.name }}</p>
                 <p><strong>Email:</strong> {{ userDetails?.email }}</p>
                 <p><strong>Gender:</strong> {{ userDetails?.gender }}</p>
                 <p><strong>Phone:</strong> {{ userDetails?.phoneNumber }}</p>
-                <p><strong>Date of Birth:</strong> {{ userDetails?.dateOfBirth }}</p>
                 <div class="mt-2">
                   <button type="button" class="btn btn-success float-right ms-3" (click)="submitBooking()">Submit</button>
                   <button type="button" class="btn btn-primary float-right" matStepperPrevious>Prev</button>
@@ -24,7 +23,7 @@
                   <div class="col-md-6 mb-4">
                     <div class="form-outline">
                         <!-- <label class="form-label" for="name" >Name*</label> -->
-                      <input id="name" formControlName="name" type="text" class="form-control form-control-lg" placeholder="Name"/>
+                      <input id="name" formControlName="name" type="text" class="form-control form-control-lg" maxlength="30" placeholder="Name" m/>
                       <div class="text-danger" *ngIf="register.controls['name'].invalid && (register.controls['name'].touched || register.controls['name'].dirty || isFormSubmitted)">
                         <span *ngIf="register.controls['name'].errors?.['required']">Name is Required</span>
                       </div>
@@ -49,10 +48,8 @@
                 <div class="row">
                   <div class="col-md-6 mb-4">
                     <div class="form-outline">
-                        <!-- <label class="form-label" for="password">Password*</label> -->
                       <input id="password" formControlName="password" type="password" class="form-control form-control-lg" placeholder="Password" />
-                      
-                      <div class="text-danger" *ngIf="register.controls['password'].invalid && (register.controls['password'].touched || register.controls['password'].dirty || isFormSubmitted)">
+                      <div class="text-danger" *ngIf="register.controls['password'].invalid && (register.controls['password'].touched || isFormSubmitted)">
                         <span *ngIf="register.controls['password'].errors?.['required']">Password is required</span>
                         <span *ngIf="register.controls['password'].errors?.['pattern']">
                           Password must be at least 8 characters long, contain one uppercase letter, one lowercase letter, one number, and one special character.
@@ -60,24 +57,45 @@
                       </div>
                     </div>
                   </div>
+                
                   <div class="col-md-6 mb-4">
                     <div class="form-outline">
-                        <!-- <label class="form-label" for="gender">Gender</label> -->
-                      <select id="gender" formControlName="gender" class="form-control form-control-lg" >
-                        <option value="" disabled selected>Choose Gender</option>
+                      <input id="confirmPassword" formControlName="confirmPassword" type="password" class="form-control form-control-lg" maxlength="30" placeholder="Confirm Password" />
+                      <div class="text-danger" *ngIf="register.errors?.['passwordsMismatch'] && (register.controls['confirmPassword'].touched || isFormSubmitted)">
+                        <span>Passwords do not match</span>
+                      </div>
+                      <div class="text-danger" *ngIf="register.controls['confirmPassword'].invalid && (register.controls['confirmPassword'].touched || isFormSubmitted)">
+                        <span *ngIf="register.controls['confirmPassword'].errors?.['required']">Confirm Password is required</span>
+                      </div>
+                    </div>
+                  </div>
+              
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                      <select id="gender" formControlName="gender" class="form-control form-control-lg">
+                        <option value="" disabled>Choose Gender</option> <!-- Placeholder -->
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>
                       </select>
-                     
                     </div>
                   </div>
-                </div>
-  
-                <div class="row">
                   <div class="col-md-6 mb-4">
                     <div class="form-outline">
                         <!-- <label class="form-label" for="phoneNumber">Phone Number</label> -->
+                      <input id="phoneNumber" formControlName="phoneNumber" type="text" class="form-control form-control-lg" placeholder="Phone Number"/>
+                      <span *ngIf="register.controls['phoneNumber'].errors?.['pattern']">Phone number must be exactly 10 digits</span>
+
+                      <!-- <div class="text-danger" *ngIf="register.controls['phoneNumber'].invalid && (register.controls['phoneNumber'].touched || register.controls['phoneNumber'].dirty || isFormSubmitted)">
+                        <span *ngIf="register.controls['phoneNumber'].errors?.['required']">Phone Number is Required</span>
+                      </div> -->
+                    </div>
+                  </div>
+                  </div>
+  
+                <!-- <div class="row"> -->
+                  <!-- <div class="col-md-6 mb-4">
+                    <div class="form-outline">
                       <input id="phoneNumber" formControlName="phoneNumber" type="text" class="form-control form-control-lg" placeholder="Phone Number"/>
                       
                       <div class="text-danger" *ngIf="register.controls['phoneNumber'].invalid && (register.controls['phoneNumber'].touched || register.controls['phoneNumber'].dirty || isFormSubmitted)">
@@ -85,15 +103,14 @@
                         <span *ngIf="register.controls['phoneNumber'].errors?.['pattern']">Phone number must be exactly 10 digits</span>
                       </div>
                     </div>
-                  </div>
-                  <div class="col-md-6 mb-4">
-                    <div class="form-outline">
+                  </div> -->
+                  <!-- <div class="col-md-6 mb-4">
+                    <div class="form-outline"> -->
                         <!-- <label class="form-label" for="dateOfBirth">Date of Birth</label> -->
-                      <input id="dateOfBirth" formControlName="dateOfBirth" type="date" class="form-control form-control-lg" placeholder="dateOfBirth"/>
-                      
-                    </div>
+                      <!-- <input id="dateOfBirth" formControlName="dateOfBirth" type="date" class="form-control form-control-lg" placeholder="dateOfBirth"  title="Select your date of birth"/> -->
+                      <!-- </div>
                   </div>
-                </div>
+                </div> -->
   
                 <div class="mt-2 pt-2">
                     
