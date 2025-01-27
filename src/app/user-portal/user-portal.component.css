@@ -202,6 +202,7 @@ a.article:hover {
     transform: translateY(-10px);
     visibility: hidden;
     transition: 300ms;
+    z-index: 1000;
     cursor: pointer;
 }
 .menu::before {

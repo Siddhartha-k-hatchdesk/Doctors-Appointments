@@ -68,6 +68,7 @@ this.loadDoctors();
   onSearchChange(event: Event): void {
     const query = (event.target as HTMLInputElement).value;
     this.searchSubject.next(query); // Push the search input into the subject
+  
   }
 
   onSortChange(sortField: string): void {

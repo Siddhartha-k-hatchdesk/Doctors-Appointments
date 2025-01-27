@@ -7,18 +7,24 @@ import { SharedDataServiceService } from '../../Services/sevices/shared-data-ser
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.css'
+  styleUrls: ['./user-profile.component.css']
 })
-export class UserProfileComponent implements OnInit{
+export class UserProfileComponent implements OnInit {
   user: any = {}; // Object to hold user details
-  isLoading= false;
+  isLoading = false;
   selectedFile: File | null = null;
-  constructor(private sharedservice:SharedDataServiceService ,private userservice:UserServiceService, private router: Router,private toastr:ToastrService){
-      // Subscribe to loading state
-      this.sharedservice.loading$.subscribe((loading) => {
-        this.isLoading = loading;
-      });
-      
+  profileImageUrl: string = ''; // To store the updated profile image URL
+
+  constructor(
+    private sharedservice: SharedDataServiceService,
+    private userservice: UserServiceService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {
+    // Subscribe to loading state
+    this.sharedservice.loading$.subscribe((loading) => {
+      this.isLoading = loading;
+    });
   }
   triggerFileInput(): void {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
@@ -32,19 +38,31 @@ export class UserProfileComponent implements OnInit{
     } else {
       console.error('No user ID found');
     }
+
+    // Subscribe to profileImage$ to get updated profile image
+    this.sharedservice.profileImage$.subscribe((newImageUrl) => {
+      if (newImageUrl) {
+        console.log('Received new profile image URL:', newImageUrl);
+        this.profileImageUrl = newImageUrl; // Update the profile image URL
+      }
+    });
   }
+
   loadUserDetails(id: number): void {
     console.log(`Calling getUserDetails API for User ID: ${id}`);
     this.userservice.getUserDetails(id).subscribe(
       (response) => {
         console.log('User details fetched successfully:', response);
         this.user = response;
+        // Set the initial profile image if available
+        this.profileImageUrl = response.profileImageUrl || ''; // Set initial profile image URL
       },
       (error) => {
         console.error('Error fetching user details:', error);
       }
     );
   }
+
   saveChanges(): void {
     const userId = localStorage.getItem('userId'); // Assuming the user ID is stored in localStorage
     if (userId) {
@@ -68,6 +86,7 @@ export class UserProfileComponent implements OnInit{
       this.sharedservice.hideLoading();
     }
   }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input?.files?.length) {
@@ -75,11 +94,13 @@ export class UserProfileComponent implements OnInit{
       this.uploadProfileImage();
     }
   }
+
   uploadProfileImage(): void {
     if (!this.selectedFile) {
       this.toastr.warning('Please select an image first!');
       return;
     }
+
     this.sharedservice.showLoading();
     const formData = new FormData();
     formData.append('userId', localStorage.getItem('userId') || '');
@@ -88,8 +109,19 @@ export class UserProfileComponent implements OnInit{
     this.userservice.uploadProfileImage(formData).subscribe(
       (response: any) => {
         console.log('Profile image uploaded successfully:', response);
-        this.user.profileImageUrl = response.imageUrl; 
-        this.toastr.success('Profile image updated!');
+        this.toastr.success('Profile image uploaded!');
+
+        // Emit the new profile image URL
+        if (response.profileImageUrl) {
+          this.sharedservice.updateProfileImage(response.profileImageUrl);
+        }
+
+        // Immediately fetch updated user details to refresh the image
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+          this.sharedservice.fetchUserProfileImage(+userId); // Refresh the image from service
+        }
+
         this.sharedservice.hideLoading();
       },
       (error) => {
@@ -99,4 +131,4 @@ export class UserProfileComponent implements OnInit{
       }
     );
   }
-}  
+}

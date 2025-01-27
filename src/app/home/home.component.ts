@@ -59,6 +59,34 @@ export class HomeComponent implements OnInit {
     this.userservice.getDoctorsBySpecialization(specializationId).subscribe({
       next: (doctors) => {
         this.sharedservice.hideLoading();
+
+        if (doctors && doctors.length === 1) {
+          const singleDoctor = doctors[0];
+          console.log('Single Doctor Found:', singleDoctor);
+
+          // Ensure doctorId exists
+          if (!singleDoctor.id) {
+            console.error('DoctorId is missing:', singleDoctor);
+            return;
+          }
+
+          // Set shared data
+          this.sharedservice.setDoctorId(singleDoctor.id.toString());
+          this.userservice.setDoctorName(singleDoctor.name);
+
+          // Navigate directly to the Stepper Page
+          console.log('Navigating to Stepper Page');
+          this.router.navigate(['/stepperpage'], {
+            queryParams: { doctorId: singleDoctor.id },
+          }).then(() => {
+            console.log('Navigation to Stepper Page successful');
+          }).catch((err) => {
+            console.error('Navigation error:', err);
+          });
+
+          return; // Exit to avoid further processing
+        }
+
         if (doctors && doctors.length > 0) {
           this.bookservice.setFilteredDoctors(doctors);
           this.sharedservice.setSpecialistId(specializationId.toString());
@@ -82,7 +110,7 @@ export class HomeComponent implements OnInit {
       },
     });
   }
-  
+
   
   
 }

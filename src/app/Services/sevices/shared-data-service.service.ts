@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { DoctorServiceService } from '../Doctor/doctor-service.service';
+import { UserServiceService } from '../User/user-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,28 @@ export class SharedDataServiceService {
   // );
   // inProgress$ = this.inProgressAppointments.asObservable();
 
+  private profileImageSubject = new BehaviorSubject<string | null>(null);
+  profileImage$ = this.profileImageSubject.asObservable();
+
+  // Update the profile image
+  updateProfileImage(url: string): void {
+    console.log('Shared service: Updating profile image URL to:', url);
+    this.profileImageSubject.next(url);
+  }
+  // User Profile Image API
+  fetchUserProfileImage(userId: number): void {
+    // Assuming you have a service to fetch user details
+    this.userservice.getUserDetails(userId).subscribe(
+      (data: any) => {
+        if (data && data.profileImageUrl) {
+          this.updateProfileImage(data.profileImageUrl);  // Update shared state
+        }
+      },
+      (error) => {
+        console.error('Error fetching user profile image:', error);
+      }
+    );
+  }
   // Loading state
   private loadingSubject = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSubject.asObservable();
@@ -27,7 +51,7 @@ export class SharedDataServiceService {
   // User details
   private userDetails: any = null;
 
-  constructor(private httpclient: HttpClient) {}
+  constructor(private httpclient: HttpClient, private doctorservice:DoctorServiceService,private userservice:UserServiceService) {}
 
   // Helper method to fetch and parse value from localStorage
   // private getInitialInProgressValue(): number | null {
@@ -40,6 +64,8 @@ export class SharedDataServiceService {
   // }
 
   // Booking API call
+
+ 
   userbooking(BookingDTO: any): Observable<any> {
      const token = localStorage.getItem('auth_token');  // Retrieve the token from localStorage
         const headers = new HttpHeaders({
@@ -68,7 +94,21 @@ hideLoading(): void {
   console.log('Loading stopped'); // Debug log
  this.loadingSubject.next(false);
 }
-
+setProfileImage(imageUrl: string): void {
+  this.profileImageSubject.next(imageUrl);
+}
+fetchProfileImage(doctorId: number): void {
+  this.doctorservice.getDoctorsById(doctorId).subscribe(
+    (data: any) => {
+      if (data && data.profileimage) {
+        this.setProfileImage(data.profileimage); // Update shared state
+      }
+    },
+    (error) => {
+      console.error('Error fetching profile image:', error);
+    }
+  );
+}
   // Doctor ID methods
   setDoctorId(id: string): void {
     this.doctorId = id;

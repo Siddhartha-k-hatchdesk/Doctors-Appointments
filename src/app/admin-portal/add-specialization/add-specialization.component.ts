@@ -4,6 +4,7 @@ import { DoctorServiceService } from '../../Services/Doctor/doctor-service.servi
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SharedDataServiceService } from '../../Services/sevices/shared-data-service.service';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 declare var $:any;
 @Component({
   selector: 'app-add-specialization',
@@ -22,13 +23,23 @@ export class AddSpecializationComponent implements OnInit,AfterViewInit {
   isLoading = false;
   searchQuery: string = ''; // Add search query variable
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  
   constructor(private router:Router,private doctorservice:DoctorServiceService, 
     private userservice:UserServiceService,private toastr:ToastrService,private sharedservice:SharedDataServiceService){
        // Subscribe to loading state
      this.sharedservice.loading$.subscribe((loading) => {
       this.isLoading = loading;
     });
-    
+     // Debounce search input
+     this.searchSubject.pipe(
+      debounceTime(300), // Wait for 300ms after the user stops typing
+      distinctUntilChanged() // Only trigger search if the query changes
+    ).subscribe(searchQuery => {
+      this.searchQuery = searchQuery;
+      this.currentPage = 1; // Reset to the first page on search
+      this.loadSpecializations(); // Reload specializations with the new search query
+    });
   }
   ngOnInit(): void {
     this.loadSpecializations();
@@ -51,9 +62,9 @@ export class AddSpecializationComponent implements OnInit,AfterViewInit {
       });
   }
    // Method to handle search input changes
-   onSearchChange(): void {
-    this.currentPage = 1; // Reset to the first page when search query changes
-    this.loadSpecializations(); // Reload specializations
+   onSearchChange(event: Event): void {
+    const query = (event.target as HTMLInputElement).value;
+    this.searchSubject.next(query); // Push the search input into the subject
   }
   clearSearch(): void {
     this.searchQuery = '';

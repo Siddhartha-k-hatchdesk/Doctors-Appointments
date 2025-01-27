@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { UserServiceService } from '../Services/User/user-service.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { SharedDataServiceService } from '../Services/sevices/shared-data-service.service';
 
 @Component({
   selector: 'app-user-portal',
@@ -14,21 +15,18 @@ export class UserPortalComponent implements OnInit {
  
  profileImageUrl: string = 'https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120'; // Default image
 
- constructor(private router:Router, private userService: UserServiceService,private authService:AuthService,private elementRef:ElementRef ){}
+ constructor(private router:Router, private userService: UserServiceService,private authService:AuthService,private elementRef:ElementRef,private sharedservice:SharedDataServiceService ){}
 
  ngOnInit(): void {
   this.username = this.userService.getUserName();
   const userId = localStorage.getItem('userId'); // Get the userId as a string
   if (userId) {
     const numericUserId = Number(userId); // Convert to number
-    if (!isNaN(numericUserId)) { // Ensure it is a valid number
+    if (!isNaN(numericUserId)) {
       this.userService.getUserDetails(numericUserId).subscribe(
         (response) => {
           console.log('User details:', response);
-          this.profileImageUrl = response.profileImageUrl || null;
-
-          console.log('Profile Image URL:', this.profileImageUrl);
-          console.log('Updated Profile Image URL:', this.profileImageUrl);  // Use API image or fallback to default
+          this.profileImageUrl = response.profileImageUrl || this.profileImageUrl;
         },
         (error) => {
           console.error('Error fetching user details:', error);
@@ -38,7 +36,17 @@ export class UserPortalComponent implements OnInit {
       console.error('Invalid user ID:', userId);
     }
   }
+
+  // Subscribe to profile image updates
+  this.sharedservice.profileImage$.subscribe((newImageUrl) => {
+    if (newImageUrl) {
+      console.log('Received new profile image URL in UserPortalComponent:', newImageUrl);
+      this.profileImageUrl = newImageUrl;
+    }
+  });
 }
+
+
 
 logout() {
   this.authService.logout();

@@ -35,10 +35,20 @@ export class DoctorPortalComponent implements  OnInit,OnDestroy {
  this.DoctorId = Number(localStorage.getItem('doctorId'));
  if (this.DoctorId) {
   this.fetchDoctorDetails();
+  // Fetch the latest profile image dynamically
+  this.sharedservice.fetchProfileImage(this.DoctorId); // Trigger image fetch
+  this.sharedservice.profileImage$.subscribe((imageUrl) => {
+    if (imageUrl) {
+      this.profileImage = imageUrl; // Update profile image dynamically
+      console.log('Profile image updated:', this.profileImage);
+    }
+  });
  }
  else{
    console.error('Doctor ID not found.');
  }
+
+
  if (this.DoctorId) {
       this.notificationService.startConnection();
   

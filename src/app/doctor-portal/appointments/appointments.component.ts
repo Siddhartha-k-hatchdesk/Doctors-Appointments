@@ -4,6 +4,7 @@ import { BookingStatus } from '../../Enums/booking-status.enum';
 import { UserServiceService } from '../../Services/User/user-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { SharedDataServiceService } from '../../Services/sevices/shared-data-service.service';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-appointments',
@@ -25,12 +26,23 @@ export class AppointmentsComponent implements OnInit{
   sortBy: string = 'preferreddate'; // Default sorting by preferreddate
   isAscending: boolean = true; // Ascending or Descending sorting
   
+  private searchSubject: Subject<string> = new Subject<string>();
 
   constructor(private bookService:BookServiceService,private userService:UserServiceService,private route:ActivatedRoute,private sharedService:SharedDataServiceService){
      // Subscribe to loading state
      this.sharedService.loading$.subscribe((loading) => {
       this.isLoading = loading;
     });
+// Debounce search input
+this.searchSubject.pipe(
+  debounceTime(300), // Wait for 300ms after the user stops typing
+  distinctUntilChanged() // Only trigger search if the query changes
+).subscribe(searchQuery => {
+  this.searchQuery = searchQuery;
+  this.currentPage = 1; // Reset to the first page on search
+  this.loadAppointments(); // Reload appointments with the new search query
+});
+    
   }
 
   
@@ -90,11 +102,12 @@ loadAppointments(): void {
   }
 }
 
-onSearchChange(event: Event) {
-  this.searchQuery = (event.target as HTMLInputElement).value;
-  this.currentPage = 1; // Reset to first page
-  this.loadAppointments(); // Fetch filtered data
+// Method to handle search input changes
+onSearchChange(event: Event): void {
+  const query = (event.target as HTMLInputElement).value;
+  this.searchSubject.next(query); // Push the search input into the subject
 }
+
 onSortChange(sortField: string) {
   if (this.sortBy === sortField) {
     // Toggle sorting order

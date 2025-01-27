@@ -60,32 +60,11 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 .Appointment_big_box{
     position: relative;
     top: 40%;
     transform: translateY(30%);
 }
-
-
-
-
-
-
-
-
-
- 
 .Appointment{
     position: relative;
     top: 50px;
@@ -222,7 +201,7 @@ color:#223a66 ;
 
 
 
-.location-box ng-select{
+.location-box .ng-select{
     position: relative;
     
     width: 100%;

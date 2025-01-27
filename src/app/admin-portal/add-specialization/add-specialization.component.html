@@ -56,8 +56,9 @@
     class="form-control"
     placeholder="Search Specializations..."
     [(ngModel)]="searchQuery"
-    (input)="onSearchChange()" 
+    (input)="onSearchChange($event)" 
     style="max-width: 300px;"
+    maxlength="30"
   />
   <!-- <button class="btn btn-secondary mt-2" (click)="clearSearch()">Clear Search</button> -->
   </div>

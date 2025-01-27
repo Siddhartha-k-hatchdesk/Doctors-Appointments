@@ -1,11 +1,20 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, Observable, tap } from 'rxjs';
+import { BehaviorSubject, delay, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserServiceService {
+
+  private profileImageSource = new BehaviorSubject<string>('');
+  profileImage$ = this.profileImageSource.asObservable();
+
+
+  updateProfileImage(url: string): void {
+    this.profileImageSource.next(url); // Emit the new profile image URL
+  }
+  
   getLocations() {
     throw new Error('Method not implemented.');
   }

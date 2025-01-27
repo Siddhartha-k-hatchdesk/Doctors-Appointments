@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BookServiceService } from '../../Services/Appointment/book-service.service';
 import { SharedDataServiceService } from '../../Services/sevices/shared-data-service.service';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-allappointments',
@@ -20,10 +21,22 @@ export class AllappointmentsComponent implements OnInit {
   Math = Math; 
   isLoading=false;
 
+  private searchSubject: Subject<string> = new Subject<string>();
+  
   constructor(private bookservice: BookServiceService, private sharedService:SharedDataServiceService) {
      // Subscribe to loading state
      this.sharedService.loading$.subscribe((loading) => {
       this.isLoading = loading;
+    });
+
+     // Debounce search input
+     this.searchSubject.pipe(
+      debounceTime(300), // Wait for 300ms after the user stops typing
+      distinctUntilChanged() // Only trigger search if the query changes
+    ).subscribe(searchQuery => {
+      this.searchQuery = searchQuery;
+      this.pageNumber = 1; // Reset to the first page on search
+      this.GetAllAppointments(); // Reload appointments with the new search query
     });
   }
 
@@ -60,10 +73,10 @@ export class AllappointmentsComponent implements OnInit {
     }
     this.GetAllAppointments(); // Fetch sorted data
   }
-  onSearchChange(event: Event) {
-    this.searchQuery = (event.target as HTMLInputElement).value;
-    this.pageNumber = 1; // Reset to first page
-    this.GetAllAppointments(); // Fetch filtered data
+  // Method to handle search input changes
+  onSearchChange(event: Event): void {
+    const query = (event.target as HTMLInputElement).value;
+    this.searchSubject.next(query); // Push the search input into the subject
   }
     
 

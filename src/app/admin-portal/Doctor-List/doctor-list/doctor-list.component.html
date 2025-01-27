@@ -1,6 +1,6 @@
-<div *ngIf="isLoading">
+<!-- <div *ngIf="isLoading">
   <app-loading-spinner></app-loading-spinner>
-</div>
+</div> -->
 
 <button class="btn btn-secondary" routerLink="/admin-portal/add-doctor"> Add Doctor</button>
 <!-- Search Bar -->
@@ -12,9 +12,10 @@
     [(ngModel)]="searchQuery"
     (input)="onSearchChange($event)"
     style="max-width: 300px;"
+    maxlength="30"
   />
 </div>
-
+<div id="doctor-list-container">
 <!-- Table with Sorting -->
 <table class="table table-striped mt-2">
   <thead class="thead-dark">
@@ -54,6 +55,7 @@
     </tr>
   </tbody>
 </table>
+</div>
 
 
 
