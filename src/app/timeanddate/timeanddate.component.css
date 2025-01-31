@@ -126,6 +126,15 @@
   background-color: #f0f0f0; /* Highlight active date */
   border: 2px solid #007bff; /* Blue border for selected date */
 }
+.slot-booked {
+  background-color: #f5f5f5;
+  color: #aaa;
+}
+
+.booked-slot {
+  color: red;
+  font-weight: bold;
+}
 
 .blurred {
   opacity: 0.5; /* Make unavailable dates appear faded */

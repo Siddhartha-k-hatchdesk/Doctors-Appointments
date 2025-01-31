@@ -1,9 +1,6 @@
-
-  <header></header>
+ <header></header>
   <!-- ///////////////////////// DR-Search-Box ////////////////////////////////////// -->
-
-
-  <section class="banner-section">
+<section class="banner-section">
     <div class="container-fluid">
       <div class="row col-lg-12 col-md-12 col-sm-12 ">
         <div class="text-block py-2 ps-5 ">
@@ -16,17 +13,58 @@
               <h4>Book An Appointment</h4>
             </div>
             <!-- start of search -->
-            <app-picture-body></app-picture-body>
+            <div class="row justify-content-left ms-auto Apointment-box ps-5 ms-3">
+              <!-- Location Box -->
+              <div class="col-md-4 col-sm-6 location-box">
+                <div class="location-icon"><i class="bi bi-geo-alt"></i></div>
+                <ng-select 
+                  [items]="location" 
+                  bindLabel="locationName"  
+                  bindValue="id"            
+                  [(ngModel)]="selectedLocation" 
+                  [searchable]="true" 
+                  placeholder="Search a Location"
+                  (search)="loadLocation($event)"
+                  (change)="onLocationChange($event)">
+                </ng-select>
+              </div>
+  <!-- Search Box for Doctor & Speciality -->
+  <div class="col-md-4 col-sm-6 search-box">
+    <div class="Search-icon"><i class="bi bi-search"></i></div>
+    <ng-select 
+      [items]="combinedList" 
+      bindLabel="name" 
+      bindValue="value" 
+      placeholder="Search doctor & Specialty" 
+      [searchable]="true"
+      [multiple]="true"
+      [groupBy]="'groupName'"
+      (change)="onSpecializationDoctorChange($event)">
+      
+      <ng-template ng-optgroup-tmp let-item="item">
+        <span>{{item.groupName}}</span>
+      </ng-template>
+  
+      <ng-template ng-option-tmp let-item="item">
+        <span>{{item.name}}</span>
+      </ng-template>
+    </ng-select>
+   
+  </div>
+                <!-- <div class="col-md-1 partition_icon">|</div> -->
+   <div class="col-md-4 col-sm-0 button-box">
+                  <div class="btn-submit-box">
+                    <button type="submit"  (click)="onSearchClick()">Search </button></div>
+                </div>
+              </div>
          <!-- End of search -->
+          
          </div>
         </div>
       </div>
     </div>
 </section>
-
-  <!--  -->
-
-  <!-- /////////////////DR-card-section//////////////////// -->
+<!-- /////////////////DR-card-section//////////////////// -->
   <section class="card-Section">
     <div class="dr-card pt-5">
       <div class="container">
@@ -37,7 +75,7 @@
                 <div class="dr-appoint-card-box">
                   <div class="dr-card-box">
                     <div class="dr-image pt-3">
-                      <img src="assets\Card_Images\download-dr-1-removebg-preview.png" class="image-fluid" alt="">
+                      <img [src]="doctor.profileImageUrl || 'assets/Card_Images/default-placeholder.png'" class="image-fluid" alt="Doctor Image">
                     </div>
             
                     <div class="dr-profile pt-3">
@@ -86,7 +124,7 @@
               </div>
             </div>
             <div *ngIf="filteredDoctors.length === 0 && !isGetAppointmentPage" class="no-doctors-message">
-              <p>No doctors selected</p>
+              <p>No doctors Available</p>
             </div>
             <div class="pagination-container mt-2" *ngIf="filteredDoctors.length > 0 && !isGetAppointmentPage">
               <div class="pagination-controls">

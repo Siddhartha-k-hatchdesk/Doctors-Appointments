@@ -63,4 +63,8 @@
   .bi-envelope::before {
     padding-right: 10px;
   }
+  .logo img{
+    height: 50px;
+    width:100;
+  }
   

@@ -168,6 +168,19 @@ onLocationChange(event: any): void {
               ];
 
               console.log('Updated Combined List after location change:', this.combinedList);
+
+                // ✅ Ensure cursor behavior after selection
+                setTimeout(() => {
+                  const locationInput = document.querySelector('.location-box ng-select input') as HTMLInputElement;
+                  if (locationInput) {
+                      locationInput.blur(); // Temporarily hide cursor
+
+                      setTimeout(() => {
+                          locationInput.focus(); // Bring cursor back on next click
+                          locationInput.setSelectionRange(locationInput.value.length, locationInput.value.length);
+                      }, 50);
+                  }
+              }, 200);
           },
           error: (error) => {
               console.error('Error fetching doctors:', error);
@@ -186,6 +199,7 @@ onSearchClick(): void {
   // Clear previous search results
   this.filteredDoctors = [];
   this.bookservice.setFilteredDoctors([]);
+  this.cdr.detectChanges(); // Force UI update for the reset
 
     // If only location is selected, we proceed to search for all doctors in that location
     if (this.selectedLocation && this.selectedSpecialist.length === 0 && this.selectedDoctor.length === 0) {
@@ -259,7 +273,8 @@ onSearchClick(): void {
           (doctor: Doctor) => doctor.isActive === true
         );
         console.log('Filtered Doctors:', this.filteredDoctors);
-  
+  // Force Angular to update the UI
+  this.cdr.detectChanges();
         this.Sharedservice.hideLoading();
         // Check if only one doctor is present in the filtered list
       if (this.filteredDoctors.length === 1) {

@@ -9,7 +9,6 @@ export class DoctorServiceService {
 
   private apiUrl="https://localhost:7009/admin";
   private url="https://localhost:7009/doctor";
-  private urlapi="https://localhost:7009/users";
 
   constructor(private http:HttpClient) { }
   addDoctor(doctorDTO:any)
@@ -70,7 +69,7 @@ updateDoctorStatus(doctorId: number, isActive: boolean): Observable<any> {
 uploadProfileImage(formData: FormData): Observable<any> {
   return this.http.post(`${this.url}/upload-profile-image`, formData);
 }
-
-
-
+getDoctorslot(doctorId:number,date:string){
+  return this.http.get<any>(`${this.url}/booked-slots/${doctorId}/${date}`)
+}
 }

@@ -218,15 +218,18 @@ padding-top: 15px;
   padding: 10px;
 }
 
-.image-item{
-width: 150px;
-height: 150px;
-border-radius:50%;
-/* border-radius: 50%; */
-border: 1px solid rgb(197, 190, 190);
-margin-top: 50px;
-margin-left: 20px;
+.image-item {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  display: flex;              /* Use flexbox for centering */
+  justify-content: center;    /* Center the image horizontally */
+  align-items: center;        /* Center the image vertically */
+  border: 1px solid rgb(197, 190, 190);
+  margin-top: 50px;
+  margin-left: 30px;
 }
+
 
 /* .owl-carousel .owl-item img {
   display: block !important;
@@ -264,6 +267,13 @@ margin-left: 20px;
   text-decoration: none;
   color: #fff;
   padding-top: 5px;
+}
+.image img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;         /* Makes the image round */
+  object-fit: cover;          /* Ensures the image fills the circle */
+  border: 2px solid #fff;    /* Optional: Adds a border around the circle */
 }
 
   

@@ -1,9 +1,4 @@
-
-<div *ngIf="isLoading">
-  <app-loading-spinner></app-loading-spinner>
-</div>
-              <!-- start of search  -->
-          <div class="row justify-content-left ms-auto Apointment-box ps-5 ms-3">
+<div class="row justify-content-left ms-auto Apointment-box ps-5 ms-3">
             <!-- Location Box -->
             <div class="col-md-4 col-sm-6 location-box">
               <div class="location-icon"><i class="bi bi-geo-alt"></i></div>
@@ -29,7 +24,8 @@
     [searchable]="true"
     [multiple]="true"
     [groupBy]="'groupName'"
-    (change)="onSpecializationDoctorChange($event)">
+    (change)="onSpecializationDoctorChange($event)"
+    >
     
     <ng-template ng-optgroup-tmp let-item="item">
       <span>{{item.groupName}}</span>
@@ -47,7 +43,7 @@
                   <button type="submit"  (click)="onSearchClick()">Search </button></div>
               </div>
             </div>
-            <!-- End Of Search -->
+        
           
 
 

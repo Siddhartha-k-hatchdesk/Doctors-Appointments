@@ -99,34 +99,7 @@ color:#223a66 ;
 
 }
 
-
-
-/* .Apointment-box{
-    border: 1px solid black;
-    width: 100%;
-    height: 120px;
-    position: relative;
-    background-image:url("/IMAGES/BackGround_images/image.jpg");
-
-    
-}   */
-
-
-
- 
-
-
-
-
-/* Styling for Search Box */
-/* Styling for Search Box and Location Box to make them the same size */
-/* ::ng-deep .ng-select.ng-select-single  .ng-select-container {
-    height: 48px;
-    padding-left: 0px;
-    position: relative;
-    border: none;
-  } */
-  ::ng-deep .ng-select .ng-select-container {
+::ng-deep .ng-select .ng-select-container {
     color: #333;
     background-color: #fff;
     border-radius: 0;
@@ -142,6 +115,7 @@ color:#223a66 ;
     background-color: #3181d2;
     color: #333;
   }
+  
 .search-box ng-select{
     position: relative;
     left: 0px;
@@ -199,11 +173,23 @@ color:#223a66 ;
     box-shadow: none !important;          /* Remove box shadow */
 }
 
+/* ✅ Yeh ensure karega ki pehle click par cursor dikhai de */
+::ng-deep .location-box .ng-select.ng-select-focused input {
+    caret-color: initial !important; /* Allow cursor initially */
+}
 
+/* ✅ Jab location select ho chuki ho tab cursor hide ho */
+::ng-deep .location-box .ng-select.ng-select-focused:has(.ng-value) input {
+    caret-color: transparent !important; /* Hide cursor after selection */
+}
+
+/* ✅ Ensure cursor appears at end of text */
+::ng-deep .location-box .ng-select input {
+    caret-color: initial !important;
+}
 
 .location-box .ng-select{
     position: relative;
-    
     width: 100%;
     height: 50px;
     top: 15px;
