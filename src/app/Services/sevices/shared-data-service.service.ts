@@ -9,16 +9,11 @@ import { UserServiceService } from '../User/user-service.service';
 })
 export class SharedDataServiceService {
   url = "https://localhost:7009/users";
-
-  // // Initialize BehaviorSubject with a helper method
-  // private inProgressAppointments = new BehaviorSubject<number | null>(
-  //   this.getInitialInProgressValue()
-  // );
-  // inProgress$ = this.inProgressAppointments.asObservable();
-
+  
   private profileImageSubject = new BehaviorSubject<string | null>(null);
   profileImage$ = this.profileImageSubject.asObservable();
 
+  
   // Update the profile image
   updateProfileImage(url: string): void {
     console.log('Shared service: Updating profile image URL to:', url);
@@ -47,25 +42,15 @@ export class SharedDataServiceService {
   private selectedOption: string | null = null;
   private selectedDate: string | null = null;
   private selectedTime: string | null = null;
+  private appointmentData: any = null;
+  private appointmentId: number | null = null;
+  
 
   // User details
   private userDetails: any = null;
 
   constructor(private httpclient: HttpClient, private doctorservice:DoctorServiceService,private userservice:UserServiceService) {}
 
-  // Helper method to fetch and parse value from localStorage
-  // private getInitialInProgressValue(): number | null {
-  //   const storedValue = localStorage.getItem('lastInProgressAppointment');
-  //   if (storedValue !== null) {
-  //     const parsedValue = parseInt(storedValue, 10);
-  //     return isNaN(parsedValue) ? null : parsedValue; // Return null if parsing fails
-  //   }
-  //   return null; // Return null if no value in localStorage
-  // }
-
-  // Booking API call
-
- 
   userbooking(BookingDTO: any): Observable<any> {
      const token = localStorage.getItem('auth_token');  // Retrieve the token from localStorage
         const headers = new HttpHeaders({
@@ -109,6 +94,23 @@ fetchProfileImage(doctorId: number): void {
     }
   );
 }
+setAppointmentData(data: any): void {
+  this.appointmentData = data;
+
+}
+
+getAppointmentData(): any {
+  return this.appointmentData;
+}
+setAppointmentId(appointmentId: number | null) {
+  this.appointmentId = appointmentId;
+}
+
+
+getAppointmentId(): number | null {
+  return this.appointmentId;
+}
+
   // Doctor ID methods
   setDoctorId(id: string): void {
     this.doctorId = id;
@@ -155,24 +157,5 @@ fetchProfileImage(doctorId: number): void {
   }
   getUserDetails(): any {
     return this.userDetails;
-  }
-
- 
-
-  // Update in-progress appointment
-  // updateInProgress(id: number | null): void {
-  //   console.log("Updating InProgress ID in SharedDataServiceService to:", id);
-  //   if (id !== null) {
-  //     localStorage.setItem('lastInProgressAppointment', id.toString());
-  //   } else {
-  //     localStorage.removeItem('lastInProgressAppointment');
-  //   }
-  //   this.inProgressAppointments.next(id);
-  //   console.log("Updated BehaviorSubject value:", this.inProgressAppointments.getValue());
-  // }
-
-  // // Get current in-progress appointment
-  // getCurrentInProgress(): number | null {
-  //   return this.inProgressAppointments.getValue();
-  // }
+  } 
 }

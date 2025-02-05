@@ -303,9 +303,7 @@ onSearchClick(): void {
 
   return; // Exit to avoid further processing
 }
-
-  
-        if (this.filteredDoctors.length > 0) {
+ if (this.filteredDoctors.length > 0) {
           this.bookservice.setFilteredDoctors(this.filteredDoctors);
   
           this.searchShared.setSearchData({

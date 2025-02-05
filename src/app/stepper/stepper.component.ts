@@ -2,6 +2,7 @@ import { CdkStepper } from '@angular/cdk/stepper';
 import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { UserServiceService } from '../Services/User/user-service.service';
 import { Directionality } from '@angular/cdk/bidi';
+import { SharedDataServiceService } from '../Services/sevices/shared-data-service.service';
 
 @Component({
   selector: 'app-stepper',
@@ -12,8 +13,11 @@ import { Directionality } from '@angular/cdk/bidi';
 export class StepperComponent extends CdkStepper implements OnInit {
   linearModeSelected = true;
   doctorName: string | null=null;
+  appointmentDetails: any;
+  appointmentId: any | null;
+
   constructor(
-    private userservice: UserServiceService,
+    private userservice: UserServiceService,private sharedservice:SharedDataServiceService,
     _dir: Directionality,  // Inject Directionality
     _changeDetectorRef: ChangeDetectorRef,  // Inject ChangeDetectorRef
     _elementRef: ElementRef<HTMLElement>  // Inject ElementRef
@@ -44,10 +48,16 @@ isStepClickable(index: number): boolean {
 
 // Optionally you can also prevent skipping steps completely at initialization
 ngOnInit():void {
+
+  // Appointment ID shared service se fetch karein
+  this.appointmentId = this.sharedservice.getAppointmentId();
+  console.log('Stepper received Appointment ID:', this.appointmentId);
   // Ensures that no steps can be clicked unless they are the current or previous step
   this.doctorName = this.userservice.getDoctorName1();
   console.log("selecteddoctor:",this.doctorName);
   this.selectedIndex = 0;  // Start at the first step
- 
+  
+  this.appointmentDetails = this.sharedservice.getAppointmentData();
+  console.log('Loaded appointment details in stepper:', this.appointmentDetails);
 }
 }

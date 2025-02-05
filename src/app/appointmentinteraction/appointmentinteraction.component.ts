@@ -15,6 +15,7 @@ export class AppointmentinteractionComponent implements OnInit {
 
   selectOption(option: string) {
     this.selectedOption = option;
+    this.sharedService.setSelectedOption(option);
     console.log('Selected Option:', this.selectedOption);
   }
   ngOnInit(): void {
@@ -33,16 +34,7 @@ export class AppointmentinteractionComponent implements OnInit {
           console.error('Error fetching fees:', error);
         }
       });
-    }
-  }
-  }
-  // onProceedClick(): void {
-  //   if (this.selectedOption && this.doctorId) {
-  //     console.log('Proceed clicked. Selected Doctor ID:', this.doctorId);
-  //     // Trigger the API here when "Proceed" button is clicked
-  //     this.doctorservice.getDoctorAvailability(Number(this.doctorId)); // Ensure doctorId is passed as a number
-  //   } else {
-  //     console.log('No option selected or no doctor selected.');
-  //   }
-  // }
+    }  
+}
 
+}

@@ -38,9 +38,16 @@ export class SearchdoctorlistComponent implements OnInit{
   pageSize: number = 5;
   totalPages: number = 0;
   isGetAppointmentPage=false;
+  appointmentId: number | undefined;
+  
   constructor(private toster:ToastrService, private doctorservice:DoctorServiceService, private searchshared:SearchSharedServiceService, private userservice:UserServiceService, private bookservice:BookServiceService, private route:ActivatedRoute, private Sharedservice:SharedDataServiceService, private router:Router){}
   ngOnInit(): void {
-    // First, load specialists and doctors asynchronously
+    // Get appointmentId from the query parameters
+    this.route.queryParams.subscribe((params) => {
+      this.appointmentId = params['appointmentId'];
+      console.log('Received Appointment ID from Query Params:', this.appointmentId);
+    });
+
     this.loadSpecialistsAndDoctors().then(() => {
       // After specialists and doctors are loaded, retrieve the shared data
       const searchData = this.searchshared.getSearchData();
@@ -54,7 +61,7 @@ export class SearchdoctorlistComponent implements OnInit{
         console.log('Selected Specialists:', this.selectedSpecialists);
         console.log('Selected Doctors:', this.selectedDoctors);
       }
-  
+
       // Now, check if we have query parameters that override or add to the selected specialists
       this.route.queryParams.subscribe((params) => {
         const specialistsParam = params['specialists'];
@@ -62,12 +69,13 @@ export class SearchdoctorlistComponent implements OnInit{
           this.selectedSpecialists = JSON.parse(specialistsParam);
           console.log('Specialists from Query Params:', this.selectedSpecialists);
         }
-        
+
         // Proceed to display the filtered doctors with the combined data
         this.fetchDoctors();
       });
     });
   }
+
   
   onPageChange(newPage: number): void {
     this.page = newPage;

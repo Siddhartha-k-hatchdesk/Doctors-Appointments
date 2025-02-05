@@ -3,4 +3,7 @@
     <h2>Thank You</h2>
     <p>Your Appointment has been successfully booked. Thanks</p>
   </div>
+<!-- Conditionally show the button based on login status -->
+<button *ngIf="isLoggedIn"  class="btn btn-success float-right" routerLink="/user-portal">Go to Dashboard</button>
+<button *ngIf="!isLoggedIn" class="btn btn-success float-right"  routerLink="/login">Login</button>
   

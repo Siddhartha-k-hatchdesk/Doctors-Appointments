@@ -36,7 +36,7 @@ export class UserServiceService {
   }
 
   getUserName():string|null{
-    return this.username;
+    return localStorage.getItem('username')
   }
 
   clearUser():void{
@@ -143,6 +143,12 @@ getuserdetailsbyId(id:number){
 }
 uploadProfileImage(formData: FormData): Observable<any> {
   return this.http.post(`${this.url}/upload-profile-image`, formData);
+}
+getappointmentdetailsbyId(id:number){
+  return this.http.get<any>(`${this.url}/usersappointments/${id}`);
+}
+editAppointment(appointmentId: number, updatedData: any) {
+  return this.http.put(`${this.url}/editappointment/${appointmentId}`, updatedData);
 }
 
 }

@@ -1,12 +1,4 @@
-
-<!-- <a class="btn btn-primary btn-sm" routerLink="/book-appointment"
-            role="button">Book Appointment</a> -->
-
-            <!-- <a class="btn btn-primary btn-sm" (click)="openAppointmentDialog()" role="button">Book Appointment</a> -->
-            <div *ngIf="isLoading">
-              <app-loading-spinner></app-loading-spinner>
-            </div>
-            <a class="btn btn-primary btn-sm" routerLink="/searchdoctor" role="button">Book Appointment</a>
+<a class="btn btn-primary btn-sm" (click)="onbuttonclick()" role="button">Book Appointment</a>
 
             <table class="table mt-2">
               <thead class="thead-dark">
@@ -17,6 +9,7 @@
                   <th scope="col">Time</th>
                   <th scope="col">Status</th>
                   <th scope="col">Action</th>
+                  <th scope="col">Remaning time</th>
                 </tr>
               </thead>
               <tbody>
@@ -28,27 +21,33 @@
                   <td>{{item.statusName}}</td>
                   <td style="display: flex; gap: 10px;">
                     <!-- Buttons will be invisible and disabled when inProgressOrCompletedId matches the current item's ID -->
-                    <!-- <button 
+                    <button 
                     type="button" 
-                    class="btn btn-primary" 
-                    [style.visibility]="inProgressId === item.id ? 'hidden' : 'visible'" 
-                    [disabled]="inProgressId === item.id">
+                    class="btn btn-primary"
+                    [disabled]="item.canEditTimeLeft <= 0"
+                    (click)="editAppointment(item.id)">
                     Edit
-                  </button> -->
+                  </button>
+                  
                   <button 
                   type="button" 
                   class="btn btn-danger" 
-                  [style.visibility]="inProgressId === item.id ? 'hidden' : 'visible'" 
-                  [disabled]="inProgressId === item.id"
+                  [disabled]="item.canEditTimeLeft <= 0"
                   (click)="removeAppointment(item.id)">
                   Remove
                 </button>
+                </td>
+                <td>
+                  <span *ngIf="item.canEdit">
+                    {{convertSecondsToTimeFormat(item.canEditTimeLeft) }}
+                  </span>
+                </td>
                 
-                  </td>
-                  
                 </tr>
               </tbody>
             </table>
+
+
             <div *ngIf="users.length > 0" class="pagination-controls">
               <label for="pageSize">Page Size:</label>
               <select
