@@ -39,6 +39,7 @@
           <i [class]="sortBy === 'preferredtime' ? (isAscending ? 'fa fa-arrow-up' : 'fa fa-arrow-down') : ''"></i>
         </th>
         <th>Status</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -49,6 +50,11 @@
         <td>{{ appointment.preferreddate }}</td>
         <td>{{ appointment.preferredtime }}</td>
         <td>{{ appointment.statusName }}</td>
+        <td>
+          <button *ngIf="appointment.statusName === 'Waiting'" (click)="startAppointment(appointment.id)" class="btn btn-primary">Start</button>
+          <button *ngIf="appointment.statusName === 'InProgress'" (click)="completeAppointment(appointment.id)" class="btn btn-success">Complete</button>
+          
+        </td>
       </tr>
     </tbody>
   </table>

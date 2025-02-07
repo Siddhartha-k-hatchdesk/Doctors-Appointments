@@ -74,6 +74,11 @@ closeMenu() {
 navigateToEditProfile() {
   this.router.navigate(['/user-portal/user-profile']);
 }
+onbuttonclick() {
+  this.sharedservice.setAppointmentId(null); 
+  this.router.navigate(['/']);
+}
+
 }
 // constructor(private router:Router){}
 

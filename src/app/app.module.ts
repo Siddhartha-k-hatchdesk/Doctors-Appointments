@@ -53,6 +53,8 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
 import { UserProfileComponent } from './user-portal/user-profile/user-profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { NgxCaptchaModule, ReCaptcha2Component } from 'ngx-captcha';
+import { RecaptchaFormsModule, RecaptchaModule, RecaptchaV3Module } from 'ng-recaptcha';
 
 
 
@@ -96,7 +98,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     ChangePasswordComponent,
     ResetPasswordComponent,
     
-    
     ],
 
   imports: [
@@ -112,7 +113,9 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     MatStepperModule,
     BrowserAnimationsModule,
     NgxPaginationModule,
-    
+    NgxCaptchaModule,
+    RecaptchaModule,
+    RecaptchaV3Module,
     ToastrModule.forRoot({   // Global toastr settings
       timeOut: 3000,
       positionClass: 'toast-top-right',

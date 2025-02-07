@@ -1,13 +1,23 @@
 <a class="btn btn-primary btn-sm" (click)="onbuttonclick()" role="button">Book Appointment</a>
-
+<div class="mb-3 w-auto float-right">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Search..."
+    [(ngModel)]="searchText"
+    (input)="searchAppointments()"
+    style="max-width: 300px;"
+  />
+</div>
             <table class="table mt-2">
               <thead class="thead-dark">
                 <tr>
                   <th scope="col">S.No</th>
-                  <th scope="col">Dr. Name</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Time</th>
-                  <th scope="col">Status</th>
+                  <th scope="col" (click)="changeSorting('doctorName')">Dr. Name</th>
+                  <th scope="col" (click)="changeSorting('preferreddate')">Date</th>
+                  <th scope="col" (click)="changeSorting('preferredtime')">Time</th>
+                    <th scope="col" (click)="changeSorting('statusName')">Status</th>
+
                   <th scope="col">Action</th>
                   <th scope="col">Remaning time</th>
                 </tr>

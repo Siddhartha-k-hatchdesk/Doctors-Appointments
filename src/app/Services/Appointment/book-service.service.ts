@@ -32,20 +32,32 @@ export class BookServiceService {
         })
       );
   }
-  getAppointmentsForUser(pageNumber: number = 1, pageSize: number = 10): Observable<any> {
+  getAppointmentsForUser(
+    pageNumber: number = 1,
+    pageSize: number = 10,
+    sortBy: string = 'Id', // Default sorting by Id
+    isAscending: boolean = false, // Default descending
+    searchQuery: string = ''
+  ): Observable<any> {
     const token = localStorage.getItem('auth_token');
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`  // Add the JWT token to the Authorization header
+      'Authorization': `Bearer ${token}`
     });
+  
+    let url = `${this.url}/appointments?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&isAscending=${isAscending}`;
     
-    return this.http.get(`${this.url}/appointments?pageNumber=${pageNumber}&pageSize=${pageSize}`, { headers })
-      .pipe(
-        catchError((error: any) => {
-          console.error('Error fetching appointments:', error); // Log error to console
-          return throwError(() => new Error('Error fetching appointments, please try again later.'));
-        })
-      );
+    if (searchQuery) {
+      url += `&searchQuery=${searchQuery}`;
+    }
+  
+    return this.http.get(url, { headers }).pipe(
+      catchError((error: any) => {
+        console.error('Error fetching appointments:', error);
+        return throwError(() => new Error('Error fetching appointments, please try again later.'));
+      })
+    );
   }
+  
 
   
   GetAllAppointments(pageNumber: number, pageSize: number, sortBy?: string, isAscending?: boolean, searchQuery?: string): Observable<any> {

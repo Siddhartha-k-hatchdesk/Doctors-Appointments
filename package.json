@@ -31,6 +31,8 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.1",
     "jwt-decode": "^4.0.0",
+    "ng-recaptcha": "^13.2.1",
+    "ngx-captcha": "^13.0.0",
     "ngx-pagination": "^6.0.3",
     "ngx-toastr": "^19.0.0",
     "owl.carousel": "^2.3.4",

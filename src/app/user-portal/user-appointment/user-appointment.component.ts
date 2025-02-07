@@ -19,7 +19,13 @@ export class UserAppointmentComponent implements OnInit {
   pageSize: number = 10;
   selectedDoctorId: number | null = null;
   countdownIntervals: { [key: number]: any } = {};
-
+  sortBy: string = 'Id'; // Default sorting field
+  isAscending: boolean = false; // Default sorting order (descending)
+  searchQuery: string = ''; // Default search query
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+  searchText: string = '';
+  
   constructor(
     private route: ActivatedRoute,
     private sharedservice: SharedDataServiceService,
@@ -42,7 +48,7 @@ export class UserAppointmentComponent implements OnInit {
       }
     });
     console.log('Initializing component...');
-    this.loadUserAppointments();
+    this.loadUserAppointments(true);
   }
 
   convertSecondsToTimeFormat(seconds: number): string {
@@ -79,26 +85,72 @@ export class UserAppointmentComponent implements OnInit {
   }
 
   // Method to load appointments for the logged-in user
-  loadUserAppointments(): void {
-    this.sharedservice.showLoading();
-    this.bookservice.getAppointmentsForUser(this.currentPage, this.pageSize).subscribe(
+  loadUserAppointments(isInitialLoad: boolean = false): void {
+    if (isInitialLoad) {
+      this.sharedservice.showLoading(); // Sirf page load hone par loading indicator show karein
+    }
+    
+    this.bookservice.getAppointmentsForUser(this.currentPage, this.pageSize, this.sortBy, this.isAscending, this.searchQuery).subscribe(
       (response: any) => {
         this.users = response?.data || [];
         this.totalPages = Math.ceil(response?.totalCount / this.pageSize) || 1;
-
+  
         // Start countdown for each appointment immediately after the data is fetched
         this.users.forEach((appointment: any) => {
-          if (appointment.CanEditTimeLeft > 0) {
-            this.startCountdown(appointment); // Start countdown for each appointment
+          if (appointment.canEditTimeLeft > 0) {
+            this.startCountdown(appointment);
           }
         });
-
-        this.sharedservice.hideLoading();
+  
+        if (isInitialLoad) {
+          this.sharedservice.hideLoading();
+        }
       },
       (error: any) => {
         console.error('Error fetching appointments:', error);
-        this.sharedservice.hideLoading();
+        if (isInitialLoad) {
+          this.sharedservice.hideLoading();
+        }
       }
+    );
+  }
+  changeSorting(column: string): void {
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+    this.sortAppointments();
+  }
+  
+  sortAppointments(): void {
+    this.users.sort((a: any, b: any) => {
+      let valueA = a[this.sortColumn];
+      let valueB = b[this.sortColumn];
+  
+      if (typeof valueA === 'string') {
+        valueA = valueA.toLowerCase();
+        valueB = valueB.toLowerCase();
+      }
+  
+      if (valueA < valueB) return this.sortDirection === 'asc' ? -1 : 1;
+      if (valueA > valueB) return this.sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }
+  searchAppointments(): void {
+    if (this.searchText.trim() === '') {
+      this.loadUserAppointments(); // Agar empty hai, toh sare data ko wapas load karna hai
+      return;
+    }
+  
+    const searchLower = this.searchText.toLowerCase();
+    this.users = this.users.filter((appointment: any) => 
+      appointment.doctorName.toLowerCase().includes(searchLower) ||
+      appointment.preferreddate.includes(searchLower) ||
+      appointment.preferredtime.includes(searchLower) ||
+      appointment.statusName.toLowerCase().includes(searchLower)
     );
   }
   editAppointment(appointmentId: number): void {

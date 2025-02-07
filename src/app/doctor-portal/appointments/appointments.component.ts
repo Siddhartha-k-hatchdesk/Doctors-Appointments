@@ -53,10 +53,12 @@ ngOnInit(): void {
   console.log('Doctor ID:', this.doctorId);  // Debugging to confirm the ID is available
   console.log('Specialist ID:', this.specialistId);  // Debugging to confirm the ID is available
 
-  this.loadAppointments();  // Load appointments for the logged-in doctor/specialist
+  this.loadAppointments(true);  // Load appointments for the logged-in doctor/specialist
 }
-loadAppointments(): void {
-  this.sharedService.showLoading();
+loadAppointments(isInitialLoad: boolean = false): void {
+  if (isInitialLoad) {
+    this.sharedService.showLoading(); // Sirf page load hone par loading indicator show karein
+  }
 
   const doctorIdString = localStorage.getItem('doctorId');
   const specialistIdString = localStorage.getItem('specialistId');
@@ -87,12 +89,16 @@ loadAppointments(): void {
         this.totalCount = data.paginationMetadata.totalCount;
         this.totalPages = data.paginationMetadata.totalPages;
         this.errorMessage = this.appointments.length === 0 ? 'No appointments found.' : null;
-        this.sharedService.hideLoading();
+        if (isInitialLoad) {
+          this.sharedService.hideLoading();
+        }
       },
       error => {
         console.error('Error fetching appointments', error);
         this.errorMessage = 'No appointments available.';
-        this.sharedService.hideLoading();
+        if (isInitialLoad) {
+          this.sharedService.hideLoading();
+        }
       }
     );
   } else {

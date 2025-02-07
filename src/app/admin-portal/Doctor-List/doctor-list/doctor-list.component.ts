@@ -45,7 +45,7 @@ export class DoctorListComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit(): void {
-this.loadDoctors();
+this.loadDoctors(true);
 
   }
   ngAfterViewInit(): void {
@@ -54,15 +54,19 @@ this.loadDoctors();
       $('[data-toggle="tooltip"]').tooltip();
     });
   }
-    loadDoctors(): void {
-    this.sharedservice.showLoading();
+    loadDoctors(isInitialLoad: boolean = false): void {
+      if (isInitialLoad) {
+        this.sharedservice.showLoading(); // Sirf page load hone par loading indicator show karein
+      }
     this.doctorService
       .getDoctors(this.currentPage, this.pageSize, this.sortBy, this.isAscending, this.searchQuery)
       .subscribe((data) => {
         this.doctors = data.data;
         this.totalDoctors = data.totalRecords;
         this.totalPages = data.totalPages;
-        this.sharedservice.hideLoading();
+        if (isInitialLoad) {
+          this.sharedservice.hideLoading();
+        }
       });
   }
   onSearchChange(event: Event): void {

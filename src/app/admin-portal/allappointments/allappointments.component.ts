@@ -41,27 +41,34 @@ export class AllappointmentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.GetAllAppointments();
+    this.GetAllAppointments(true); // Trigger initial load with show loading indicator
   }
-
-  GetAllAppointments() {
-    this.sharedService.showLoading();
+  
+  GetAllAppointments(isInitialLoad: boolean = false) {
+    if (isInitialLoad) {
+      this.sharedService.showLoading(); // Sirf page load hone par loading indicator show karein
+    }
+    
     this.bookservice
       .GetAllAppointments(this.pageNumber, this.pageSize, this.sortBy, this.isAscending, this.searchQuery)
       .subscribe(
         (data) => {
-          console.log('appointments', data); // Verify structure
-          this.totalRecords = data.totalCount; // Assign metadata
-          this.appointments = data.appointments; // Assign actual data array
-          this.sharedService.hideLoading();
+          this.appointments = data.appointments; // Sirf list update karein
+          this.totalRecords = data.totalCount; // Total records update karein
+          if (isInitialLoad) {
+            this.sharedService.hideLoading();
+          }
         },
         (error) => {
-          this.errorMessage = 'Error fetching appointments. Please try again later.';
-          this.sharedService.hideLoading();
           console.error(error);
+          if (isInitialLoad) {
+            this.sharedService.hideLoading();
+          }
         }
       );
   }
+  
+  
   onSortChange(sortField: string) {
     if (this.sortBy === sortField) {
       // Toggle sorting order

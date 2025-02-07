@@ -23,7 +23,8 @@ export class LoginComponent {
   forgotPasswordForm: FormGroup; // Form for the forgot password modal
   isForgotPasswordFormSubmitted: boolean = false;
   isForgotPasswordModalOpen: boolean = false; // Modal state
-  
+  captchaResponse: string | null = null;
+
   constructor(private toastr:ToastrService, private sharedservice:SharedDataServiceService, private loginService:LoginServiceService,private router:Router,private userService:UserServiceService,private route:ActivatedRoute)
   {
     
@@ -53,6 +54,10 @@ closeForgotPasswordModal() {
   this.forgotPasswordForm.reset();
 }
 
+resolved(captchaResponse: string | null) {
+  this.captchaResponse = captchaResponse;
+  console.log("Captcha Response:", captchaResponse ?? "No response received");
+}
 
 onForgotPasswordSubmit() {
   this.isForgotPasswordFormSubmitted = true;
@@ -91,12 +96,13 @@ onForgotPasswordSubmit() {
     const isformvalid=this.login.valid;
     this.isFormSubmitted=true;
 
-    if(this.login.valid){
+    if(this.login.valid && this.captchaResponse){
       const formValue=this.login.value;
 
       const users={
         username:formValue.email,
-        password:formValue.password
+        password:formValue.password,
+        recaptchaToken: this.captchaResponse
       };
       this.sharedservice.showLoading();
       this.loginService.loginUser(users).subscribe({
@@ -155,7 +161,7 @@ onForgotPasswordSubmit() {
     }
     else
     {
-      console.log('form is not valid');
+      console.log('Form is not valid or reCAPTCHA not verified');
     }
   }
 
