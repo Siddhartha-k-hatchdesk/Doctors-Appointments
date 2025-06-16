@@ -54,18 +54,27 @@
                 <div class="row" *ngIf="!editMode">
                   <div class="col-md-6 mb-4">
                     <div class="form-outline">
-                      <input id="password" formControlName="password" type="password"
+                      <input id="password" formControlName="password" type="password" [type]="showPasswordField  ? 'text' : 'password'"
                         class="form-control form-control-lg" placeholder="Password" />
+                        <button type="button" class="show-password-button" (click)="togglePasswordVisibility()"
+                                  style="position: absolute; top: 35%; right: 10px; transform: translateY(-50%); border: none; background: none;">
+                              <i class="fa" [ngClass]="showPasswordField  ? 'fa-eye-slash' : 'fa-eye'"></i>
+                          </button>
                       <div class="text-danger"
                         *ngIf="register.controls['password'].invalid && (register.controls['password'].touched || isFormSubmitted)">
                         <span *ngIf="register.controls['password'].errors?.['required']">Password is required</span>
+                        
                       </div>
                     </div>
                   </div>
                   <div class="col-md-6 mb-4" *ngIf="!editMode">
                     <div class="form-outline">
-                      <input id="confirmPassword" formControlName="confirmPassword" type="password"
+                      <input id="confirmPassword" formControlName="confirmPassword" type="password" [type]="showPasswordField  ? 'text' : 'password'"
                         class="form-control form-control-lg" maxlength="30" placeholder="Confirm Password" />
+                        <button type="button" class="show-password-button" (click)="togglePasswordVisibility()"
+                        style="position: absolute; top: 35%; right: 10px; transform: translateY(-50%); border: none; background: none;">
+                    <i class="fa" [ngClass]="showPasswordField  ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
                       <div class="text-danger"
                         *ngIf="register.controls['confirmPassword'].invalid && (register.controls['confirmPassword'].touched || isFormSubmitted)">
                         <span *ngIf="register.controls['confirmPassword'].errors?.['required']">Confirm Password is
@@ -74,7 +83,7 @@
                     </div>
                   </div>
                 </div>
-
+                  
                 <div class="row">
                   <div class="col-md-6 mb-4">
                     <div class="form-outline">

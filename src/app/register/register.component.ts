@@ -16,7 +16,9 @@ export class RegisterComponent {
     isFormSubmitted:boolean=false;
     isLoading = false;
     errorMessage: string='';//varible to store error message
-
+    showPasswordField: boolean = false;
+    showConfirmPasswordField: boolean = false;
+    
     constructor(private registerService:RegisterServiceService,private router:Router,private sharedservice:SharedDataServiceService,private toastr:ToastrService){
 
       this.register = new FormGroup({
@@ -89,4 +91,12 @@ export class RegisterComponent {
         console.log('form is not valid');
        }
       }
+      // Parameterized toggle function for both fields
+    togglePasswordVisibility(field: 'password' | 'confirmPassword'): void {
+      if (field === 'password') {
+        this.showPasswordField = !this.showPasswordField;
+      } else if (field === 'confirmPassword') {
+        this.showConfirmPasswordField = !this.showConfirmPasswordField;
+      }
+    }
 }

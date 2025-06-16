@@ -22,6 +22,7 @@ export class UserdetailformComponent implements OnInit {
   errorMessage: string='';
   isLoggedIn:boolean=false;
   userDetails:any;
+  showPasswordField: boolean = false;
    // Add these properties
    isAdminLogin: boolean = false;
    isDoctorLogin: boolean = false;
@@ -298,7 +299,10 @@ if (this.appointmentId) {
     }
   }
   
-  
+  togglePasswordVisibility() {
+    this.showPasswordField = !this.showPasswordField;
+  }
+
   
 }
 

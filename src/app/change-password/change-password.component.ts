@@ -14,6 +14,8 @@ export class ChangePasswordComponent {
   confirmPassword: string = '';
   message: string = '';
   isLoading:boolean=false;
+  showPasswordField: boolean = false;
+  showConfirmPasswordField: boolean = false;
 
   constructor(private loginservice:LoginServiceService,private toastr:ToastrService,private sharedservice:SharedDataServiceService){
        // Subscribe to loading state
@@ -46,5 +48,12 @@ export class ChangePasswordComponent {
           this.sharedservice.hideLoading();
         }
       );
+    }
+    togglePasswordVisibility(field: 'password' | 'confirmPassword'): void {
+      if (field === 'password') {
+        this.showPasswordField = !this.showPasswordField;
+      } else if (field === 'confirmPassword') {
+        this.showConfirmPasswordField = !this.showConfirmPasswordField;
+      }
     }
 }

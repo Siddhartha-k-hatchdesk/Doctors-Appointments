@@ -1,0 +1,26 @@
+/* Form Group me spacing aur flex direction */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+.show-password-button i {
+  font-size: 16px;
+  color: #aaa; 
+}
+.asterisk 
+{
+    color: red;
+}
+/* Agar aap globally position-relative wrapper use karna chahe to: */
+.position-relative {
+    position: relative;
+  }
+/* Error messages ko input ke neeche rakhne ke liye */
+.text-danger {
+    margin-top: 5px;
+    font-size: 14px;
+    color: red;
+  }
+
+
